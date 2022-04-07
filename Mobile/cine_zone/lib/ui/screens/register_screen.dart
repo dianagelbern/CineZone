@@ -1,3 +1,4 @@
+import 'package:cine_zone/ui/screens/login_screen.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +60,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Container(
                       margin: EdgeInsets.only(top: 10),
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginScreen()),
+                          );
+                        },
                         child: Text.rich(TextSpan(
                             text: '¿Ya tienes cuenta? ',
                             style: TextStyle(

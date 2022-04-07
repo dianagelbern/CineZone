@@ -3,6 +3,7 @@ import 'package:cine_zone/ui/screens/home_screen.dart';
 import 'package:cine_zone/ui/screens/login_screen.dart';
 import 'package:cine_zone/ui/screens/menu_screen.dart';
 import 'package:cine_zone/ui/screens/profile_screen.dart';
+import 'package:cine_zone/ui/screens/register_screen.dart';
 import 'package:cine_zone/ui/screens/search_screen.dart';
 import 'package:cine_zone/ui/screens/tickets_screen.dart';
 import 'package:flutter/foundation.dart';

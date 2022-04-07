@@ -1,3 +1,6 @@
+import 'package:cine_zone/ui/screens/home_screen.dart';
+import 'package:cine_zone/ui/screens/menu_screen.dart';
+import 'package:cine_zone/ui/screens/register_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -193,6 +196,10 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               child: TextButton(
                 onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const MenuScreen()),
+                  );
                   /*
                   if (_formKey.currentState!.validate()) {
                     final loginDto = LoginDto(
@@ -211,7 +218,13 @@ class _LoginScreenState extends State<LoginScreen> {
             Container(
                 margin: EdgeInsets.only(top: 40),
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const RegisterScreen()),
+                    );
+                  },
                   child: Text.rich(TextSpan(
                       text: '¿No tienes cuenta? ',
                       style: TextStyle(

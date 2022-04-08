@@ -20,10 +20,7 @@ class _TicketsScreenState extends State<TicketsScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_new_rounded),
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => MenuScreen()),
-            );
+            Navigator.pop(context);
           },
         ),
         leadingWidth: 100,

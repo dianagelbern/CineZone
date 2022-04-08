@@ -49,7 +49,10 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
             child: InkWell(
               onTap: () {
-                _goToTheLake();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CineScreen()),
+                );
               },
               child: Container(
                 decoration: const BoxDecoration(
@@ -105,14 +108,10 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                           Container(
                             child: IconButton(
-                              icon: Icon(Icons.arrow_forward),
+                              icon: Icon(Icons.location_on_sharp),
                               color: Colors.white,
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => CineScreen()),
-                                );
+                                _goToTheLake();
                               },
                             ),
                           )

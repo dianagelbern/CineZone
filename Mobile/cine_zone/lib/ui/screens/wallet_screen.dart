@@ -18,10 +18,7 @@ class _WalletScreenState extends State<WalletScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_new_rounded),
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => MenuScreen()),
-            );
+            Navigator.pop(context);
           },
         ),
         leadingWidth: 100,
@@ -59,16 +56,6 @@ class _WalletScreenState extends State<WalletScreen> {
           ),
           _walletCard(),
           Divider(color: Colors.grey, height: 3),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            alignment: Alignment.centerLeft,
-            child: Text('Suscripción',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600)),
-          ),
-          suscription()
         ],
       ),
     );

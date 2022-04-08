@@ -22,10 +22,7 @@ class _CineScreenState extends State<CineScreen> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios_new_rounded),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => MenuScreen()),
-              );
+              Navigator.pop(context);
             },
           ),
           leadingWidth: 100,

@@ -91,6 +91,10 @@ flutter:
    - assets/images/card1.png
    - assets/images/suscripcion.png
    - assets/videos/spiderman.mp4
+   - assets/images/terminos.svg
+   - assets/images/ayuda.svg
+   - assets/images/privacidad.svg
+   - assets/images/off.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

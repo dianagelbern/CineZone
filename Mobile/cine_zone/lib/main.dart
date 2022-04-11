@@ -1,4 +1,6 @@
 import 'package:cine_zone/ui/screens/cine_screen.dart';
+import 'package:cine_zone/ui/screens/config_screen.dart';
+import 'package:cine_zone/ui/screens/details_screen.dart';
 import 'package:cine_zone/ui/screens/home_screen.dart';
 import 'package:cine_zone/ui/screens/login_screen.dart';
 import 'package:cine_zone/ui/screens/menu_screen.dart';
@@ -30,7 +32,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       initialRoute: '/',
       routes: {
-        '/': (context) => const LoginScreen(), //MenuScreen
+        '/': (context) => const DetailsScreen(), //MenuScreen
         '/home': (context) => const HomeScreen(),
         '/profile': (context) => const ProfileScreen(),
         '/search': (context) => const SearchScreen()

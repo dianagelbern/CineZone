@@ -1,4 +1,4 @@
-import 'package:cine_zone/bloc/bloc/movies_bloc.dart';
+import 'package:cine_zone/bloc/movies_bloc/movies_bloc.dart';
 import 'package:cine_zone/models/movie_response.dart';
 import 'package:cine_zone/repository/constants.dart';
 import 'package:cine_zone/repository/movie_repository/movie_repository.dart';

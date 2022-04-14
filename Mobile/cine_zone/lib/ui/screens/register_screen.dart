@@ -109,16 +109,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
           Expanded(
             child: Theme(
               data: ThemeData(
-
-                  //canvasColor: Colors.transparent,
+                  canvasColor: Colors.transparent,
                   colorScheme: ColorScheme.light(
                       primary: Color.fromARGB(255, 134, 122, 210))),
               child: Stepper(
-                type: stepperType,
+                type: StepperType.horizontal,
                 physics: const ScrollPhysics(),
                 currentStep: _currentStep,
                 onStepTapped: (step) => tapped(step),
                 onStepContinue: continued,
+                elevation: 0.0,
                 onStepCancel: cancel,
                 controlsBuilder:
                     (BuildContext context, ControlsDetails details) {
@@ -160,6 +160,143 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   );
                 },
                 steps: <Step>[
+                  Step(
+                    title: new Text(
+                      '',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    content: Container(
+                      child: Column(
+                        children: [
+                          Column(
+                            children: [
+                              InkWell(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(100)),
+                                  onTap: () {
+                                    /*
+                                BlocProvider.of<ImagePickBloc>(context).add(
+                                    const SelectImageEvent(
+                                        ImageSource.gallery));
+                                */
+                                  },
+                                  child: Stack(
+                                    children: [
+                                      Container(
+                                        width: 100.0,
+                                        height: 100.0,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(),
+                                            image: DecorationImage(
+                                                image: NetworkImage(
+                                                  'https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png',
+                                                ),
+                                                fit: BoxFit.cover),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(100))),
+                                        /*
+                                    child: Image.file(
+                                      File(state.pickedFile.path),
+                                      fit: BoxFit.cover,
+                                    ),
+                                    */
+                                      ),
+                                      Positioned(
+                                          bottom: 3,
+                                          left: 60,
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Color.fromARGB(
+                                                      255, 134, 122, 210)),
+                                              child: Padding(
+                                                padding: EdgeInsets.all(10),
+                                                child: Icon(
+                                                  Icons.edit_outlined,
+                                                  color: Colors.white,
+                                                  size: 20,
+                                                ),
+                                              )))
+                                    ],
+                                  )),
+                              /*
+                              Positioned(
+                                      bottom: 0,
+                                      left: 50,
+                                      child: MaterialButton(
+                                        onPressed: () {},
+                                        color:
+                                            Color.fromARGB(255, 134, 122, 210),
+                                        textColor: Colors.white,
+                                        child: Icon(
+                                          Icons.edit,
+                                          size: 23,
+                                        ),
+                                        padding: EdgeInsets.all(10),
+                                        shape: CircleBorder(),
+                                      )),
+                              */
+                              Container(
+                                margin: EdgeInsets.only(bottom: 20),
+                                alignment: Alignment.bottomLeft,
+                                child: Text("Nombre:",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500)),
+                              ),
+                              Container(
+                                height: 47,
+                                decoration: new BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    color: Color.fromARGB(0, 243, 243, 243),
+                                    border: Border.all(
+                                        color:
+                                            Color.fromARGB(244, 134, 122, 210),
+                                        width: 1)),
+                                margin: EdgeInsets.only(bottom: 20),
+                                child: TextFormField(
+                                  style: TextStyle(color: Colors.white),
+                                  controller: nombreController,
+                                  decoration: const InputDecoration(
+                                    labelText: 'Ingresa tu nombre completo',
+                                    labelStyle: TextStyle(
+                                        fontSize: 13,
+                                        color:
+                                            Color.fromARGB(125, 255, 255, 255)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Color.fromARGB(
+                                                244, 134, 122, 210))),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Color.fromARGB(
+                                                244, 134, 122, 210))),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                      Radius.circular(10),
+                                    )),
+                                  ),
+                                  onSaved: (String? value) {},
+                                  validator: (value) {
+                                    return (value == null || value.isEmpty)
+                                        ? 'Escribe tu nombre'
+                                        : null;
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    isActive: _currentStep >= 0,
+                    state: _currentStep == 1
+                        ? StepState.editing
+                        : _currentStep > 1
+                            ? StepState.complete
+                            : StepState.indexed,
+                  ),
                   Step(
                     title: new Text(
                       '',
@@ -339,69 +476,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     state: _currentStep == 0
                         ? StepState.editing
                         : _currentStep > 0
-                            ? StepState.complete
-                            : StepState.indexed,
-                  ),
-                  Step(
-                    title: new Text(
-                      '',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    content: Column(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(bottom: 20),
-                          alignment: Alignment.bottomLeft,
-                          child: Text("Nombre:",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500)),
-                        ),
-                        Container(
-                          height: 47,
-                          decoration: new BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              color: Color.fromARGB(0, 243, 243, 243),
-                              border: Border.all(
-                                  color: Color.fromARGB(244, 134, 122, 210),
-                                  width: 1)),
-                          margin: EdgeInsets.only(bottom: 20),
-                          child: TextFormField(
-                            style: TextStyle(color: Colors.white),
-                            controller: nombreController,
-                            decoration: const InputDecoration(
-                              labelText: 'Ingresa tu nombre completo',
-                              labelStyle: TextStyle(
-                                  fontSize: 13,
-                                  color: Color.fromARGB(125, 255, 255, 255)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color:
-                                          Color.fromARGB(244, 134, 122, 210))),
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color:
-                                          Color.fromARGB(244, 134, 122, 210))),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                Radius.circular(10),
-                              )),
-                            ),
-                            onSaved: (String? value) {},
-                            validator: (value) {
-                              return (value == null || value.isEmpty)
-                                  ? 'Escribe tu nombre'
-                                  : null;
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    isActive: _currentStep >= 0,
-                    state: _currentStep == 1
-                        ? StepState.editing
-                        : _currentStep > 1
                             ? StepState.complete
                             : StepState.indexed,
                   ),

@@ -21,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,14 +48,12 @@ public class UserController {
                     content = @Content),
     })
     @PostMapping("/auth/register/admin")
-    public ResponseEntity<GetUserDto> nuevoUsuarioAdmin(@Valid @RequestBody CreateUserDto newUser){
+    public ResponseEntity<GetUserDto> nuevoUsuarioAdmin(@Valid @RequestPart("admin") CreateUserDto newUser, @RequestPart("image") MultipartFile image){
 
-        UserEntity saved = userEntityService.save(newUser, UserRole.ADMIN);
-        if(saved == null){
-            return ResponseEntity.badRequest().build();
-        }else{
-            return ResponseEntity.ok(userDtoConverter.convertUserToGetUserDto(saved));
-        }
+        UserEntity saved = userEntityService.save(newUser, UserRole.ADMIN, image);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(userDtoConverter.convertUserToGetUserDto(saved));
+
     }
 
     @Operation(summary = "Registrar un nuevo usuario")
@@ -68,14 +67,12 @@ public class UserController {
                     content = @Content),
     })
     @PostMapping("/auth/register/usuario")
-    public ResponseEntity<GetUserDto> nuevoUsuario(@Valid @RequestBody CreateUserDto newUser){
+    public ResponseEntity<GetUserDto> nuevoUsuario(@Valid @RequestPart("user") CreateUserDto newUser, @RequestPart("image") MultipartFile image){
 
-        UserEntity saved = userEntityService.save(newUser, UserRole.USER);
-        if(saved == null){
-            return ResponseEntity.badRequest().build();
-        }else{
-            return ResponseEntity.ok(userDtoConverter.convertUserToGetUserDto(saved));
-        }
+        UserEntity saved = userEntityService.save(newUser, UserRole.USER, image);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(userDtoConverter.convertUserToGetUserDto(saved));
+
     }
 
 

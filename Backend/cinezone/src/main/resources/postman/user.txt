@@ -1,0 +1,8 @@
+{
+    "password": "micontraseña",
+    "password2": "micontraseña",
+    "nombre": "Diana Usuario",
+    "telefono": "3331417640",
+    "email": "dianaUser@gmail",
+    "fechaNacimiento": "28-01-1996"
+}

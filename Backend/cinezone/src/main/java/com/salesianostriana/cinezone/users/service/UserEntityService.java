@@ -1,6 +1,8 @@
 package com.salesianostriana.cinezone.users.service;
 
 
+import com.salesianostriana.cinezone.error.exception.ExistingUserException;
+import com.salesianostriana.cinezone.services.GoogleCloudStorageService;
 import com.salesianostriana.cinezone.services.base.BaseService;
 import com.salesianostriana.cinezone.users.dto.CreateUserDto;
 import com.salesianostriana.cinezone.users.model.UserEntity;
@@ -14,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -22,6 +25,7 @@ import java.util.UUID;
 public class UserEntityService extends BaseService <UserEntity, UUID, UserEntityRepository> implements UserDetailsService {
 
     private final PasswordEncoder passwordEncoder;
+    private final GoogleCloudStorageService storageService;
 
     public Optional<UserEntity> findByUsername(String userName){
         return this.repositorio.findFirstByEmail(userName);
@@ -33,21 +37,33 @@ public class UserEntityService extends BaseService <UserEntity, UUID, UserEntity
                 .orElseThrow(()-> new UsernameNotFoundException(email + " no se encontró"));
     }
 
-    public UserEntity save(CreateUserDto newUSer, UserRole role){
-        UserEntity user = UserEntity.builder()
-                .password(passwordEncoder.encode(newUSer.getPassword()))
-                .nombre(newUSer.getNombre())
-                .avatar(newUSer.getAvatar())
-                .email(newUSer.getEmail())
-                .fechaNacimiento(newUSer.getFechaNacimiento())
-                .telefono(newUSer.getTelefono())
-                .role(role)
-                .build();
-        return save(user);
+    public UserEntity save(CreateUserDto newUSer, UserRole role, MultipartFile image){
+
+
+        if(repositorio.findFirstByEmail(newUSer.getEmail()).isEmpty()){
+            String url = storageService.uploadFile(image);
+
+            UserEntity user = UserEntity.builder()
+                    .password(passwordEncoder.encode(newUSer.getPassword()))
+                    .nombre(newUSer.getNombre())
+                    .avatar(url)
+                    .email(newUSer.getEmail())
+                    .fechaNacimiento(newUSer.getFechaNacimiento())
+                    .telefono(newUSer.getTelefono())
+                    .role(role)
+                    .build();
+
+            return save(user);
+        }else{
+            throw new ExistingUserException();
+        }
+
+
     }
 
 
     public Page <UserEntity> findAllUsuarios(Pageable pageable){
+
         return repositorio.findAllUsuarios(pageable);
     }
 }

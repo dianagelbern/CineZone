@@ -41,7 +41,7 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Se registró correctamente el usuario administrador",
-                    content = { @Content(mediaType =  "aplication/json",
+                    content = { @Content(mediaType =  "application/json",
                             schema = @Schema(implementation = UserEntity.class))}),
             @ApiResponse(responseCode = "404",
                     description = "No se pudo registrar el usuario",
@@ -60,7 +60,7 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Se registró correctamente el usuario",
-                    content = { @Content(mediaType =  "aplication/json",
+                    content = { @Content(mediaType =  "application/json",
                             schema = @Schema(implementation = UserEntity.class))}),
             @ApiResponse(responseCode = "404",
                     description = "No se pudo registrar el usuario",
@@ -80,7 +80,7 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Se listan correctamente todos los usuarios",
-                    content = { @Content(mediaType =  "aplication/json",
+                    content = { @Content(mediaType =  "application/json",
                             schema = @Schema(implementation = UserEntity.class))}),
             @ApiResponse(responseCode = "404",
                     description = "La lista de usuarios está vacía",
@@ -89,13 +89,11 @@ public class UserController {
     @GetMapping("/usuarios")
     public ResponseEntity<Page<GetUserDto>> findAllUsuarios(@PageableDefault(size = 10, page = 0) Pageable pageable, HttpServletRequest request){
         Page<UserEntity> u = userEntityService.findAllUsuarios(pageable);
-        if(u.isEmpty()){
-            return ResponseEntity.notFound().build();
-        }else {
+
             Page<GetUserDto> resultado = u.map(userDtoConverter::convertUserToGetUserDto);
             UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(request.getRequestURL().toString());
             return ResponseEntity.ok().header("link", paginationLinkUtils.createLinkHeader(resultado, uriBuilder)).body(resultado);
-        }
+
     }
 
     @Operation(summary = "Se busca un usuario por su ID")
@@ -109,24 +107,16 @@ public class UserController {
                     content = @Content),
     })
     @GetMapping("/usuario/{id}")
-    public ResponseEntity<GetUserDto> findPropietario(@PathVariable UUID id, @AuthenticationPrincipal UserEntity userEntity){
-        if(userEntity.getRole().equals(UserRole.ADMIN) || userEntity.getId().equals(id) && userEntity.getRole().equals(UserRole.USER)){
-            Optional<UserEntity> user = userEntityService.findById(id);
-            if(user.isPresent()){
-                return ResponseEntity.ok().body(userDtoConverter.convertUserToGetUserDto(user.get()));
-            }else{
-                return ResponseEntity.notFound().build();
-            }
-        }else{
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
+    public ResponseEntity<GetUserDto> findUsuarioById(@PathVariable UUID id, @AuthenticationPrincipal UserEntity userEntity){
+            Optional<UserEntity> user = userEntityService.findUserById(id, userEntity);
+            return ResponseEntity.ok().body(userDtoConverter.convertUserToGetUserDto(user.get()));
     }
 
     @Operation(summary = "Borrar un usuario por su id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204",
                     description = "Se eliminó correctamente de la lista",
-                    content = { @Content(mediaType =  "aplication/json",
+                    content = { @Content(mediaType =  "application/json",
                             schema = @Schema(implementation = UserEntity.class))}),
             @ApiResponse(responseCode = "404",
                     description = "No se encuentra algún usuario con ese id",
@@ -134,12 +124,8 @@ public class UserController {
     })
     @DeleteMapping("/usuario/{id}")
     public ResponseEntity<?> deleteUsuario(@PathVariable UUID id, @AuthenticationPrincipal UserEntity userEntity){
-
-        if(userEntity.getRole().equals(UserRole.ADMIN) || userEntity.getId().equals(id) && userEntity.getRole().equals(UserRole.USER)){
-            userEntityService.delete(userEntityService.findById(id).get());
+            userEntityService.deleteUserById(id, userEntity);
             return ResponseEntity.noContent().build();
-        }else{
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
+
     }
 }

@@ -2,6 +2,8 @@ package com.salesianostriana.cinezone.users.service;
 
 
 import com.salesianostriana.cinezone.error.exception.ExistingUserException;
+import com.salesianostriana.cinezone.error.exception.entitynotfound.EntityNotFoundException;
+import com.salesianostriana.cinezone.error.exception.entitynotfound.ListEntityNotFoundException;
 import com.salesianostriana.cinezone.services.GoogleCloudStorageService;
 import com.salesianostriana.cinezone.services.base.BaseService;
 import com.salesianostriana.cinezone.users.dto.CreateUserDto;
@@ -11,6 +13,7 @@ import com.salesianostriana.cinezone.users.repository.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -64,6 +67,33 @@ public class UserEntityService extends BaseService <UserEntity, UUID, UserEntity
 
     public Page <UserEntity> findAllUsuarios(Pageable pageable){
 
-        return repositorio.findAllUsuarios(pageable);
+        if(repositorio.findAllUsuarios(pageable).isEmpty()){
+            throw new ListEntityNotFoundException(UserEntity.class);
+        }else{
+            return repositorio.findAllUsuarios(pageable);
+        }
     }
+
+
+    public Optional<UserEntity> findUserById(UUID id, UserEntity user){
+        if(user.getId().equals(id)){
+            Optional<UserEntity> usuario = findById(id);
+            return usuario;
+        }else{
+            throw new EntityNotFoundException("El usuario no existe");
+        }
+    }
+
+
+    public Optional<?> deleteUserById(UUID id, UserEntity user) {
+        Optional<UserEntity> usuario = findById(id);
+        if(usuario.isPresent()){
+            return deleteById(id);
+        }else{
+            throw new EntityNotFoundException("No se encontró ningún usuario con ese id");
+        }
+
+    }
+
+
 }

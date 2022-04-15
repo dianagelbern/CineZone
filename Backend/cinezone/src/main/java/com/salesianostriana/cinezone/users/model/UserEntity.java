@@ -1,5 +1,8 @@
 package com.salesianostriana.cinezone.users.model;
 
+import com.salesianostriana.cinezone.models.Asiento;
+import com.salesianostriana.cinezone.models.Reserva;
+import com.salesianostriana.cinezone.models.Tarjeta;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
@@ -10,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -17,7 +21,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name="users")
-@EntityListeners(AuditingEntityListener.class) //Sirve para no tener que grabar manualmente la fecha de creación del usuario
+@EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -48,6 +52,12 @@ public class UserEntity implements UserDetails, Serializable {
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
+
+    @OneToMany
+    private List<Reserva> reservas = new ArrayList<>();
+
+    @OneToMany
+    private List<Tarjeta> tarjetas = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

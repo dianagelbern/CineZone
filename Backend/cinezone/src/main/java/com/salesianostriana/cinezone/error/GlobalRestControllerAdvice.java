@@ -1,5 +1,6 @@
 package com.salesianostriana.cinezone.error;
 
+import com.salesianostriana.cinezone.error.exception.ExistingUserException;
 import com.salesianostriana.cinezone.error.exception.storage.WrongFormatException;
 import com.salesianostriana.cinezone.error.model.ApiError;
 import com.salesianostriana.cinezone.error.model.ApiSubError;
@@ -102,6 +103,14 @@ public class GlobalRestControllerAdvice extends ResponseEntityExceptionHandler{
     public ResponseEntity<?> handleNotFoundException(EntityNotFoundException e, WebRequest request) {
 
         return this.buildApiError(e, HttpStatus.NOT_FOUND, request);
+
+
+    }
+
+    @ExceptionHandler({ExistingUserException.class})
+    public ResponseEntity<?> handleExistingUserException(ExistingUserException e, WebRequest request) {
+
+        return this.buildApiError(e, HttpStatus.BAD_REQUEST, request);
 
 
     }

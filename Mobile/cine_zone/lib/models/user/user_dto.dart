@@ -16,12 +16,12 @@ class UserDto {
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
-    _data['fullname'] = nombre;
+    _data['nombre'] = nombre;
     _data['email'] = email;
     _data['password'] = password;
     _data['password2'] = password2;
     _data['telefono'] = telefono;
-    _data['telefono'] = fechaNacimiento;
+    _data['fechaNacimiento'] = fechaNacimiento;
     return _data;
   }
 }

@@ -8,7 +8,7 @@ import 'package:cine_zone/repository/auth_repository/auth_repository.dart';
 import 'package:cine_zone/repository/auth_repository/login_repository_impl.dart';
 import 'package:cine_zone/repository/constants.dart';
 import 'package:cine_zone/repository/shared.dart';
-import 'package:cine_zone/repository/user_repository/UserRepository.dart';
+import 'package:cine_zone/repository/user_repository/user_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
@@ -32,7 +32,7 @@ class UserRepositoryImpl implements UserRepository {
     var tkn = await Shared.getString(Constant.bearerToken);
 
     final body = jsonEncode({
-      'username': dto.nombre,
+      'nombre': dto.nombre,
       'email': dto.email,
       'password': dto.password,
       'password2': dto.password2,
@@ -50,7 +50,7 @@ class UserRepositoryImpl implements UserRepository {
 
     final response = await request.send();
     debugPrint(response.statusCode.toString());
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       return authRepository
           .login(LoginDto(email: dto.email, password: dto.password));
     } else {

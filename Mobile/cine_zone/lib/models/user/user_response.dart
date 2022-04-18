@@ -8,13 +8,13 @@ class UserResponse {
     required this.fechaNacimiento,
     required this.role,
   });
-  late final String id;
-  late final String email;
-  late final String nombre;
-  late final String telefono;
-  late final String avatar;
-  late final String fechaNacimiento;
-  late final String role;
+  late final String? id;
+  late final String? email;
+  late final String? nombre;
+  late final String? telefono;
+  late final String? avatar;
+  late final String? fechaNacimiento;
+  late final String? role;
 
   UserResponse.fromJson(Map<String, dynamic> json) {
     id = json['id'];

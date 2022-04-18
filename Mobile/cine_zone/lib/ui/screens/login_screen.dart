@@ -1,8 +1,15 @@
+import 'package:cine_zone/bloc/login_bloc/login_bloc.dart';
+import 'package:cine_zone/models/auth/login_dto.dart';
+import 'package:cine_zone/repository/auth_repository/auth_repository.dart';
+import 'package:cine_zone/repository/auth_repository/login_repository_impl.dart';
+import 'package:cine_zone/repository/constants.dart';
+import 'package:cine_zone/repository/shared.dart';
 import 'package:cine_zone/ui/screens/home_screen.dart';
 import 'package:cine_zone/ui/screens/menu_screen.dart';
 import 'package:cine_zone/ui/screens/register_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -25,51 +32,101 @@ extension ColorExtension on String {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool _visible = false;
+  late AuthRepository authRepository;
   final _formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: SingleChildScrollView(
-      child: _body(),
-    ));
+  void initState() {
+    authRepository = AuthRepositoryImpl();
+    super.initState();
   }
 
-  Widget _body() {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          _fondo(),
-          Container(
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(
-                      top: 65,
-                    ),
-                    alignment: Alignment.bottomLeft,
-                    child: Text(
-                      "Login",
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                    ),
-                  ),
-                  Container(
-                      margin: EdgeInsets.only(top: 80, left: 60),
-                      child: SvgPicture.asset('assets/images/logo.svg')),
-                  _formulario(),
-                ],
-              ))
-        ],
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) {
+        return LoginBloc(authRepository);
+      },
+      child: Scaffold(
+        body: _body(),
       ),
     );
   }
 
-  Widget _formulario() {
+  Widget _body() {
+    return SingleChildScrollView(
+      child: Container(
+        height: MediaQuery.of(context).size.height,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            _fondo(),
+            Container(
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: 65,
+                      ),
+                      alignment: Alignment.bottomLeft,
+                      child: Text(
+                        "Login",
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                    ),
+                    Container(
+                        margin: EdgeInsets.only(top: 80, left: 60),
+                        child: SvgPicture.asset('assets/images/logo.svg')),
+                    BlocConsumer<LoginBloc, LoginState>(
+                        listenWhen: (context, state) {
+                      return state is LoginSuccessState ||
+                          state is LoginErrorState;
+                    }, listener: (context, state) {
+                      if (state is LoginSuccessState) {
+                        Shared.setString(
+                            Constant.bearerToken, state.loginResponse.token);
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const MenuScreen()),
+                        );
+                      } else if (state is LoginErrorState) {
+                        _showSnackbar(context, state.message);
+                      }
+                    }, buildWhen: (context, state) {
+                      return state is LoginInitialState ||
+                          state is LoginLoadingState;
+                    }, builder: (ctx, state) {
+                      if (state is LoginInitialState) {
+                        return _formulario(ctx);
+                      } else if (state is LoginLoadingState) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else {
+                        return _formulario(ctx);
+                      }
+                    })
+                  ],
+                  //_formulario(),
+                ))
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showSnackbar(BuildContext context, String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  Widget _formulario(BuildContext context) {
     return Container(
       child: Form(
         key: _formKey,
@@ -152,7 +209,22 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: TextFormField(
                       style: TextStyle(color: Colors.white),
                       controller: passwordController,
-                      decoration: const InputDecoration(
+                      obscureText: !_visible,
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                            splashRadius: 5.0,
+                            icon: Icon(
+                              _visible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _visible = !_visible;
+                              });
+                            }),
                         labelText: 'Ingresa tu contraseña',
                         labelStyle: TextStyle(
                             fontSize: 13,
@@ -196,18 +268,13 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               child: TextButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const MenuScreen()),
-                  );
-                  /*
                   if (_formKey.currentState!.validate()) {
                     final loginDto = LoginDto(
                         email: emailController.text,
                         password: passwordController.text);
                     BlocProvider.of<LoginBloc>(context)
                         .add(DoLoginEvent(loginDto));
-                  } */
+                  }
                 },
                 child: Text(
                   'Acceder',

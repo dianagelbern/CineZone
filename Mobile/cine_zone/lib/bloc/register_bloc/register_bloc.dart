@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:cine_zone/models/auth/login_response.dart';
 import 'package:cine_zone/models/user/user_dto.dart';
-import 'package:cine_zone/repository/user_repository/UserRepository.dart';
+import 'package:cine_zone/repository/user_repository/user_repository.dart';
 import 'package:equatable/equatable.dart';
 
 part 'register_event.dart';

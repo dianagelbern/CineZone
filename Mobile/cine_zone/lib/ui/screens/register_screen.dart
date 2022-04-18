@@ -653,7 +653,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                 _visible2 = !_visible2;
                                               });
                                             }),
-                                        // **************************************
                                         labelText: 'Ingresa tu contraseña',
                                         labelStyle: TextStyle(
                                             fontSize: 13,

@@ -11,6 +11,6 @@ import java.util.UUID;
 @Builder
 public class GetUserDto {
     private UUID id;
-    private String nombre, email, telefono, password, avatar, fechaNacimiento;
+    private String nombre, email, telefono, password, fechaNacimiento;
 
 }

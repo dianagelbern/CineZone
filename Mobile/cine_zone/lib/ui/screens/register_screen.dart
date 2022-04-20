@@ -55,15 +55,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (context) {
-            return ImagePickBloc();
-          }),
-          BlocProvider(create: (context) {
-            return RegisterBloc(userRepository);
-          })
-        ],
+    return BlocProvider(
+        create: (context) {
+          return RegisterBloc(userRepository);
+        },
         child: Scaffold(
           body: SingleChildScrollView(child: _content(context)),
         ));
@@ -125,7 +120,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Container(
                       margin: EdgeInsets.only(top: 40, left: 60),
                       child: SvgPicture.asset('assets/images/logo.svg')),
-                  _formulario(),
+                  _formulario(context),
                   Container(
                       margin: EdgeInsets.only(top: 10),
                       child: TextButton(
@@ -170,7 +165,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _formulario() {
+  Widget _formulario(BuildContext context) {
     return Container(
         height: 510,
         child: Form(
@@ -244,10 +239,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             telefono: telefonoController.text,
                                             fechaNacimiento:
                                                 nacimientoController.text);
-                                        BlocProvider.of<RegisterBloc>(context)
-                                            .add(
-                                                CreateRegister(userDto, path!));
                                         debugPrint(userDto.toJson().toString());
+                                        BlocProvider.of<RegisterBloc>(context)
+                                            .add(CreateRegister(userDto));
                                       }
                                     },
                                     child: Text(
@@ -281,140 +275,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             children: [
                               Column(
                                 children: [
-                                  BlocConsumer<ImagePickBloc, ImagePickState>(
-                                    buildWhen: (context, state) {
-                                      return state is ImagePickInitial ||
-                                          state is ImageSelectedSuccessState;
-                                    },
-                                    builder: (context, state) {
-                                      if (state is ImageSelectedSuccessState) {
-                                        path = state.pickedFile.path;
-
-                                        return Container(
-                                            margin: EdgeInsets.only(
-                                                bottom: 8, top: 8),
-                                            child: Card(
-                                                child: InkWell(
-                                                    onTap: () {
-                                                      BlocProvider.of<
-                                                                  ImagePickBloc>(
-                                                              context)
-                                                          .add(SelectImageEvent(
-                                                              ImageSource
-                                                                  .gallery));
-                                                    },
-                                                    child: Stack(
-                                                      children: [
-                                                        Container(
-                                                          width: 100.0,
-                                                          height: 100.0,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .only(
-                                                              topLeft: Radius
-                                                                  .circular(10),
-                                                              topRight: Radius
-                                                                  .circular(
-                                                                      200),
-                                                            ),
-                                                          ),
-                                                          child: Image.file(
-                                                            File(state
-                                                                .pickedFile
-                                                                .path),
-                                                            fit: BoxFit.cover,
-                                                          ),
-                                                        ),
-                                                        Positioned(
-                                                            bottom: 3,
-                                                            right: 2,
-                                                            child: Container(
-                                                                decoration: BoxDecoration(
-                                                                    shape: BoxShape
-                                                                        .circle,
-                                                                    color: Color
-                                                                        .fromARGB(
-                                                                            255,
-                                                                            134,
-                                                                            122,
-                                                                            210)),
-                                                                child: Padding(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .all(
-                                                                              8),
-                                                                  child: Icon(
-                                                                    Icons
-                                                                        .edit_outlined,
-                                                                    color: Colors
-                                                                        .white,
-                                                                    size: 22,
-                                                                  ),
-                                                                )))
-                                                      ],
-                                                    ))));
-                                      }
-                                      return Container(
-                                          margin: EdgeInsets.only(
-                                              bottom: 8, top: 8),
-                                          child: Card(
-                                              child: InkWell(
-                                                  onTap: () {
-                                                    BlocProvider.of<
-                                                                ImagePickBloc>(
-                                                            context)
-                                                        .add(SelectImageEvent(
-                                                            ImageSource
-                                                                .gallery));
-                                                  },
-                                                  child: Stack(
-                                                    children: [
-                                                      Container(
-                                                        width: 100.0,
-                                                        height: 100.0,
-                                                        decoration: BoxDecoration(
-                                                            image: DecorationImage(
-                                                                image: AssetImage(
-                                                                    //Hacer un if para que si el usuario no selecciona una imagen salga como predeterminada esta
-                                                                    'assets/images/avatar.png'),
-                                                                fit: BoxFit.cover)),
-                                                      ),
-                                                      Positioned(
-                                                          bottom: 3,
-                                                          right: 2,
-                                                          child: Container(
-                                                              decoration: BoxDecoration(
-                                                                  shape: BoxShape
-                                                                      .circle,
-                                                                  color: Color
-                                                                      .fromARGB(
-                                                                          255,
-                                                                          134,
-                                                                          122,
-                                                                          210)),
-                                                              child: Padding(
-                                                                padding:
-                                                                    EdgeInsets
-                                                                        .all(8),
-                                                                child: Icon(
-                                                                  Icons
-                                                                      .edit_outlined,
-                                                                  color: Colors
-                                                                      .white,
-                                                                  size: 22,
-                                                                ),
-                                                              )))
-                                                    ],
-                                                  ))));
-                                    },
-                                    listenWhen: (context, state) {
-                                      return state is ImageSelectedSuccessState;
-                                    },
-                                    listener: (context, state) {},
-                                    //TEXTO
-                                  ),
                                   Container(
                                     margin: EdgeInsets.only(bottom: 20),
                                     alignment: Alignment.bottomLeft,

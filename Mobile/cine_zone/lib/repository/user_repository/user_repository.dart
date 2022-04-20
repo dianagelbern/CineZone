@@ -5,5 +5,5 @@ import 'package:cine_zone/models/user/user_response.dart';
 abstract class UserRepository {
   Future<UserResponse> fetchUserProfile();
 
-  Future<LoginResponse> crearRegistro(UserDto dto, String image);
+  Future<LoginResponse> crearRegistro(UserDto dto);
 }

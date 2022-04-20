@@ -77,7 +77,6 @@ public class AuthenticationController {
                 .telefono(user.getTelefono())
                 .fechaNacimiento(user.getFechaNacimiento())
                 .role(user.getRole().name())
-                .avatar(user.getAvatar())
                 .token(jwt)
                 .build();
     }

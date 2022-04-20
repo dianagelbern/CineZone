@@ -7,12 +7,12 @@ class UserDto {
     required this.telefono,
     required this.fechaNacimiento,
   });
-  late final String nombre;
-  late final String email;
-  late final String password;
-  late final String password2;
-  late final String telefono;
-  late final String fechaNacimiento;
+  late final String? nombre;
+  late final String? email;
+  late final String? password;
+  late final String? password2;
+  late final String? telefono;
+  late final String? fechaNacimiento;
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};

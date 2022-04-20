@@ -3,7 +3,6 @@ class LoginResponse {
     required this.email,
     required this.nombre,
     required this.telefono,
-    required this.avatar,
     required this.fechaNacimiento,
     required this.role,
     required this.token,
@@ -11,7 +10,6 @@ class LoginResponse {
   late final String email;
   late final String nombre;
   late final String telefono;
-  late final String avatar;
   late final String fechaNacimiento;
   late final String role;
   late final String token;
@@ -20,7 +18,6 @@ class LoginResponse {
     email = json['email'];
     nombre = json['nombre'];
     telefono = json['telefono'];
-    avatar = json['avatar'];
     fechaNacimiento = json['fechaNacimiento'];
     role = json['role'];
     token = json['token'];
@@ -31,7 +28,6 @@ class LoginResponse {
     _data['email'] = email;
     _data['nombre'] = nombre;
     _data['telefono'] = telefono;
-    _data['avatar'] = avatar;
     _data['fechaNacimiento'] = fechaNacimiento;
     _data['role'] = role;
     _data['token'] = token;

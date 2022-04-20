@@ -6,6 +6,7 @@ import com.salesianostriana.cinezone.error.exception.entitynotfound.EntityNotFou
 import com.salesianostriana.cinezone.error.exception.entitynotfound.ListEntityNotFoundException;
 import com.salesianostriana.cinezone.services.GoogleCloudStorageService;
 import com.salesianostriana.cinezone.services.base.BaseService;
+import com.salesianostriana.cinezone.services.base.StorageService;
 import com.salesianostriana.cinezone.users.dto.CreateUserDto;
 import com.salesianostriana.cinezone.users.model.UserEntity;
 import com.salesianostriana.cinezone.users.model.UserRole;
@@ -20,15 +21,21 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Optional;
+import java.nio.file.Files;
 import java.util.UUID;
 @Service("userDetailsService")
 @RequiredArgsConstructor
 public class UserEntityService extends BaseService <UserEntity, UUID, UserEntityRepository> implements UserDetailsService {
 
     private final PasswordEncoder passwordEncoder;
-    private final GoogleCloudStorageService storageService;
+    private final GoogleCloudStorageService storageServiceGoogle;
+    private final StorageService storageService;
 
     public Optional<UserEntity> findByUsername(String userName){
         return this.repositorio.findFirstByEmail(userName);
@@ -40,16 +47,28 @@ public class UserEntityService extends BaseService <UserEntity, UUID, UserEntity
                 .orElseThrow(()-> new UsernameNotFoundException(email + " no se encontró"));
     }
 
-    public UserEntity save(CreateUserDto newUSer, UserRole role, MultipartFile image){
+    public UserEntity save(CreateUserDto newUSer, UserRole role) throws Exception {
 
 
         if(repositorio.findFirstByEmail(newUSer.getEmail()).isEmpty()){
-            String url = storageService.uploadFile(image);
+            //String url = storageService.uploadFile(image);
+
+            /*
+            String filename = storageService.store(file);
+            BufferedImage original = ImageIO.read(file.getInputStream());
+            BufferedImage reescalada = storageService.resizeImage(original, 128, 128);
+
+            ImageIO.write(reescalada, "jpg", Files.newOutputStream(storageService.load(filename)));
+
+            String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("/download/")
+                    .path(filename)
+                    .toUriString();
+             */
 
             UserEntity user = UserEntity.builder()
                     .password(passwordEncoder.encode(newUSer.getPassword()))
                     .nombre(newUSer.getNombre())
-                    .avatar(url)
                     .email(newUSer.getEmail())
                     .fechaNacimiento(newUSer.getFechaNacimiento())
                     .telefono(newUSer.getTelefono())

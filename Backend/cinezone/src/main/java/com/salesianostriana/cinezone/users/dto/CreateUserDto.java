@@ -17,7 +17,7 @@ public class CreateUserDto {
     @NotBlank(message = "{userName.notBlank}")
     private String nombre;
 
-    private String telefono, password, password2, avatar, fechaNacimiento;
+    private String telefono, password, password2, fechaNacimiento;
 
 
     @Email

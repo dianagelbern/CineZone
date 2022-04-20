@@ -9,9 +9,8 @@ abstract class RegisterEvent extends Equatable {
 
 class CreateRegister extends RegisterEvent {
   final UserDto userDto;
-  final String image;
 
-  const CreateRegister(this.userDto, this.image);
+  const CreateRegister(this.userDto);
 
   @override
   List<Object> get props => [];

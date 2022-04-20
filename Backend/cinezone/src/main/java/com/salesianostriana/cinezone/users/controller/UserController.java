@@ -39,7 +39,7 @@ public class UserController {
 
     @Operation(summary = "Registrar un nuevo usuario administrador")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",
+            @ApiResponse(responseCode = "201",
                     description = "Se registró correctamente el usuario administrador",
                     content = { @Content(mediaType =  "application/json",
                             schema = @Schema(implementation = UserEntity.class))}),
@@ -48,9 +48,9 @@ public class UserController {
                     content = @Content),
     })
     @PostMapping("/auth/register/admin")
-    public ResponseEntity<GetUserDto> nuevoUsuarioAdmin(@Valid @RequestPart("admin") CreateUserDto newUser, @RequestPart("image") MultipartFile image){
+    public ResponseEntity<GetUserDto> nuevoUsuarioAdmin(@Valid @RequestBody CreateUserDto newUser) throws Exception {
 
-        UserEntity saved = userEntityService.save(newUser, UserRole.ADMIN, image);
+        UserEntity saved = userEntityService.save(newUser, UserRole.ADMIN);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(userDtoConverter.convertUserToGetUserDto(saved));
 
@@ -58,7 +58,7 @@ public class UserController {
 
     @Operation(summary = "Registrar un nuevo usuario")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",
+            @ApiResponse(responseCode = "201",
                     description = "Se registró correctamente el usuario",
                     content = { @Content(mediaType =  "application/json",
                             schema = @Schema(implementation = UserEntity.class))}),
@@ -67,9 +67,9 @@ public class UserController {
                     content = @Content),
     })
     @PostMapping("/auth/register/usuario")
-    public ResponseEntity<GetUserDto> nuevoUsuario(@Valid @RequestPart("user") CreateUserDto newUser, @RequestPart("image") MultipartFile image){
+    public ResponseEntity<GetUserDto> nuevoUsuario(@Valid @RequestBody CreateUserDto newUser) throws Exception {
 
-        UserEntity saved = userEntityService.save(newUser, UserRole.USER, image);
+        UserEntity saved = userEntityService.save(newUser, UserRole.USER);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(userDtoConverter.convertUserToGetUserDto(saved));
 

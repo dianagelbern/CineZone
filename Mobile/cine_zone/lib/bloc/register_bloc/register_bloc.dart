@@ -16,8 +16,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   Future<void> _doRegister(
       CreateRegister event, Emitter<RegisterState> emit) async {
     try {
-      final register =
-          await userRepository.crearRegistro(event.userDto, event.image);
+      final register = await userRepository.crearRegistro(event.userDto);
       emit(RegisterSuccesState(register));
       return;
     } on Exception catch (e) {

@@ -11,7 +11,6 @@ public class UserDtoConverter {
                 .nombre(u.getNombre())
                 .email(u.getEmail())
                 .fechaNacimiento(u.getFechaNacimiento())
-                .avatar(u.getAvatar())
                 .password(u.getPassword())
                 .telefono(u.getTelefono()).build();
     }

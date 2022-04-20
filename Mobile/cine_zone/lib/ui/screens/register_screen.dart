@@ -327,6 +327,64 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                 ],
                               ),
+                              Container(
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.only(bottom: 20),
+                                      alignment: Alignment.bottomLeft,
+                                      child: Text("Email:",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500)),
+                                    ),
+                                    Container(
+                                      height: 47,
+                                      decoration: new BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          color:
+                                              Color.fromARGB(0, 243, 243, 243),
+                                          border: Border.all(
+                                              color: Color.fromARGB(
+                                                  244, 134, 122, 210),
+                                              width: 1)),
+                                      margin: EdgeInsets.only(bottom: 20),
+                                      child: TextFormField(
+                                        style: TextStyle(color: Colors.white),
+                                        controller: emailController,
+                                        decoration: const InputDecoration(
+                                          labelText: 'Ingresa tu email',
+                                          labelStyle: TextStyle(
+                                              fontSize: 13,
+                                              color: Color.fromARGB(
+                                                  125, 255, 255, 255)),
+                                          focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Color.fromARGB(
+                                                      244, 134, 122, 210))),
+                                          enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Color.fromARGB(
+                                                      244, 134, 122, 210))),
+                                          border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(
+                                            Radius.circular(10),
+                                          )),
+                                        ),
+                                        onSaved: (String? value) {},
+                                        validator: (String? value) {
+                                          return (value == null ||
+                                                  value.isEmpty)
+                                              ? 'Escribe tu correo electrónico'
+                                              : null;
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -344,62 +402,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         content: Column(
                           children: [
-                            Container(
-                              child: Column(
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.only(bottom: 20),
-                                    alignment: Alignment.bottomLeft,
-                                    child: Text("Email:",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w500)),
-                                  ),
-                                  Container(
-                                    height: 47,
-                                    decoration: new BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                        color: Color.fromARGB(0, 243, 243, 243),
-                                        border: Border.all(
-                                            color: Color.fromARGB(
-                                                244, 134, 122, 210),
-                                            width: 1)),
-                                    margin: EdgeInsets.only(bottom: 20),
-                                    child: TextFormField(
-                                      style: TextStyle(color: Colors.white),
-                                      controller: emailController,
-                                      decoration: const InputDecoration(
-                                        labelText: 'Ingresa tu email',
-                                        labelStyle: TextStyle(
-                                            fontSize: 13,
-                                            color: Color.fromARGB(
-                                                125, 255, 255, 255)),
-                                        focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Color.fromARGB(
-                                                    244, 134, 122, 210))),
-                                        enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Color.fromARGB(
-                                                    244, 134, 122, 210))),
-                                        border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.all(
-                                          Radius.circular(10),
-                                        )),
-                                      ),
-                                      onSaved: (String? value) {},
-                                      validator: (String? value) {
-                                        return (value == null || value.isEmpty)
-                                            ? 'Escribe tu correo electrónico'
-                                            : null;
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
                             Container(
                               child: Column(
                                 children: [

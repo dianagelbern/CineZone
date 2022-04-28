@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       initialRoute: '/',
       routes: {
-        '/': (context) => const RegisterScreen(), //MenuScreen
+        '/': (context) => const MenuScreen(), //MenuScreen
         '/home': (context) => const HomeScreen(),
         '/profile': (context) => const ProfileScreen(),
         '/search': (context) => const SearchScreen()

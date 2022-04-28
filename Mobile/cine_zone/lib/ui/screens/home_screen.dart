@@ -3,6 +3,7 @@ import 'package:cine_zone/models/movie_response.dart';
 import 'package:cine_zone/repository/constants.dart';
 import 'package:cine_zone/repository/movie_repository/movie_repository.dart';
 import 'package:cine_zone/repository/movie_repository/movie_repository_impl.dart';
+import 'package:cine_zone/ui/screens/details_screen.dart';
 import 'package:cine_zone/ui/widgets/error_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -142,29 +143,37 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _createPopularViewItem(BuildContext context, Movie movie) {
     final width = MediaQuery.of(context).size.width / 2.6;
-    return Container(
-      width: width,
-      height: double.infinity,
-      padding: const EdgeInsets.only(bottom: 20.0),
-      child: Card(
-        elevation: 10.0,
-        borderOnForeground: true,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        child: SizedBox(
-          width: width,
-          height: double.infinity,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(8.0),
-            child: CachedNetworkImage(
-              placeholder: (context, url) => const Center(
-                child: CircularProgressIndicator(),
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const DetailsScreen()),
+        );
+      },
+      child: Container(
+        width: width,
+        height: double.infinity,
+        padding: const EdgeInsets.only(bottom: 20.0),
+        child: Card(
+          elevation: 10.0,
+          borderOnForeground: true,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          child: SizedBox(
+            width: width,
+            height: double.infinity,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: CachedNetworkImage(
+                placeholder: (context, url) => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+                imageUrl: 'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                width: width,
+                height: double.infinity,
+                fit: BoxFit.cover,
               ),
-              imageUrl: 'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-              width: width,
-              height: double.infinity,
-              fit: BoxFit.cover,
             ),
           ),
         ),

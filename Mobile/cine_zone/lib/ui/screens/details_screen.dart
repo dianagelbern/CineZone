@@ -1,3 +1,5 @@
+import 'package:cine_zone/ui/screens/cine_screen.dart';
+import 'package:cine_zone/ui/screens/cines_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -63,7 +65,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       color: Color(0xFF867AD2),
                       borderRadius: BorderRadius.circular(10)),
                   child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const CinesScreen()),
+                        );
+                      },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

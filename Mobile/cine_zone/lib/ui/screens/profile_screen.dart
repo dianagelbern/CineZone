@@ -52,40 +52,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   )
                 ],
               ),
-              Stack(children: [
-                Container(
-                  margin: const EdgeInsets.all(20),
-                  width: 100,
-                  height: 100,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        image: NetworkImage(
-                            'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'),
-                        fit: BoxFit.cover),
-                  ),
-                ),
-                Positioned(
-                  bottom: 1,
-                  right: 1,
-                  child: Container(
-                    margin: const EdgeInsets.all(20),
-                    decoration: const BoxDecoration(
-                        shape: BoxShape.circle, color: Color(0xFF867AD2)),
-                    width: 40,
-                    height: 40,
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.edit,
-                        size: 20,
-                      ),
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ]),
               Container(
+                margin: EdgeInsets.only(top: 50),
                 child: _formulario(),
               ),
               Container(
@@ -96,45 +64,48 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.only(top: 20),
+                margin: const EdgeInsets.only(top: 10),
                 child: Column(
                   children: [
-                    TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const WalletScreen()),
-                          );
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                SvgPicture.asset(
-                                  'assets/images/wallet.svg',
-                                  height: 25,
-                                  color: Colors.white,
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(left: 30),
-                                  child: const Text(
-                                    'Wallet',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 18),
-                                  ),
-                                )
-                              ],
-                            ),
-                            const Icon(
-                              Icons.arrow_forward_ios_rounded,
-                              color: Colors.white,
-                            )
-                          ],
-                        )),
                     Container(
-                      margin: const EdgeInsets.only(top: 15),
+                      margin: EdgeInsets.only(top: 20),
+                      child: TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const WalletScreen()),
+                            );
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/images/wallet.svg',
+                                    height: 25,
+                                    color: Colors.white,
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(left: 30),
+                                    child: const Text(
+                                      'Wallet',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 18),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              const Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                color: Colors.white,
+                              )
+                            ],
+                          )),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 40),
                       child: TextButton(
                           onPressed: () {
                             Navigator.push(

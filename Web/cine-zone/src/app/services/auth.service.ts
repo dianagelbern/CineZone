@@ -8,7 +8,9 @@ import { AuthLoginDto } from "../interfaces/dto/auth.dto";
 const AUTH_BASE_URL = 'auth';
 const DEFAULT_HEADERS = {
   headers: new HttpHeaders({
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Access-Control-Allow-Origin': '/' 
   })
 };
 

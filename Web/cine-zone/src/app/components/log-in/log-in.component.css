@@ -91,3 +91,13 @@ body {
 .login-wrapper .mat-form-field-appearance-legacy .mat-form-field-infix {
   padding: 0.8375em 0;
 }
+
+.btn-block{
+    background-color: #6C61AF;
+    color: white;
+}
+
+mat-toolbar{
+    background-color: #6C61AF;
+    color: white;
+  }

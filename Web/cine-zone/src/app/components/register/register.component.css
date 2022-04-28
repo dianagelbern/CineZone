@@ -9,3 +9,13 @@
     margin-left: 60px;
     margin-right: 60px;
 }
+
+.btn-block{
+    background-color: #6C61AF;
+    color: white;
+}
+
+mat-toolbar{
+    background-color: #6C61AF;
+    color: white;
+  }

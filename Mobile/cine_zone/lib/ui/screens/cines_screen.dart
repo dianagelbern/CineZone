@@ -32,9 +32,8 @@ class _CinesScreenState extends State<CinesScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_new_rounded),
           onPressed: () {
-            Navigator.push(
+            Navigator.pop(
               context,
-              MaterialPageRoute(builder: (context) => HomeScreen()),
             );
           },
         ),
@@ -79,7 +78,7 @@ class _CinesScreenState extends State<CinesScreen> {
                         fontWeight: FontWeight.w600),
                   )),
                   Transform.rotate(
-                    angle: math.pi * animationValue / 2,
+                    angle: math.pi * animationValue / 1,
                     child: Icon(
                       Icons.keyboard_arrow_down_outlined,
                       size: 30,
@@ -183,8 +182,15 @@ class _CinesScreenState extends State<CinesScreen> {
 
   Widget datePicker() {
     return Container(
+      margin: EdgeInsets.only(top: 10),
       child: DatePicker(
         DateTime.now(),
+        dateTextStyle:
+            TextStyle(color: Color.fromARGB(125, 255, 255, 255), fontSize: 12),
+        monthTextStyle:
+            TextStyle(color: Color.fromARGB(125, 255, 255, 255), fontSize: 12),
+        dayTextStyle:
+            TextStyle(color: Color.fromARGB(125, 255, 255, 255), fontSize: 12),
         width: 60,
         height: 80,
         daysCount: 9,
@@ -195,6 +201,8 @@ class _CinesScreenState extends State<CinesScreen> {
         onDateChange: (date) {
           setState(() {
             _selectedValue = date;
+            print(date.day);
+            print(date.month);
           });
         },
       ),

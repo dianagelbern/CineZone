@@ -1,3 +1,4 @@
+import 'package:cine_zone/ui/screens/ayuda_screen.dart';
 import 'package:cine_zone/ui/screens/login_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -49,13 +50,10 @@ class _ConfigScreenState extends State<ConfigScreen> {
       margin: EdgeInsets.only(top: 20),
       child: TextButton(
           onPressed: () {
-            /*
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => WalletScreen()),
-                            );
-                            */
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AyudaScreen()),
+            );
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

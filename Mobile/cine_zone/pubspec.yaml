@@ -100,6 +100,11 @@ flutter:
    - assets/images/ocupado.png
    - assets/images/libre.png
    - assets/images/seleccionado.png
+   - assets/images/facebook.png
+   - assets/images/insta.png
+   - assets/images/mail.png
+   - assets/images/twitter.png
+   - assets/images/wa.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

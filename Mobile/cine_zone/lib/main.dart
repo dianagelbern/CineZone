@@ -1,3 +1,4 @@
+import 'package:cine_zone/ui/screens/ayuda_screen.dart';
 import 'package:cine_zone/ui/screens/cine_screen.dart';
 import 'package:cine_zone/ui/screens/compra_screen.dart';
 import 'package:cine_zone/ui/screens/config_screen.dart';

@@ -53,6 +53,7 @@ dependencies:
   video_player: ^2.2.19
   flutter_svg: ^1.0.3
   barcode_widget: ^2.0.2
+  group_radio_button: ^1.2.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -95,6 +96,11 @@ flutter:
    - assets/images/ayuda.svg
    - assets/images/privacidad.svg
    - assets/images/off.svg
+   - assets/images/pantalla.svg
+   - assets/images/ocupado.png
+   - assets/images/libre.png
+   - assets/images/seleccionado.png
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

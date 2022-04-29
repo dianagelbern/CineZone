@@ -1,4 +1,5 @@
 import 'package:cine_zone/ui/screens/home_screen.dart';
+import 'package:cine_zone/ui/screens/sala_screen.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:date_picker_timeline/extra/dimen.dart';
 import 'package:expandable/expandable.dart';
@@ -135,7 +136,12 @@ class _CinesScreenState extends State<CinesScreen> {
       width: 75,
       height: 29,
       child: TextButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const SalaScreen()),
+          );
+        },
         child: Text(
           '16:00',
           style: TextStyle(color: Colors.white),

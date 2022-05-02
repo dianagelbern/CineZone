@@ -82,7 +82,10 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           );
         } else if (state is MoviesFetched) {
-          return _createPopularView(context, state.movies);
+          return Container(
+            margin: EdgeInsets.only(top: 30),
+            child: _createPopularView(context, state.movies),
+          );
         } else {
           return const Text('Not support');
         }
@@ -96,7 +99,10 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         Container(
           alignment: Alignment.center,
-          padding: const EdgeInsets.only(left: 20.0, right: 16.0),
+          padding: const EdgeInsets.only(
+            left: 20.0,
+            right: 16.0,
+          ),
           height: 48.0,
           child: Row(
             children: const [
@@ -209,63 +215,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-  /*
-  Widget _estrenos() {
-    final width = MediaQuery.of(context).size.width / 2.6;
-    return Container(
-      margin: EdgeInsets.only(top: 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Estrenos',
-            style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.w600, fontSize: 22),
-          ),
-          Container(
-              width: width,
-              height: double.infinity,
-              padding: const EdgeInsets.only(bottom: 20.0),
-              child: Card(
-                  elevation: 10.0,
-                  borderOnForeground: true,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  child: SizedBox(
-                      width: width,
-                      height: double.infinity,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: CachedNetworkImage(
-                          placeholder: (context, url) => const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                          imageUrl:
-                              'https://images-na.ssl-images-amazon.com/images/I/91vkH4q7ZPL.jpg',
-                          width: width,
-                          height: double.infinity,
-                          fit: BoxFit.cover,
-                        ),
-                      ))))
-        ],
-      ),
-    );
-  }
-  */
-
-  Widget _anuncio() {
-    return Container();
-  }
-
-  Widget _populares() {
-    return Container();
-  }
-}
-
-@override
-Widget build(BuildContext context) {
-  // TODO: implement build
-  throw UnimplementedError();
 }

@@ -39,6 +39,7 @@ import java.util.List;
 public class Show {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     //Pelicula asociada

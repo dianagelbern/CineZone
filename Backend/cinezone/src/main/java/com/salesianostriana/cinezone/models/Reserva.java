@@ -31,5 +31,5 @@ public class Reserva {
     //Asociar con asiento por medio de la nueva clase
 
     @OneToMany
-    private List<AsientoReservado> asientos = new ArrayList<>();
+    private List<AsientoReservado> asientosReservados = new ArrayList<>();
 }

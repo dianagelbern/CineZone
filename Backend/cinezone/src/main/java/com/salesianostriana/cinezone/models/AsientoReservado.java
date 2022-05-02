@@ -28,4 +28,34 @@ public class AsientoReservado implements Serializable {
     @MapsId("reserva_id")
     @JoinColumn(name = "reserva_id")
     private Reserva reserva;
+
+    public void addToAsiento(Asiento a){
+        asiento = a;
+        a.getAsientosReservados().add(this);
+    }
+
+    public void removeFromAsiento(Asiento a){
+        a.getAsientosReservados().remove(a);
+        asiento = null;
+    }
+
+    public void addToReserva(Reserva r){
+        reserva = r;
+        r.getAsientosReservados().add(this);
+    }
+
+    public  void removeFromReserva(Reserva r){
+        r.getAsientosReservados().remove(this);
+        reserva = null;
+    }
+
+    public  void addReservaAsiento(Reserva r, Asiento a){
+        addToAsiento(a);
+        addToReserva(r);
+    }
+
+    public  void removeReservaAsiento(Reserva r, Asiento a){
+        removeFromAsiento(a);
+        removeFromReserva(r);
+    }
 }

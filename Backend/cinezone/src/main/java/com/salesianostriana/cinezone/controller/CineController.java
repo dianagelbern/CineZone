@@ -89,4 +89,23 @@ public class CineController {
         return ResponseEntity.ok().body(cineDtoConverter.convertCineToGetCineDto(cine.get()));
 
     }
+
+
+    @Operation(summary = "Editar un cine por su id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Se editó correctamente el cine",
+                    content = { @Content(mediaType =  "application/json",
+                            schema = @Schema(implementation = UserEntity.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "No existe un cine con ese id",
+                    content = @Content),
+    })
+    @PutMapping("/{id}")
+    public ResponseEntity<GetCineDto> edit(@RequestBody CreateCineDto cineDto, @PathVariable Long id){
+        Cine nuevoC = cineService.edit(cineDto, id);
+
+        GetCineDto nuevoCDto = cineDtoConverter.convertCineToGetCineDto(nuevoC);
+        return ResponseEntity.status(HttpStatus.CREATED).body(nuevoCDto);
+    }
 }

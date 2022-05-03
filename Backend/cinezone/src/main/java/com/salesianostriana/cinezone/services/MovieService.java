@@ -7,25 +7,47 @@ import com.salesianostriana.cinezone.error.exception.entitynotfound.SingleEntity
 import com.salesianostriana.cinezone.models.Movie;
 import com.salesianostriana.cinezone.repos.MovieRepository;
 import com.salesianostriana.cinezone.services.base.BaseService;
+import com.salesianostriana.cinezone.services.base.StorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.nio.file.Files;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class MovieService extends BaseService<Movie, Long, MovieRepository>{
 
+    private final StorageService storageService;
 
-    public Movie createMovie(CreateMovieDto movieDtoConverter){
+
+    public Movie createMovie(CreateMovieDto movieDtoConverter, MultipartFile file) throws Exception {
+
+        String filename = storageService.store(file);
+        BufferedImage original = ImageIO.read(file.getInputStream());
+        BufferedImage reescalada = storageService.resizeImage(original, 128, 128);
+
+        ImageIO.write(reescalada, "jpg", Files.newOutputStream(storageService.load(filename)));
+
+        String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/download/")
+                .path(filename)
+                .toUriString();
+
+
         Movie movie = Movie.builder()
                 .clasificacion(movieDtoConverter.getClasificacion())
                 .director(movieDtoConverter.getDirector())
                 .duracion(movieDtoConverter.getDuracion())
                 .genero(movieDtoConverter.getGenero())
-                .imagen(movieDtoConverter.getImagen())
+                .imagen(uri)
                 .productora(movieDtoConverter.getProductora())
                 .sinopsis(movieDtoConverter.getSinopsis())
                 .titulo(movieDtoConverter.getTitulo())

@@ -33,4 +33,5 @@ public class Movie {
     @Builder.Default
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
     private List<Show> shows = new ArrayList<>();
+
 }

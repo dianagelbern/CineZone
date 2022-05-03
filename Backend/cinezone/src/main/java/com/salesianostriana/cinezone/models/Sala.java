@@ -44,6 +44,7 @@ import java.util.List;
 public class Sala {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToMany(fetch = FetchType.LAZY)

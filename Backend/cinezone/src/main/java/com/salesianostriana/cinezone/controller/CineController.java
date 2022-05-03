@@ -13,14 +13,17 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 @RestController
@@ -50,5 +53,22 @@ public class CineController {
         return ResponseEntity.status(HttpStatus.CREATED).body(cineDtoConverter.convertCineToGetCineDto(cine));
     }
 
+    @Operation(summary = "Muestra todos los cines")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se listan correctamente todos los cines",
+                    content = { @Content(mediaType =  "application/json",
+                            schema = @Schema(implementation = UserEntity.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "La lista de cines está vacía",
+                    content = @Content),
+    })
+    @GetMapping("/")
+    public ResponseEntity<Page<GetCineDto>> findAllCines(@PageableDefault(size = 10, page = 0)Pageable pageable, HttpServletRequest request){
+        Page<Cine> c = cineService.findAllCines(pageable);
+        Page<GetCineDto> res = c.map(cineDtoConverter::convertCineToGetCineDto);
+        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(request.getRequestURL().toString());
 
+        return ResponseEntity.ok().header("link", paginationLinkUtils.createLinkHeader(res, uriComponentsBuilder)).body(res);
+    }
 }

@@ -21,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,8 +51,8 @@ public class MovieController {
                     content = @Content),
     })
     @PostMapping("/")
-    public ResponseEntity<GetMovieDto> createMovie(@Validated @RequestBody CreateMovieDto movieDto){
-        Movie movie = movieService.createMovie(movieDto);
+    public ResponseEntity<GetMovieDto> createMovie(@Validated @RequestPart("movie") CreateMovieDto movieDto, @RequestPart("image")MultipartFile file) throws Exception{
+        Movie movie = movieService.createMovie(movieDto, file);
         return ResponseEntity.status(HttpStatus.CREATED).body(movieDtoConverter.convertMovieToGetMovieDto(movie));
     }
 

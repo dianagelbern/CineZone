@@ -25,6 +25,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -70,5 +71,22 @@ public class CineController {
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(request.getRequestURL().toString());
 
         return ResponseEntity.ok().header("link", paginationLinkUtils.createLinkHeader(res, uriComponentsBuilder)).body(res);
+    }
+
+    @Operation(summary = "Muestra un cine por id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se mostró correctamente el cine",
+                    content = { @Content(mediaType =  "application/json",
+                            schema = @Schema(implementation = UserEntity.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "No existe el cine",
+                    content = @Content),
+    })
+    @GetMapping("/{id}")
+    public ResponseEntity<GetCineDto> findById(@PathVariable Long id, Cine c){
+        Optional<Cine> cine = cineService.findById(id, c);
+        return ResponseEntity.ok().body(cineDtoConverter.convertCineToGetCineDto(cine.get()));
+
     }
 }

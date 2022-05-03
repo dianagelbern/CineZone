@@ -24,6 +24,7 @@ public class Cine {
 
     private String plaza;
 
+
     //Sala asociada
     @OneToMany
     private List<Sala> salas = new ArrayList<>();

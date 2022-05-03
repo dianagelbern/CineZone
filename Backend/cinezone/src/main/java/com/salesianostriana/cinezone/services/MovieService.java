@@ -75,7 +75,7 @@ public class MovieService extends BaseService<Movie, Long, MovieRepository>{
 
     /*Este método no lo utilizaré en el controller porque me parece poco conveniente eliminar algo de lo que dependen
     casi todas las entidades*/
-    public Optional<?> deleteMovieByID(Long id, Movie m){
+    public Optional<?> deleteMovieById(Long id, Movie m){
         Optional<Movie> movie = findById(id);
         if (movie.isPresent()){
             return deleteById(id);

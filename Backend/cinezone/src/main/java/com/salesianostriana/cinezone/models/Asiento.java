@@ -25,6 +25,6 @@ public class Asiento {
     @ManyToOne
     private Sala sala;
 
-    @OneToMany
-    private List<AsientoReservado> asientosReservados = new ArrayList<>();
+    @ManyToOne
+    private Reserva reserva;
 }

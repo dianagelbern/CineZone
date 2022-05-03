@@ -14,6 +14,7 @@ import java.io.IOException;
 public class CrosFilter implements Filter{
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         response.setHeader("Access-Control-Allow-Origin", "*");
@@ -21,5 +22,6 @@ public class CrosFilter implements Filter{
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, Content-Length, X-Requested-With");
         filterChain.doFilter(servletRequest, servletResponse);
+
     }
 }

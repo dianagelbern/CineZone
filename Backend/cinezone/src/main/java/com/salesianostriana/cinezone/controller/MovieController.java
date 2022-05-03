@@ -76,10 +76,37 @@ public class MovieController {
         return ResponseEntity.ok().header("link", paginationLinkUtils.createLinkHeader(res, uriComponentsBuilder)).body(res);
     }
 
+    @Operation(summary = "Muestra una película por id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se mostró correctamente la película",
+                    content = { @Content(mediaType =  "application/json",
+                            schema = @Schema(implementation = UserEntity.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "No existe la película",
+                    content = @Content),
+    })
     @GetMapping("/{id}")
     public ResponseEntity<GetMovieDto> findById(@PathVariable Long id, Movie m){
         Optional<Movie> movie = movieService.findMovieById(id, m);
         return ResponseEntity.ok().body(movieDtoConverter.convertMovieToGetMovieDto(movie.get()));
     }
 
+
+    @Operation(summary = "Editar una película por id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Se editó correctamente la película",
+                    content = { @Content(mediaType =  "application/json",
+                            schema = @Schema(implementation = UserEntity.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "No existe la película",
+                    content = @Content),
+    })
+    @PutMapping("/{id}")
+    public ResponseEntity<GetMovieDto> edit(@RequestBody CreateMovieDto movieDto, @PathVariable Long id){
+        Movie nuevaM = movieService.edit(movieDto, id);
+        GetMovieDto nuevaMDto = movieDtoConverter.convertMovieToGetMovieDto(nuevaM);
+        return ResponseEntity.status(HttpStatus.CREATED).body(nuevaMDto);
+    }
 }

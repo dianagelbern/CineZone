@@ -72,7 +72,7 @@ public class SecutiryConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/user/me").authenticated()
                 .antMatchers(HttpMethod.DELETE, "/movie/**").hasAnyRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/movie/**").hasAnyRole("ADMIN")
-                .antMatchers(HttpMethod.POST, "/movie/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/movie/**").hasAnyRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/movie/**").hasAnyRole("ADMIN")
                 .antMatchers("/h2-console/**").permitAll()
                 .anyRequest().authenticated()

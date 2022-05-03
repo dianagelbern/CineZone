@@ -3,6 +3,7 @@ package com.salesianostriana.cinezone.services;
 import com.salesianostriana.cinezone.dto.moviedto.CreateMovieDto;
 import com.salesianostriana.cinezone.error.exception.entitynotfound.EntityNotFoundException;
 import com.salesianostriana.cinezone.error.exception.entitynotfound.ListEntityNotFoundException;
+import com.salesianostriana.cinezone.error.exception.entitynotfound.SingleEntityNotFoundException;
 import com.salesianostriana.cinezone.models.Movie;
 import com.salesianostriana.cinezone.repos.MovieRepository;
 import com.salesianostriana.cinezone.services.base.BaseService;
@@ -47,6 +48,27 @@ public class MovieService extends BaseService<Movie, Long, MovieRepository>{
             return m;
         }else{
             throw new EntityNotFoundException("La película no existe");
+        }
+    }
+
+    public Movie edit(CreateMovieDto movieDto, Long id){
+        Optional<Movie> m = repositorio.findById(id);
+        if (m.isPresent()){
+
+            Movie nueva = m.get();
+            nueva.setClasificacion(movieDto.getClasificacion());
+            nueva.setDirector(movieDto.getDirector());
+            nueva.setDuracion(movieDto.getDuracion());
+            nueva.setGenero(movieDto.getGenero());
+            nueva.setImagen(movieDto.getImagen());
+            nueva.setProductora(movieDto.getProductora());
+            nueva.setSinopsis(movieDto.getSinopsis());
+            nueva.setTitulo(movieDto.getTitulo());
+            nueva.setTrailer(movieDto.getTrailer());
+
+            return repositorio.save(nueva);
+        }else{
+            throw new SingleEntityNotFoundException(Movie.class, id);
         }
     }
 

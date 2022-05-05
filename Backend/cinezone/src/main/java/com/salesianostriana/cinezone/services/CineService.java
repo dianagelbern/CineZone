@@ -22,10 +22,8 @@ public class CineService extends BaseService<Cine, Long, CineRepository> {
 
     private final SalaService salaService;
 
-    //Crearemos primero el cine sin añadirle sus salas
+
     public Cine createCine(CreateCineDto createCineDto){
-
-
 
         Cine cine = Cine.builder()
                 .plaza(createCineDto.getPlaza())
@@ -34,7 +32,6 @@ public class CineService extends BaseService<Cine, Long, CineRepository> {
 
         repositorio.save(cine);
 
-
         for (int i = 1; i <= createCineDto.getNumSalas(); i++){
             salaService.createSala("Sala "+i, cine);
             repositorio.save(cine);
@@ -42,6 +39,8 @@ public class CineService extends BaseService<Cine, Long, CineRepository> {
 
         return cine;
     }
+
+
 
     public Page<Cine> findAllCines(Pageable pageable){
         if (repositorio.findAll(pageable).isEmpty()){
@@ -59,6 +58,7 @@ public class CineService extends BaseService<Cine, Long, CineRepository> {
             throw new EntityNotFoundException("El cine no existe");
         }
     }
+
 
     public Cine edit(CreateCineDto cineDto, Long id){
         Optional<Cine> c = repositorio.findById(id);

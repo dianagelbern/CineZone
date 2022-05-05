@@ -26,6 +26,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
@@ -51,7 +52,7 @@ public class MovieController {
                     content = @Content),
     })
     @PostMapping("/")
-    public ResponseEntity<GetMovieDto> createMovie(@Validated @RequestPart("movie") CreateMovieDto movieDto, @RequestPart("image")MultipartFile file) throws Exception{
+    public ResponseEntity<GetMovieDto> createMovie(@Valid  @RequestPart("movie") CreateMovieDto movieDto, @RequestPart("image")MultipartFile file) throws Exception{
         Movie movie = movieService.createMovie(movieDto, file);
         return ResponseEntity.status(HttpStatus.CREATED).body(movieDtoConverter.convertMovieToGetMovieDto(movie));
     }
@@ -105,7 +106,7 @@ public class MovieController {
                     content = @Content),
     })
     @PutMapping("/{id}")
-    public ResponseEntity<GetMovieDto> edit(@RequestBody CreateMovieDto movieDto, @PathVariable Long id){
+    public ResponseEntity<GetMovieDto> edit(@Valid @RequestBody CreateMovieDto movieDto, @PathVariable Long id){
         Movie nuevaM = movieService.edit(movieDto, id);
         GetMovieDto nuevaMDto = movieDtoConverter.convertMovieToGetMovieDto(nuevaM);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevaMDto);

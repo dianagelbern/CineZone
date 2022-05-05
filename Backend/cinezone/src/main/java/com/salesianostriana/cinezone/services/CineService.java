@@ -60,18 +60,6 @@ public class CineService extends BaseService<Cine, Long, CineRepository> {
     }
 
 
-   /*
-    public Optional<Cine> getAllSalasByCine(Long id, Cine cine){
-        if (cine.getId().equals(id)){
-            Optional<Cine> c = repositorio.findAllSalasByCineId(id);
-            return c;
-        }else {
-            throw new EntityNotFoundException("El cine no existe");
-        }
-    }
-    */
-
-
     public Cine edit(CreateCineDto cineDto, Long id){
         Optional<Cine> c = repositorio.findById(id);
         if (c.isPresent()){

@@ -33,6 +33,7 @@ public class SalaController {
     private final SalaDtoConverter salaDtoConverter;
     private final PaginationLinkUtils paginationLinkUtils;
 
+    //TODO: Al momento de crear el número de salas, si esta es mayor al size del pageable peta
     @GetMapping("/{id}/cineSala")
     public ResponseEntity<Page<GetSalaDto>> findAllSalasByCineId(@PageableDefault(size = 11, page = 0)Pageable pageable, HttpServletRequest request, @PathVariable Long id){
         Page<Sala> s = salaService.findAllSalasByCine(pageable, id);

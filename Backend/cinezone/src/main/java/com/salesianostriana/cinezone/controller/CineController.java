@@ -112,14 +112,4 @@ public class CineController {
 
 
 
-/*
-
-    @GetMapping("/{id}/salas")
-    public ResponseEntity<GetCineDto> findAllSalasByCineId(Cine c, @PathVariable Long id){
-        Optional<Cine> cine = cineService.getAllSalasByCine(id, c);
-        return ResponseEntity.ok().body(cineDtoConverter.convertCineToGetCineDto(cine.get()));
-    }
-
- */
-
 }

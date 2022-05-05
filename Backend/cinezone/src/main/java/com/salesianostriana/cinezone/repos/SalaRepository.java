@@ -13,11 +13,10 @@ import java.util.Optional;
 
 public interface SalaRepository extends JpaRepository<Sala, Long> {
 
-    //@Query("select s from Sala s where s.cine = :id")
     @Query(value = """
             SELECT *
             FROM Sala
             WHERE cine = :id
             """, nativeQuery = true)
-    public Page<Sala> encuentraSalasByCineId(Pageable pageable, @Param("id")Long id);
+    Page<Sala> encuentraSalasByCineId(Pageable pageable, @Param("id")Long id);
 }

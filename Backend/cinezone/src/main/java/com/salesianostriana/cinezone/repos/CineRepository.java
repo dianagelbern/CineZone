@@ -9,10 +9,4 @@ import java.util.Optional;
 
 public interface CineRepository extends JpaRepository<Cine, Long> {
 
-
-    /*
-    @Query("SELECT s FROM Sala s WHERE s.cine = :id")
-    Optional<Cine> findAllSalasByCineId(@Param("id") Long id);
-     */
-
 }

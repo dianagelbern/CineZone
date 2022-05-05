@@ -103,10 +103,23 @@ public class CineController {
                     content = @Content),
     })
     @PutMapping("/{id}")
-    public ResponseEntity<GetCineDto> edit(@RequestBody CreateCineDto cineDto, @PathVariable Long id){
+    public ResponseEntity<GetCineDto> edit(@Valid @RequestBody CreateCineDto cineDto, @PathVariable Long id){
         Cine nuevoC = cineService.edit(cineDto, id);
 
         GetCineDto nuevoCDto = cineDtoConverter.convertCineToGetCineDto(nuevoC);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevoCDto);
     }
+
+
+
+/*
+
+    @GetMapping("/{id}/salas")
+    public ResponseEntity<GetCineDto> findAllSalasByCineId(Cine c, @PathVariable Long id){
+        Optional<Cine> cine = cineService.getAllSalasByCine(id, c);
+        return ResponseEntity.ok().body(cineDtoConverter.convertCineToGetCineDto(cine.get()));
+    }
+
+ */
+
 }

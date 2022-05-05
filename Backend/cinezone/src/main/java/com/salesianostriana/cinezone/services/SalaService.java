@@ -2,16 +2,21 @@ package com.salesianostriana.cinezone.services;
 
 import com.salesianostriana.cinezone.dto.asientodto.CreateAsientoDto;
 import com.salesianostriana.cinezone.dto.saladto.CreateSalaDto;
+import com.salesianostriana.cinezone.error.exception.entitynotfound.EntityNotFoundException;
+import com.salesianostriana.cinezone.error.exception.entitynotfound.ListEntityNotFoundException;
 import com.salesianostriana.cinezone.models.Asiento;
 import com.salesianostriana.cinezone.models.Cine;
 import com.salesianostriana.cinezone.models.Sala;
 import com.salesianostriana.cinezone.repos.SalaRepository;
 import com.salesianostriana.cinezone.services.base.BaseService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -35,11 +40,15 @@ public class SalaService extends BaseService<Sala, Long, SalaRepository> {
             repositorio.save(newSala);
         }
 
-
-
         return newSala;
 
+    }
 
+    public Page<Sala> findAllSalasByCine(Pageable pageable, Long id){
+        if (repositorio.encuentraSalasByCineId(pageable, id).isEmpty()){
+            throw new ListEntityNotFoundException(Sala.class);
+        } else
+            return repositorio.encuentraSalasByCineId(pageable, id);
     }
 
 }

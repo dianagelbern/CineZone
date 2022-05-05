@@ -28,7 +28,7 @@ public class SalaService extends BaseService<Sala, Long, SalaRepository> {
                 .build();
         repositorio.save(newSala);
 
-        List<Asiento> asientos = asientoService.generateAsiento(10, 10, newSala);
+        List<Asiento> asientos = asientoService.generateAsiento(8, 8, newSala);
 
         for (Asiento asiento : asientos){
             newSala.getAsientos().add(asiento);

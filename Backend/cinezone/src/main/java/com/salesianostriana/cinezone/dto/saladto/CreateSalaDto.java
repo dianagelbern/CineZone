@@ -11,5 +11,5 @@ public class CreateSalaDto {
 
     private Long id;
 
-
+    private String nombre;
 }

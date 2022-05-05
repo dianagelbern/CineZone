@@ -20,7 +20,7 @@ public class Asiento {
 
     private int fila;
     private int numero;
-    private int estado;
+    private boolean esOcupado;
 
     @ManyToOne
     private Sala sala;

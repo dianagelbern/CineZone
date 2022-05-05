@@ -26,6 +26,7 @@ public class Cine {
 
 
     //Sala asociada
+    @Builder.Default
     @OneToMany
     private List<Sala> salas = new ArrayList<>();
 }

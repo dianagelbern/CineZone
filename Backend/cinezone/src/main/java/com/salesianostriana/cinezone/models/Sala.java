@@ -47,10 +47,14 @@ public class Sala {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String nombre;
+
+    @Builder.Default
     @OneToMany(fetch = FetchType.LAZY)
     private List<Show> shows = new ArrayList<>();
 
     //Asientos (lista)
+    @Builder.Default
     @OneToMany
     private List<Asiento> asientos = new ArrayList<>();
 

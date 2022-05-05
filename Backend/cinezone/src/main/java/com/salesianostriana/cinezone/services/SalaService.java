@@ -51,4 +51,13 @@ public class SalaService extends BaseService<Sala, Long, SalaRepository> {
             return repositorio.encuentraSalasByCineId(pageable, id);
     }
 
+    public Optional<?> deleteById(Long id, Sala s){
+        Optional<Sala> sala = findById(id);
+        if (sala.isPresent()){
+            return deleteById(id);
+        }else {
+            throw new EntityNotFoundException("No se encontró ninguna sala con ese id");
+        }
+    }
+
 }

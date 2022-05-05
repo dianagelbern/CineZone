@@ -55,7 +55,7 @@ public class Sala {
 
     //Asientos (lista)
     @Builder.Default
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Asiento> asientos = new ArrayList<>();
 
     //Cine relacionado

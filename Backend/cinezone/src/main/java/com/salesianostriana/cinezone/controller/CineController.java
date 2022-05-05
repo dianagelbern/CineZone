@@ -25,6 +25,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
@@ -49,7 +50,7 @@ public class CineController {
                     content = @Content),
     })
     @PostMapping("/")
-    public ResponseEntity<GetCineDto> createCine(@Validated @RequestBody CreateCineDto cineDto){
+    public ResponseEntity<GetCineDto> createCine(@Valid @RequestBody CreateCineDto cineDto){
         Cine cine = cineService.createCine(cineDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(cineDtoConverter.convertCineToGetCineDto(cine));
     }

@@ -2,6 +2,8 @@ package com.salesianostriana.cinezone.dto.cinedto;
 
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,4 +18,6 @@ public class CreateCineDto {
     private String latLon;
 
     private String plaza;
+
+    private int numSalas;
 }

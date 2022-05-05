@@ -5,6 +5,7 @@ import com.salesianostriana.cinezone.error.exception.entitynotfound.EntityNotFou
 import com.salesianostriana.cinezone.error.exception.entitynotfound.ListEntityNotFoundException;
 import com.salesianostriana.cinezone.error.exception.entitynotfound.SingleEntityNotFoundException;
 import com.salesianostriana.cinezone.models.Cine;
+import com.salesianostriana.cinezone.models.Sala;
 import com.salesianostriana.cinezone.repos.CineRepository;
 import com.salesianostriana.cinezone.services.base.BaseService;
 import lombok.RequiredArgsConstructor;
@@ -18,13 +19,28 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CineService extends BaseService<Cine, Long, CineRepository> {
 
+
+    private final SalaService salaService;
+
     //Crearemos primero el cine sin añadirle sus salas
     public Cine createCine(CreateCineDto createCineDto){
+
+
+
         Cine cine = Cine.builder()
                 .plaza(createCineDto.getPlaza())
                 .latLon(createCineDto.getLatLon())
                 .direccion(createCineDto.getDireccion()).build();
-        return repositorio.save(cine);
+
+        repositorio.save(cine);
+
+
+        for (int i = 1; i <= createCineDto.getNumSalas(); i++){
+            salaService.createSala("Sala "+i, cine);
+            repositorio.save(cine);
+        }
+
+        return cine;
     }
 
     public Page<Cine> findAllCines(Pageable pageable){

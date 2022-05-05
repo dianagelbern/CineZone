@@ -5,7 +5,6 @@ import lombok.*;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
 public class CineDtoConverter {
 
     public GetCineDto convertCineToGetCineDto(Cine c){

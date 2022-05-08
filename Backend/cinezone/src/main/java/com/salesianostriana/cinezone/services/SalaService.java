@@ -4,8 +4,10 @@ import com.salesianostriana.cinezone.dto.asientodto.CreateAsientoDto;
 import com.salesianostriana.cinezone.dto.saladto.CreateSalaDto;
 import com.salesianostriana.cinezone.error.exception.entitynotfound.EntityNotFoundException;
 import com.salesianostriana.cinezone.error.exception.entitynotfound.ListEntityNotFoundException;
+import com.salesianostriana.cinezone.error.exception.entitynotfound.SingleEntityNotFoundException;
 import com.salesianostriana.cinezone.models.Asiento;
 import com.salesianostriana.cinezone.models.Cine;
+import com.salesianostriana.cinezone.models.Movie;
 import com.salesianostriana.cinezone.models.Sala;
 import com.salesianostriana.cinezone.repos.SalaRepository;
 import com.salesianostriana.cinezone.services.base.BaseService;
@@ -50,6 +52,19 @@ public class SalaService extends BaseService<Sala, Long, SalaRepository> {
         } else
             return repositorio.encuentraSalasByCineId(pageable, id);
     }
+
+
+    public Sala find(Long id){
+        Optional<Sala> optionalSala = repositorio.findById(id);
+
+        if (optionalSala.isEmpty()) {
+            throw new SingleEntityNotFoundException(Sala.class);
+        } else {
+            return optionalSala.get();
+        }
+    }
+
+
 
     public Optional<?> deleteById(Long id, Sala s){
         Optional<Sala> sala = findById(id);

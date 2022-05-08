@@ -1,5 +1,6 @@
 package com.salesianostriana.cinezone.models;
 
+import com.salesianostriana.cinezone.models.show.Show;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @NamedEntityGraphs({
-        @NamedEntityGraph(
+       /* @NamedEntityGraph(
                 name = "grafo-sala-shows-cine",
                 attributeNodes = {
                         @NamedAttributeNode("shows"),
@@ -20,7 +21,7 @@ import java.util.List;
                 attributeNodes = {
                         @NamedAttributeNode("shows")
                 }
-        ),
+        ),*/
         @NamedEntityGraph(
                 name = "grafo-sala-asientos",
                 attributeNodes = {
@@ -49,10 +50,10 @@ public class Sala {
 
     private String nombre;
 
-    @Builder.Default
+ /*   @Builder.Default
     @OneToMany(fetch = FetchType.LAZY)
     private List<Show> shows = new ArrayList<>();
-
+*/
     //Asientos (lista)
     @Builder.Default
     @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)

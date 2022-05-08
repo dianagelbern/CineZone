@@ -1,5 +1,6 @@
 package com.salesianostriana.cinezone.models;
 
+import com.salesianostriana.cinezone.models.show.Show;
 import lombok.*;
 
 import javax.persistence.*;
@@ -30,8 +31,8 @@ public class Movie {
 
     private String trailer;
 
-    @Builder.Default
+  /*  @Builder.Default
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
     private List<Show> shows = new ArrayList<>();
-
+*/
 }

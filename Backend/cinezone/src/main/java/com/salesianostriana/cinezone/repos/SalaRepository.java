@@ -19,4 +19,8 @@ public interface SalaRepository extends JpaRepository<Sala, Long> {
             WHERE cine = :id
             """, nativeQuery = true)
     Page<Sala> encuentraSalasByCineId(Pageable pageable, @Param("id")Long id);
+
+
+
+
 }

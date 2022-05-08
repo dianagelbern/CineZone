@@ -94,6 +94,17 @@ public class MovieService extends BaseService<Movie, Long, MovieRepository>{
         }
     }
 
+    public Movie find(Long id){
+        Optional<Movie> optionalMovie = repositorio.findById(id);
+
+        if (optionalMovie.isEmpty()) {
+            throw new SingleEntityNotFoundException(Movie.class);
+        } else {
+            return optionalMovie.get();
+        }
+    }
+
+
 
     /*Este método no lo utilizaré en el controller porque me parece poco conveniente eliminar algo de lo que dependen
     casi todas las entidades*/

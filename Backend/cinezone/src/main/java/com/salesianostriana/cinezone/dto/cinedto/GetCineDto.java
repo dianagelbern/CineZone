@@ -10,6 +10,8 @@ import lombok.*;
 public class GetCineDto {
     private Long id;
 
+    private String nombre;
+
     private String direccion;
 
     private String latLon;

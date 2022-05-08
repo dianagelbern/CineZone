@@ -20,6 +20,8 @@ public class Cine {
 
     private String direccion;
 
+    private String nombre;
+
     private String latLon;
 
     private String plaza;

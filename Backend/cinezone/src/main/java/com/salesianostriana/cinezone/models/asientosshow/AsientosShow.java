@@ -1,6 +1,7 @@
 package com.salesianostriana.cinezone.models.asientosshow;
 
 import com.salesianostriana.cinezone.models.Asiento;
+import com.salesianostriana.cinezone.models.Reserva;
 import com.salesianostriana.cinezone.models.show.Show;
 import lombok.*;
 
@@ -27,6 +28,10 @@ public class AsientosShow {
     @MapsId("show_id")
     @JoinColumn(name="show_id")
     private Show show;
+
+    //@ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne
+    private Reserva reserva;
 
     private boolean esOcupado;
 

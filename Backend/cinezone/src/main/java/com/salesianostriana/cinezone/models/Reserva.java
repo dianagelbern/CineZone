@@ -1,5 +1,6 @@
 package com.salesianostriana.cinezone.models;
 
+import com.salesianostriana.cinezone.models.asientosshow.AsientosShow;
 import com.salesianostriana.cinezone.users.model.UserEntity;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -30,6 +31,15 @@ public class Reserva {
 
     //Asociar con asiento por medio de la nueva clase
 
-    @OneToMany
-    private List<Asiento> asientosReservados = new ArrayList<>();
+   /* @OneToMany(mappedBy = "reserva")
+    private List<AsientosShow> asientosReservados = new ArrayList<>();*/
+
+    @OneToOne
+    private AsientosShow asientoReservado;
+
+    //Cine
+    @ManyToOne
+    @JoinColumn(name = "cine_id")
+    private  Cine cine;
+
 }

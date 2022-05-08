@@ -73,6 +73,17 @@ public class CineService extends BaseService<Cine, Long, CineRepository> {
         }
     }
 
+    public  Cine find(Long id){
+        Optional<Cine> cine = findById(id);
+
+        if(cine.isPresent()){
+            return cine.get();
+        } else{
+            throw new SingleEntityNotFoundException(Cine.class);
+        }
+
+    }
+
     public Optional<?> deleteById(Long id, Cine c){
         Optional<Cine> cine  = findById(id);
         if (cine.isPresent()){

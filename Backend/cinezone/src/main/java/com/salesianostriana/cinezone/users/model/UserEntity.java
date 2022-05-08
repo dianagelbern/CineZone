@@ -88,4 +88,19 @@ public class UserEntity implements UserDetails, Serializable {
     public boolean isEnabled() {
         return true;
     }
+
+
+    //HELPERS
+
+    public void addReserva(Reserva reserva){
+        this.getReservas().add(reserva);
+        reserva.setUser(this);
+    }
+
+    public void removeReserva(Reserva reserva){
+        this.getReservas().remove(reserva);
+        reserva.setUser(null);
+    }
+
+
 }

@@ -5,15 +5,25 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 import java.util.UUID;
 
-@Repository
+
 public interface UserEntityRepository extends JpaRepository<UserEntity, UUID> {
 
     Optional<UserEntity> findFirstByEmail(String email);
+
+    @Query(value = """
+            SELECT *
+            FROM USER_ENTITY u
+            JOIN USER_RESERVAS r on (u.id = r.user_id)
+            WHERE r.user_id = :id
+            """, nativeQuery = true)
+    UserEntity findUserByReservaId(@Param("id") Long id);
+
 
     @Query("""
             SELECT p

@@ -68,7 +68,7 @@ public class UserController {
                     content = @Content),
     })
     @PostMapping("/auth/register/usuario")
-    public ResponseEntity<GetUserDto> nuevoUsuario(@Valid @RequestBody CreateUserDto newUser) throws Exception {
+    public ResponseEntity<GetUserDto> nuevoUsuario(@Valid @RequestPart CreateUserDto newUser) throws Exception {
 
         UserEntity saved = userEntityService.save(newUser, UserRole.USER);
 

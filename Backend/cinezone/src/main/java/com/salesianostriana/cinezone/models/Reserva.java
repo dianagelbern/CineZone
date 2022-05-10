@@ -1,5 +1,6 @@
 package com.salesianostriana.cinezone.models;
 
+import com.salesianostriana.cinezone.models.asientosshow.AsientosShow;
 import com.salesianostriana.cinezone.users.model.UserEntity;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -9,6 +10,35 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+
+@NamedEntityGraphs({
+        @NamedEntityGraph(
+                name = "grafo-reserva-user-asientoReservado-cine",
+                attributeNodes = {
+                        @NamedAttributeNode("user"),
+                        @NamedAttributeNode("asientoReservado"),
+                        @NamedAttributeNode("cine")
+                }
+        ),
+        @NamedEntityGraph(
+                name = "grafo-reserva-user",
+                attributeNodes = {
+                        @NamedAttributeNode("user")
+                }
+        ),
+        @NamedEntityGraph(
+                name = "grafo-reserva-asientoReservado",
+                attributeNodes = {
+                        @NamedAttributeNode("asientoReservado")
+                }
+        ),
+        @NamedEntityGraph(
+                name = "grafo-reserva-cine",
+                attributeNodes = {
+                        @NamedAttributeNode("cine")
+                }
+        )
+})
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,15 +51,26 @@ public class Reserva {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Builder.Default
     @CreatedDate
-    private LocalDateTime fecha;
+    private LocalDateTime fecha = LocalDateTime.now();
 
     //Usuario asociado
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
     private UserEntity user;
 
     //Asociar con asiento por medio de la nueva clase
 
-    @OneToMany
-    private List<Asiento> asientosReservados = new ArrayList<>();
+   /* @OneToMany(mappedBy = "reserva")
+    private List<AsientosShow> asientosReservados = new ArrayList<>();*/
+
+    @OneToOne(fetch = FetchType.LAZY)
+    private AsientosShow asientoReservado;
+
+    //Cine
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cine_id")
+    private  Cine cine;
+
 }

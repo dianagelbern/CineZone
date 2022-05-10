@@ -53,9 +53,14 @@ public class UserEntity implements UserDetails, Serializable {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @OneToMany
+
+    @Builder.Default
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Reserva> reservas = new ArrayList<>();
 
+
+
+    @Builder.Default
     @OneToMany
     private List<Tarjeta> tarjetas = new ArrayList<>();
 
@@ -88,4 +93,19 @@ public class UserEntity implements UserDetails, Serializable {
     public boolean isEnabled() {
         return true;
     }
+
+
+    //HELPERS
+
+    public void addReserva(Reserva reserva){
+        this.getReservas().add(reserva);
+        reserva.setUser(this);
+    }
+
+    public void removeReserva(Reserva reserva){
+        this.getReservas().remove(reserva);
+        reserva.setUser(null);
+    }
+
+
 }

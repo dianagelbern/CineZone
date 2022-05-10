@@ -1,6 +1,9 @@
-package com.salesianostriana.cinezone.models;
+package com.salesianostriana.cinezone.models.show;
 
 
+import com.salesianostriana.cinezone.models.Movie;
+import com.salesianostriana.cinezone.models.Sala;
+import com.salesianostriana.cinezone.models.asientosshow.AsientosShow;
 import lombok.*;
 
 import javax.persistence.*;
@@ -50,14 +53,19 @@ public class Show {
 
     //Sala asociada
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "show")
+    @JoinColumn(name = "sala_id")
     private Sala sala;
 
-    //private List<LocalDateTime> horarios = new ArrayList<>();
 
-    private LocalDate fecha_inicio;
+    @Builder.Default
+    @OneToMany(mappedBy = "show")
+    private List<AsientosShow> asientosShow = new ArrayList<>();
 
-    private LocalDate fecha_fin;
 
-    private String idioma, formato;
+    private LocalDateTime fecha;
+
+    private String idioma;
+
+    @Enumerated(EnumType.STRING)
+    private Formato formato;
 }

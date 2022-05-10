@@ -26,6 +26,7 @@ public class CineService extends BaseService<Cine, Long, CineRepository> {
     public Cine createCine(CreateCineDto createCineDto){
 
         Cine cine = Cine.builder()
+                .nombre(createCineDto.getNombre())
                 .plaza(createCineDto.getPlaza())
                 .latLon(createCineDto.getLatLon())
                 .direccion(createCineDto.getDireccion()).build();
@@ -64,6 +65,7 @@ public class CineService extends BaseService<Cine, Long, CineRepository> {
         Optional<Cine> c = repositorio.findById(id);
         if (c.isPresent()){
             Cine cine = c.get();
+            cine.setNombre(cineDto.getNombre());
             cine.setDireccion(cineDto.getDireccion());
             cine.setLatLon(cineDto.getLatLon());
             cine.setPlaza(cineDto.getPlaza());
@@ -71,6 +73,17 @@ public class CineService extends BaseService<Cine, Long, CineRepository> {
         }else {
             throw new SingleEntityNotFoundException(Cine.class, id);
         }
+    }
+
+    public  Cine find(Long id){
+        Optional<Cine> cine = findById(id);
+
+        if(cine.isPresent()){
+            return cine.get();
+        } else{
+            throw new SingleEntityNotFoundException(Cine.class);
+        }
+
     }
 
     public Optional<?> deleteById(Long id, Cine c){

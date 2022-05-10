@@ -1,5 +1,6 @@
 package com.salesianostriana.cinezone.models;
 
+import com.salesianostriana.cinezone.models.asientosshow.AsientosShow;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,11 +21,15 @@ public class Asiento {
 
     private int fila;
     private int numero;
-    private boolean esOcupado;
+    //private boolean esOcupado;
 
     @ManyToOne
     private Sala sala;
 
-    @ManyToOne
-    private Reserva reserva;
+
+    @OneToMany(mappedBy = "asiento")
+    private List<AsientosShow> asientosShows = new ArrayList<>();
+
+    /*@ManyToOne
+    private Reserva reserva;*/
 }

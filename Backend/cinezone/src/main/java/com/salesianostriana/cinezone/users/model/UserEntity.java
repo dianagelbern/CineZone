@@ -53,9 +53,14 @@ public class UserEntity implements UserDetails, Serializable {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @OneToMany
+
+    @Builder.Default
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Reserva> reservas = new ArrayList<>();
 
+
+
+    @Builder.Default
     @OneToMany
     private List<Tarjeta> tarjetas = new ArrayList<>();
 

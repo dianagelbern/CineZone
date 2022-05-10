@@ -19,18 +19,18 @@ public class AsientosShow {
     @EmbeddedId
     private AsientosShowPK id = new AsientosShowPK();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("asiento_id")
     @JoinColumn(name="asiento_id")
     private Asiento asiento;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @MapsId("show_id")
     @JoinColumn(name="show_id")
     private Show show;
 
     //@ManyToOne(fetch = FetchType.LAZY)
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private Reserva reserva;
 
     private boolean esOcupado;

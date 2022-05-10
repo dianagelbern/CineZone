@@ -2,6 +2,7 @@ package com.salesianostriana.cinezone.error;
 
 import com.salesianostriana.cinezone.error.exception.ExistingUserException;
 import com.salesianostriana.cinezone.error.exception.entitynotfound.SingleEntityNotFoundException;
+import com.salesianostriana.cinezone.error.exception.reservasexception.AsientosOcupadosException;
 import com.salesianostriana.cinezone.error.exception.storage.WrongFormatException;
 import com.salesianostriana.cinezone.error.model.ApiError;
 import com.salesianostriana.cinezone.error.model.ApiSubError;
@@ -129,6 +130,14 @@ public class GlobalRestControllerAdvice extends ResponseEntityExceptionHandler{
     public ResponseEntity<?> handleRequestAlreadySentException(EntityExistsException e, WebRequest request){
 
         return buildApiError(e,"La petición aún está por confirmarse" ,HttpStatus.resolve(409), request);
+
+    }
+
+
+    @ExceptionHandler({AsientosOcupadosException.class})
+    public ResponseEntity<?> handleAsientosOcupadosException (AsientosOcupadosException e, WebRequest request){
+
+        return buildApiError(e,e.getMessage() ,HttpStatus.resolve(409), request);
 
     }
 

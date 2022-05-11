@@ -6,16 +6,24 @@ import com.salesianostriana.cinezone.dto.reservadto.ReservaDtoConverter;
 import com.salesianostriana.cinezone.models.Reserva;
 import com.salesianostriana.cinezone.services.ReservaService;
 import com.salesianostriana.cinezone.users.model.UserEntity;
+import com.salesianostriana.cinezone.util.PaginationLinkUtils;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 @RestController
@@ -26,6 +34,7 @@ public class ReservaController {
 
     private final ReservaService reservaService;
     private final ReservaDtoConverter reservaDtoConverter;
+    private final PaginationLinkUtils paginationLinkUtils;
 
     @PostMapping
     public ResponseEntity<GetReservaDto> reservarAsiento(@RequestBody CreateReservaDto reservaDto, @AuthenticationPrincipal UserEntity currentUser){
@@ -36,4 +45,21 @@ public class ReservaController {
 
     }
 
+    @Operation(summary = "Muestra todas las reservas de un usuario")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se listan correctamente todas las reservas",
+                    content = { @Content(mediaType =  "application/json",
+                            schema = @Schema(implementation = UserEntity.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "La lista de reservas está vacía",
+                    content = @Content),
+    })
+    @GetMapping("/")
+    public ResponseEntity<Page<GetReservaDto>> findAllReservasByUser(@PageableDefault(size = 10, page = 0) Pageable pageable, HttpServletRequest request, @AuthenticationPrincipal UserEntity currentUser){
+        Page<Reserva> r = reservaService.findAllReservasByUser(pageable, currentUser);
+        Page<GetReservaDto> res = r.map(reservaDtoConverter::convertToGetReservaDto);
+        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(request.getRequestURL().toString());
+        return ResponseEntity.ok().header("link", paginationLinkUtils.createLinkHeader(res, uriComponentsBuilder)).body(res);
+    }
 }

@@ -1,6 +1,7 @@
 package com.salesianostriana.cinezone.services;
 
 import com.salesianostriana.cinezone.dto.reservadto.CreateReservaDto;
+import com.salesianostriana.cinezone.error.exception.entitynotfound.ListEntityNotFoundException;
 import com.salesianostriana.cinezone.error.exception.reservasexception.AsientosOcupadosException;
 import com.salesianostriana.cinezone.models.Asiento;
 import com.salesianostriana.cinezone.models.Cine;
@@ -12,6 +13,8 @@ import com.salesianostriana.cinezone.services.base.BaseService;
 import com.salesianostriana.cinezone.users.model.UserEntity;
 import com.salesianostriana.cinezone.users.service.UserEntityService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -77,5 +80,13 @@ public class ReservaService extends BaseService<Reserva, Long, ReservaRepository
 */
         return newReserva;
 
+    }
+
+    public Page<Reserva> findAllReservasByUser(Pageable pageable, UserEntity user){
+        if (repositorio.findAllReservasByUser(user.getId(), pageable).isEmpty()){
+            throw new ListEntityNotFoundException(Reserva.class);
+        }else {
+            return repositorio.findAllReservasByUser(user.getId(), pageable);
+        }
     }
 }

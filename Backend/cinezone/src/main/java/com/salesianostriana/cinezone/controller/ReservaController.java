@@ -36,6 +36,16 @@ public class ReservaController {
     private final ReservaDtoConverter reservaDtoConverter;
     private final PaginationLinkUtils paginationLinkUtils;
 
+    @Operation(summary = "Crear una nueva reserva")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Se creó correctamente la reserva",
+                    content = { @Content(mediaType =  "application/json",
+                            schema = @Schema(implementation = UserEntity.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "No se pudo crear la reserva",
+                    content = @Content),
+    })
     @PostMapping
     public ResponseEntity<GetReservaDto> reservarAsiento(@RequestBody CreateReservaDto reservaDto, @AuthenticationPrincipal UserEntity currentUser){
 

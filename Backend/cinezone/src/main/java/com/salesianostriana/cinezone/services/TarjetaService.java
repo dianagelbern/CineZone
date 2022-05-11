@@ -1,12 +1,15 @@
 package com.salesianostriana.cinezone.services;
 
 import com.salesianostriana.cinezone.dto.tarjetadto.CreateTarjetaDto;
+import com.salesianostriana.cinezone.error.exception.entitynotfound.ListEntityNotFoundException;
 import com.salesianostriana.cinezone.models.Tarjeta;
 import com.salesianostriana.cinezone.repos.TarjetaRepository;
 import com.salesianostriana.cinezone.services.base.BaseService;
 import com.salesianostriana.cinezone.users.model.UserEntity;
 import com.salesianostriana.cinezone.users.service.UserEntityService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,6 +28,14 @@ public class TarjetaService extends BaseService<Tarjeta, Long, TarjetaRepository
         repositorio.save(newTarjeta);
         userEntityService.save(currentUser);
         return newTarjeta;
+    }
+
+    public Page<Tarjeta> findAllTarjetasByUser(Pageable pageable, UserEntity user){
+        if (repositorio.findAllTarjetasByUser(user.getId(), pageable).isEmpty()){
+            throw new ListEntityNotFoundException(Tarjeta.class);
+        }else {
+            return repositorio.findAllTarjetasByUser(user.getId(), pageable);
+        }
     }
 
 }

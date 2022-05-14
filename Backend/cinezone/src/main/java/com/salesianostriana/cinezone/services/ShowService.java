@@ -12,8 +12,13 @@ import com.salesianostriana.cinezone.repos.ShowRepository;
 import com.salesianostriana.cinezone.services.base.BaseService;
 import com.sun.xml.bind.v2.runtime.unmarshaller.XsiNilLoader;
 import lombok.RequiredArgsConstructor;
+import org.joda.time.DateTime;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,7 +30,7 @@ public class ShowService extends BaseService<Show, Long, ShowRepository> {
     private final MovieService movieService;
     private final CineService cineService;
 
-    public Show createShow(CreateShowDto newShow){
+    public Show createShow(CreateShowDto newShow) {
 
 
         Movie movie = movieService.find(newShow.getIdMovie());
@@ -34,7 +39,7 @@ public class ShowService extends BaseService<Show, Long, ShowRepository> {
 
         //Si la sala no pertenece al cine, excepcion
 
-        if(cine.getSalas().contains(sala)){
+        if (cine.getSalas().contains(sala)) {
 
             Show show = Show.builder()
                     .sala(sala) //optionalSala.get()
@@ -42,11 +47,12 @@ public class ShowService extends BaseService<Show, Long, ShowRepository> {
                     .cine(cine)
                     .fecha(newShow.getFecha())
                     .formato(newShow.getFormato())
+                    .hora(newShow.getHora())
                     .idioma(newShow.getIdioma())
                     .build();
 
             repositorio.save(show);
-            for (Asiento asiento : sala.getAsientos()){
+            for (Asiento asiento : sala.getAsientos()) {
 
                 asientosShowService.crearAsientoParaShow(asiento, show);
 
@@ -56,20 +62,22 @@ public class ShowService extends BaseService<Show, Long, ShowRepository> {
         } else throw new RelacionInvalidaException("La sala no pertenece a ese cine.");
 
 
-
-
     }
 
 
-    public Show find(Long id){
+    public Show find(Long id) {
         Optional<Show> optionalShow = findById(id);
 
-        if(optionalShow.isPresent()){
+        if (optionalShow.isPresent()) {
             return optionalShow.get();
         } else {
             throw new SingleEntityNotFoundException(Show.class);
         }
 
+    }
+
+    public Page<Show> finAllShowsByMovie(Pageable pageable, Long id, LocalDate fecha) {
+        return repositorio.findAllShowsByMovieId(pageable, id, fecha);
     }
 
 

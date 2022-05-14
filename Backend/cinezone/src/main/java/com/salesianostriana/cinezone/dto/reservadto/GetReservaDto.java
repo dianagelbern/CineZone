@@ -13,7 +13,7 @@ import java.util.UUID;
 public class GetReservaDto {
 
     public UUID id;
-    public String sala, butaca, movie, formato, cine, email, fecha, fechaShow;
+    public String sala, butaca, movie, formato, cine, email, fecha, horaShow, fechaShow;
 
 
 }

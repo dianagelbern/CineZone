@@ -3,7 +3,9 @@ package com.salesianostriana.cinezone.dto.showdto;
 import com.salesianostriana.cinezone.models.show.Formato;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -22,7 +24,9 @@ public class GetShowDto {
 
     private Formato formato;
 
-    private LocalDateTime fecha;
+    private LocalDate fecha;
+
+    private LocalTime hora;
 
 
 }

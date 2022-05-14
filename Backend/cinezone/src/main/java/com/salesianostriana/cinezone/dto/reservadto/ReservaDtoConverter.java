@@ -26,6 +26,7 @@ public class ReservaDtoConverter {
                 .sala(reserva.getAsientoReservado().getAsiento().getSala().getNombre())
                 .fecha(reserva.getFecha().toString())
                 .fechaShow(reserva.getAsientoReservado().getShow().getFecha().toString())
+                .horaShow(reserva.getAsientoReservado().getShow().getHora().toString())
                 .build();
 
 

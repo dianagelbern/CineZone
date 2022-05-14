@@ -12,6 +12,7 @@ public class ShowDtoConverter {
         return GetShowDto.builder()
                 .id(show.getId())
                 .fecha(show.getFecha())
+                .hora(show.getHora())
                 .formato(show.getFormato())
                 .movieImagen(show.getMovie().getImagen())
                 .movieTitulo(show.getMovie().getTitulo())

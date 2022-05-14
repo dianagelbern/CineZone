@@ -14,6 +14,8 @@ public class CreateShowDto {
 
     private Long idMovie;
 
+    private Long idCine;
+
     private Long idSala;
 
     private LocalDateTime fecha;

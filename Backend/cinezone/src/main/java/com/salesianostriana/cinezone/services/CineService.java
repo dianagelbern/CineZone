@@ -34,7 +34,8 @@ public class CineService extends BaseService<Cine, Long, CineRepository> {
         repositorio.save(cine);
 
         for (int i = 1; i <= createCineDto.getNumSalas(); i++){
-            salaService.createSala("Sala "+i, cine);
+            Sala newSala = salaService.createSala("Sala "+i, cine);
+            cine.getSalas().add(newSala);
             repositorio.save(cine);
         }
 

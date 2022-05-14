@@ -1,6 +1,7 @@
 package com.salesianostriana.cinezone.models.show;
 
 
+import com.salesianostriana.cinezone.models.Cine;
 import com.salesianostriana.cinezone.models.Movie;
 import com.salesianostriana.cinezone.models.Sala;
 import com.salesianostriana.cinezone.models.asientosshow.AsientosShow;
@@ -68,4 +69,8 @@ public class Show {
 
     @Enumerated(EnumType.STRING)
     private Formato formato;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cine_id")
+    private Cine cine;
 }

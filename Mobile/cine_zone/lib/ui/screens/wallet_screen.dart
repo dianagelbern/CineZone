@@ -1,6 +1,12 @@
+import 'package:cine_zone/bloc/tarjeta_bloc/tarjeta_bloc.dart';
+import 'package:cine_zone/models/tarjeta/tarjeta_response.dart';
+import 'package:cine_zone/repository/tarjeta_repository/tarjeta_repository.dart';
+import 'package:cine_zone/repository/tarjeta_repository/tarjeta_repository_impl.dart';
 import 'package:cine_zone/ui/screens/menu_screen.dart';
+import 'package:cine_zone/ui/widgets/error_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WalletScreen extends StatefulWidget {
   const WalletScreen({Key? key}) : super(key: key);
@@ -10,58 +16,142 @@ class WalletScreen extends StatefulWidget {
 }
 
 class _WalletScreenState extends State<WalletScreen> {
+  late TarjetaRepository tarjetaRepository;
+
+  String get page => '0';
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    tarjetaRepository = TarjetaRepositoryImpl();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color(0xFF2F2C44),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new_rounded),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        leadingWidth: 100,
-        title: Text('Walllet'),
-      ),
-      body: SingleChildScrollView(child: _tarjetas()),
-    );
-  }
-
-  Widget _tarjetas() {
-    return Container(
-      child: Column(
-        children: [
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Tarjetas y cuentas',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600),
-                ),
-                TextButton(
-                    onPressed: () {},
-                    child: Text('+ Añadir',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600)))
-              ],
-            ),
+    return BlocProvider(
+      create: (context) {
+        return TarjetaBloc(tarjetaRepository)..add(FetchTarjetaWithPage(page));
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color(0xFF2F2C44),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios_new_rounded),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
-          _walletCard(),
-          Divider(color: Colors.grey, height: 3),
-        ],
+          leadingWidth: 100,
+          title: Text('Walllet'),
+        ),
+        body: _createTarjetasView(context),
       ),
     );
   }
 
-  Widget _walletCard() {
+  Widget _createTarjetasView(BuildContext context) {
+    return BlocBuilder<TarjetaBloc, TarjetaState>(builder: (context, state) {
+      if (state is TarjetaInitial) {
+        return const Center(
+          child: CircularProgressIndicator.adaptive(),
+        );
+      } else if (state is TarjetaFetchError) {
+        return ErrorPage(
+            message: state.message,
+            retry: () {
+              context.watch<TarjetaBloc>()..add(FetchTarjetaWithPage(page));
+            });
+      } else if (state is TarjetaFetched) {
+        return Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Tarjetas y cuentas',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600),
+                    ),
+                    TextButton(
+                        onPressed: () {},
+                        child: Text('+ Añadir',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600)))
+                  ],
+                ),
+              ),
+              _walletList(
+                  context, state.tarjetas.map((e) => e as Tarjeta).toList()),
+            ],
+          ),
+        );
+      } else {
+        return Text('Not support');
+      }
+    });
+  }
+
+  /*
+  Container(
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Tarjetas y cuentas',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600),
+                    ),
+                    TextButton(
+                        onPressed: () {},
+                        child: Text('+ Añadir',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600)))
+                  ],
+                ),
+              ),
+              _walletList(
+                  context, state.tarjetas.map((e) => e as Tarjeta).toList()),
+              Divider(color: Colors.grey, height: 3),
+            ],
+          ),
+        );
+  */
+
+  Widget _walletList(BuildContext context, List<Tarjeta> tarjetas) {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const BouncingScrollPhysics(),
+      itemBuilder: (BuildContext context, int index) {
+        return _walletCard(context, tarjetas.elementAt(index));
+      },
+      itemCount: tarjetas.length,
+    );
+  }
+
+  Widget _walletCard(BuildContext context, Tarjeta tarjeta) {
     return Column(
       children: [
         Container(
@@ -80,7 +170,7 @@ class _WalletScreenState extends State<WalletScreen> {
                 margin: EdgeInsets.only(left: 20),
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  '**** **** **** 2345',
+                  tarjeta.noTarjeta.toString(),
                   style: TextStyle(color: Colors.white, fontSize: 25),
                 ),
               ),
@@ -88,7 +178,7 @@ class _WalletScreenState extends State<WalletScreen> {
                 margin: EdgeInsets.only(left: 20, bottom: 25),
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Nombre del usuario',
+                  tarjeta.titular,
                   style: TextStyle(color: Colors.white, fontSize: 12),
                 ),
               ),
@@ -96,7 +186,7 @@ class _WalletScreenState extends State<WalletScreen> {
                 margin: EdgeInsets.only(left: 20, bottom: 25, right: 90),
                 alignment: Alignment.bottomRight,
                 child: Text(
-                  '22/30',
+                  tarjeta.fechaCad,
                   style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
               )
@@ -116,6 +206,10 @@ class _WalletScreenState extends State<WalletScreen> {
                   fontWeight: FontWeight.w600),
             ),
           ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(bottom: 20),
+          child: Divider(color: Colors.grey, height: 3),
         )
       ],
     );

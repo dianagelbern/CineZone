@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.UUID;
 
-public interface ReservaRepository extends JpaRepository<Reserva, Long> {
+public interface ReservaRepository extends JpaRepository<Reserva, UUID> {
 
 
     @Query(value = """

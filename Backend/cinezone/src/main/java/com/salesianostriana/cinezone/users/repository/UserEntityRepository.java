@@ -22,7 +22,7 @@ public interface UserEntityRepository extends JpaRepository<UserEntity, UUID> {
             JOIN USER_RESERVAS r on (u.id = r.user_id)
             WHERE r.user_id = :id
             """, nativeQuery = true)
-    UserEntity findUserByReservaId(@Param("id") Long id);
+    UserEntity findUserByReservaId(@Param("id") UUID id);
 
 
     @Query("""

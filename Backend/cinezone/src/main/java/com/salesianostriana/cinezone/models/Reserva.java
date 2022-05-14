@@ -3,12 +3,14 @@ package com.salesianostriana.cinezone.models;
 import com.salesianostriana.cinezone.models.asientosshow.AsientosShow;
 import com.salesianostriana.cinezone.users.model.UserEntity;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 @NamedEntityGraphs({
@@ -48,8 +50,19 @@ import java.util.List;
 public class Reserva {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator",
+            parameters = {
+                    @org.hibernate.annotations.Parameter(
+                            name = "uuid_gen_strategy_class",
+                            value = "org.hibernate.id.uuid.CustomVersionOneStrategy"
+                    )
+            }
+    )
+    @Column(name = "id", updatable = false, nullable = false)
+    private UUID id;
 
     @Builder.Default
     @CreatedDate

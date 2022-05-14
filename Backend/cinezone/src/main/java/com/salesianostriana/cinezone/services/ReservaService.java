@@ -19,10 +19,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class ReservaService extends BaseService<Reserva, Long, ReservaRepository> {
+public class ReservaService extends BaseService<Reserva, UUID, ReservaRepository> {
 
     private final UserEntityService userEntityService;
     private final ShowService showService;

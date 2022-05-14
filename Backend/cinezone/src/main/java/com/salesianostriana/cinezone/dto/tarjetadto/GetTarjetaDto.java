@@ -14,7 +14,7 @@ public class GetTarjetaDto {
 
     private Long id;
 
-    private int no_tarjeta;
+    private String no_tarjeta;
 
     private LocalDate fecha_cad;
 

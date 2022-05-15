@@ -106,7 +106,7 @@ public class MovieController {
                     content = @Content),
     })
     @PutMapping("/{id}")
-    public ResponseEntity<GetMovieDto> edit(@Valid @RequestBody CreateMovieDto movieDto, @PathVariable Long id){
+    public ResponseEntity<GetMovieDto> edit(@Valid @RequestPart("movie") CreateMovieDto movieDto, @PathVariable Long id){
         Movie nuevaM = movieService.edit(movieDto, id);
         GetMovieDto nuevaMDto = movieDtoConverter.convertMovieToGetMovieDto(nuevaM);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevaMDto);

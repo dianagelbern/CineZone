@@ -129,4 +129,21 @@ public class UserController {
             return ResponseEntity.noContent().build();
 
     }
+
+    @Operation(summary = "Editar un usuario por id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Se editó correctamente el usuario",
+                    content = { @Content(mediaType =  "application/json",
+                            schema = @Schema(implementation = UserEntity.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "No existe el usuario",
+                    content = @Content),
+    })
+    @PutMapping("/usuario/")
+    public ResponseEntity<GetUserDto> editUser(@Valid @RequestBody CreateUserDto userDto, @AuthenticationPrincipal UserEntity currentUser){
+        UserEntity user = userEntityService.edit(userDto, currentUser);
+        GetUserDto newUserDto = userDtoConverter.convertUserToGetUserDto(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newUserDto);
+    }
 }

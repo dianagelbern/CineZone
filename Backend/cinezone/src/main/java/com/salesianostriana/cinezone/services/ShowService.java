@@ -81,4 +81,12 @@ public class ShowService extends BaseService<Show, Long, ShowRepository> {
     }
 
 
+    public Page<Show> findAllShowsByCine(Pageable pageable, Long id, LocalDate fecha){
+        return repositorio.finsAllShowsByCineId(pageable, id, fecha);
+    }
+
+
+    public Page<Show> findAllShowsBySala(Pageable pageable, Long id, LocalDate fecha){
+        return repositorio.findAllShowsBySalaAndFecha(pageable, id, fecha);
+    }
 }

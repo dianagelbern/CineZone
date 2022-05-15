@@ -4,6 +4,7 @@ package com.salesianostriana.cinezone.users.service;
 import com.salesianostriana.cinezone.error.exception.ExistingUserException;
 import com.salesianostriana.cinezone.error.exception.entitynotfound.EntityNotFoundException;
 import com.salesianostriana.cinezone.error.exception.entitynotfound.ListEntityNotFoundException;
+import com.salesianostriana.cinezone.error.exception.entitynotfound.SingleEntityNotFoundException;
 import com.salesianostriana.cinezone.services.GoogleCloudStorageService;
 import com.salesianostriana.cinezone.services.base.BaseService;
 import com.salesianostriana.cinezone.services.base.StorageService;
@@ -80,6 +81,17 @@ public class UserEntityService extends BaseService <UserEntity, UUID, UserEntity
             throw new ExistingUserException();
         }
 
+
+    }
+
+    public UserEntity edit(CreateUserDto userDto,  UserEntity usuario){
+        Optional<UserEntity> u = repositorio.findById(usuario.getId());
+            UserEntity newU = u.get();
+            newU.setNombre(userDto.getNombre());
+            newU.setEmail(userDto.getEmail());
+            newU.setFechaNacimiento(userDto.getFechaNacimiento());
+            newU.setTelefono(userDto.getTelefono());
+            return repositorio.save(newU);
 
     }
 

@@ -48,4 +48,12 @@ public interface ShowRepository extends JpaRepository<Show, Long> {
             """, nativeQuery = true)
     Page<Show> finsAllShowsByCineId(Pageable pageable, @Param("id") Long idcine, @Param("fecha") LocalDate fecha);
 
+
+    @Query(value= """
+            SELECT *
+            FROM SHOW s
+            WHERE s.sala_id = :id
+            AND s.fecha = :fecha
+            """, nativeQuery = true)
+    Page<Show> findAllShowsBySalaAndFecha(Pageable pageable, @Param("id") Long idSala, @Param("fecha") LocalDate fecha);
 }

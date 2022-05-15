@@ -96,4 +96,24 @@ public class ShowController {
         return ResponseEntity.ok().header("link", paginationLinkUtils.createLinkHeader(res, uriComponentsBuilder)).body(res);
     }
 
+
+    @Operation(summary = "Muestra todos los shows con una sala relacionado en una fecha determinada")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se listan correctamente todos los shows",
+                    content = { @Content(mediaType =  "application/json",
+                            schema = @Schema(implementation = UserEntity.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "La lista de shows está vacía",
+                    content = @Content),
+    })
+    @GetMapping("/sala/{sala_id}/date/{fecha}")
+    public ResponseEntity<Page<GetShowDto>> findAllShowsBySalaAndDate(@PageableDefault(size = 10, page = 0) Pageable pageable, HttpServletRequest request, @PathVariable Long sala_id, @PathVariable String fecha){
+        LocalDate date = LocalDate.parse(fecha);
+        Page<Show> s = showService.findAllShowsByCine(pageable, sala_id, date);
+        Page<GetShowDto> res = s.map(showDtoConverter::convertToGetShowDto);
+        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(request.getRequestURL().toString());
+
+        return ResponseEntity.ok().header("link", paginationLinkUtils.createLinkHeader(res, uriComponentsBuilder)).body(res);
+    }
 }

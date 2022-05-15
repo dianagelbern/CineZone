@@ -38,4 +38,14 @@ public interface ShowRepository extends JpaRepository<Show, Long> {
             """, nativeQuery = true)
     Page<Show> findAllShowsByMovieId(Pageable pageable, @Param("id") Long idmovie, @Param("fecha") LocalDate fecha);
 
+
+    @Query(value= """
+            SELECT *
+            FROM SHOW s
+            WHERE s.cine_id = :id
+            AND s.fecha = :fecha
+            ORDER BY movie
+            """, nativeQuery = true)
+    Page<Show> finsAllShowsByCineId(Pageable pageable, @Param("id") Long idcine, @Param("fecha") LocalDate fecha);
+
 }

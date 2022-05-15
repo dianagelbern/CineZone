@@ -5,7 +5,13 @@ import com.salesianostriana.cinezone.dto.saladto.SalaDtoConverter;
 import com.salesianostriana.cinezone.models.Cine;
 import com.salesianostriana.cinezone.models.Sala;
 import com.salesianostriana.cinezone.services.SalaService;
+import com.salesianostriana.cinezone.users.model.UserEntity;
 import com.salesianostriana.cinezone.util.PaginationLinkUtils;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +37,16 @@ public class SalaController {
     private final PaginationLinkUtils paginationLinkUtils;
 
     //TODO: Al momento de crear el número de salas, si esta es mayor al size del pageable peta
+    @Operation(summary = "Muestra todas las salas relacionadas con un cine")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se listan correctamente todas las salas",
+                    content = { @Content(mediaType =  "application/json",
+                            schema = @Schema(implementation = UserEntity.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "La lista de salas está vacía",
+                    content = @Content),
+    })
     @GetMapping("/{id}/cineSala")
     public ResponseEntity<Page<GetSalaDto>> findAllSalasByCineId(@PageableDefault(size = 11, page = 0)Pageable pageable, HttpServletRequest request, @PathVariable Long id){
         Page<Sala> s = salaService.findAllSalasByCine(pageable, id);
@@ -39,6 +55,16 @@ public class SalaController {
         return ResponseEntity.ok().header("link", paginationLinkUtils.createLinkHeader(res, uriComponentsBuilder)).body(res);
     }
 
+    @Operation(summary = "Elimina una sala por id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Se eliminó correctamente la sala",
+                    content = { @Content(mediaType =  "application/json",
+                            schema = @Schema(implementation = UserEntity.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "No existe la sala",
+                    content = @Content),
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById(@PathVariable Long id, Sala sala){
         salaService.deleteById(id, sala);

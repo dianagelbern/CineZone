@@ -834,3 +834,15 @@ Caused by: java.lang.IllegalArgumentException: :fecha
 	at org.h2.util.DateTimeUtils.parseDateValue(DateTimeUtils.java:166)
 	at org.h2.value.ValueDate.parse(ValueDate.java:72)
 	... 165 more
+2022-05-15 17:37:52 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT * FROM SHOW WHERE CINE_ID = 1 AND FECHA :[*]'2023-05-05'"
+Syntax error in SQL statement "SELECT * FROM SHOW WHERE CINE_ID = 1 AND FECHA :[*]'2023-05-05'"; SQL statement:
+SELECT * FROM SHOW WHERE CINE_ID = 1 AND FECHA :'2023-05-05' [42000-200]
+2022-05-15 17:37:58 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT * FROM SHOW WHERE CINE_ID = 1 AND FECHA DATE[*]:'2023-05-05'"
+Syntax error in SQL statement "SELECT * FROM SHOW WHERE CINE_ID = 1 AND FECHA DATE[*]:'2023-05-05'"; SQL statement:
+SELECT * FROM SHOW WHERE CINE_ID = 1 AND FECHA date:'2023-05-05' [42000-200]
+2022-05-15 17:38:17 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT * FROM SHOW WHERE CINE_ID = 1 AND FECHA DATE[*]'2023-05-05'"
+Syntax error in SQL statement "SELECT * FROM SHOW WHERE CINE_ID = 1 AND FECHA DATE[*]'2023-05-05'"; SQL statement:
+SELECT * FROM SHOW WHERE CINE_ID = 1 AND FECHA date'2023-05-05' [42000-200]

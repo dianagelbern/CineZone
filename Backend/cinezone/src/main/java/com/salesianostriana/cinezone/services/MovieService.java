@@ -82,7 +82,6 @@ public class MovieService extends BaseService<Movie, Long, MovieRepository>{
             nueva.setDirector(movieDto.getDirector());
             nueva.setDuracion(movieDto.getDuracion());
             nueva.setGenero(movieDto.getGenero());
-            nueva.setImagen(movieDto.getImagen());
             nueva.setProductora(movieDto.getProductora());
             nueva.setSinopsis(movieDto.getSinopsis());
             nueva.setTitulo(movieDto.getTitulo());

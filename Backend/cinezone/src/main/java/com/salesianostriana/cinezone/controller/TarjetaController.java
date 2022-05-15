@@ -72,4 +72,11 @@ public class TarjetaController {
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(request.getRequestURL().toString());
         return ResponseEntity.ok().header("link", paginationLinkUtils.createLinkHeader(res, uriComponentsBuilder)).body(res);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteTarjetaById(@PathVariable Long id){
+        tarjetaService.deleteTarjetaById(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

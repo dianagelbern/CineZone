@@ -39,10 +39,14 @@ public class SecutiryConfig extends WebSecurityConfigurerAdapter {
     private final JwtAuthorizationFilter filter;
     private final JwtAccesDeniedHandler accessDeniedHandler;
 
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
+
+
+
 
     @Bean
     @Override
@@ -54,6 +58,7 @@ public class SecutiryConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .cors().configurationSource(corsConfigurationSource()).and()
                 .csrf().disable()
                 .exceptionHandling()
                 .authenticationEntryPoint(authenticationEntryPoint)
@@ -98,13 +103,12 @@ public class SecutiryConfig extends WebSecurityConfigurerAdapter {
 
     }
 
+    @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        List<String> allowOrigins = Arrays.asList("*");
-        configuration.setAllowedOrigins(allowOrigins);
-        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
-        //in case authentication is enabled this flag MUST be set, otherwise CORS requests will fail
-        configuration.setAllowCredentials(true);
+        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST","DELETE","PUT"));
+        configuration.setAllowedHeaders(Collections.singletonList("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

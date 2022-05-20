@@ -68,36 +68,37 @@ class _WalletScreenState extends State<WalletScreen> {
               context.watch<TarjetaBloc>()..add(FetchTarjetaWithPage(page));
             });
       } else if (state is TarjetaFetched) {
-        return Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Tarjetas y cuentas',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    TextButton(
-                        onPressed: () {},
-                        child: Text('+ Añadir',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600)))
-                  ],
+        return SingleChildScrollView(
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Tarjetas y cuentas',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      TextButton(
+                          onPressed: () {},
+                          child: Text('+ Añadir',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600)))
+                    ],
+                  ),
                 ),
-              ),
-              _walletList(
-                  context, state.tarjetas.map((e) => e as Tarjeta).toList()),
-            ],
+                _walletList(context, state.tarjetas.map((e) => e).toList()),
+              ],
+            ),
           ),
         );
       } else {
@@ -141,77 +142,84 @@ class _WalletScreenState extends State<WalletScreen> {
   */
 
   Widget _walletList(BuildContext context, List<Tarjeta> tarjetas) {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const BouncingScrollPhysics(),
-      itemBuilder: (BuildContext context, int index) {
-        return _walletCard(context, tarjetas.elementAt(index));
-      },
-      itemCount: tarjetas.length,
+    return Flexible(
+      child: Container(
+          margin: EdgeInsets.only(bottom: 70),
+          child: ListView.builder(
+            shrinkWrap: true,
+            physics: const BouncingScrollPhysics(),
+            itemBuilder: (BuildContext context, int index) {
+              return _walletCard(context, tarjetas.elementAt(index));
+            },
+            itemCount: tarjetas.length,
+          )),
     );
   }
 
   Widget _walletCard(BuildContext context, Tarjeta tarjeta) {
-    return Column(
-      children: [
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 30),
-          width: 330,
-          height: 212,
-          child: Stack(
-            children: [
-              Container(
-                  decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage("assets/images/card1.png"),
-                    fit: BoxFit.cover),
-              )),
-              Container(
-                margin: EdgeInsets.only(left: 20),
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  tarjeta.noTarjeta.toString(),
-                  style: TextStyle(color: Colors.white, fontSize: 25),
+    return Container(
+      margin: EdgeInsets.only(bottom: 30),
+      child: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 30),
+            width: 330,
+            height: 212,
+            child: Stack(
+              children: [
+                Container(
+                    decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage("assets/images/card1.png"),
+                      fit: BoxFit.cover),
+                )),
+                Container(
+                  margin: EdgeInsets.only(left: 20),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    tarjeta.noTarjeta.toString(),
+                    style: TextStyle(color: Colors.white, fontSize: 25),
+                  ),
                 ),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 20, bottom: 25),
-                alignment: Alignment.bottomLeft,
-                child: Text(
-                  tarjeta.titular,
-                  style: TextStyle(color: Colors.white, fontSize: 12),
+                Container(
+                  margin: EdgeInsets.only(left: 20, bottom: 25),
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    tarjeta.titular,
+                    style: TextStyle(color: Colors.white, fontSize: 12),
+                  ),
                 ),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 20, bottom: 25, right: 90),
-                alignment: Alignment.bottomRight,
-                child: Text(
-                  tarjeta.fechaCad,
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
-              )
-            ],
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 30),
-          alignment: Alignment.centerRight,
-          child: TextButton(
-            onPressed: () {},
-            child: Text(
-              'Eliminar tarjeta',
-              style: TextStyle(
-                  color: Color(0xFFD74343),
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600),
+                Container(
+                  margin: EdgeInsets.only(left: 20, bottom: 25, right: 90),
+                  alignment: Alignment.bottomRight,
+                  child: Text(
+                    tarjeta.fechaCad,
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                )
+              ],
             ),
           ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(bottom: 20),
-          child: Divider(color: Colors.grey, height: 3),
-        )
-      ],
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 30),
+            alignment: Alignment.centerRight,
+            child: TextButton(
+              onPressed: () {},
+              child: Text(
+                'Eliminar tarjeta',
+                style: TextStyle(
+                    color: Color(0xFFD74343),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(bottom: 20),
+            child: Divider(color: Colors.grey, height: 3),
+          )
+        ],
+      ),
     );
   }
 

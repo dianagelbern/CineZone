@@ -44,6 +44,7 @@ dev_dependencies:
   equatable: ^2.0.3
   flutter_bloc: ^8.0.1
   sidebarx: ^0.3.0+1
+  syncfusion_flutter_datagrid: ^20.1.56
 
 
   # The "flutter_lints" package below contains a set of recommended lints to

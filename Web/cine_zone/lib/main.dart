@@ -1,4 +1,5 @@
 import 'package:cine_zone/ui/screens/login_screen.dart';
+import 'package:cine_zone/ui/screens/menu_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       initialRoute: '/',
       routes: {
-        '/': (context) => const LoginScreen(), //MenuScreen
+        '/': (context) => const MenuScreen(), //MenuScreen
       },
     );
   }

@@ -45,11 +45,12 @@ public class CineService extends BaseService<Cine, Long, CineRepository> {
 
 
     public Page<Cine> findAllCines(Pageable pageable){
-        if (repositorio.findAll(pageable).isEmpty()){
+        /*if (repositorio.findAll(pageable).isEmpty()){
             throw new ListEntityNotFoundException(Cine.class);
         }else {
             return repositorio.findAll(pageable);
-        }
+        }*/
+        return repositorio.findAll(pageable);
     }
 
     public Optional<Cine> findById(Long id, Cine cine){

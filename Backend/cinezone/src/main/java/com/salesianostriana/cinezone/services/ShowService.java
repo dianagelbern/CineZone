@@ -1,8 +1,11 @@
 package com.salesianostriana.cinezone.services;
 
 import com.salesianostriana.cinezone.dto.showdto.CreateShowDto;
+import com.salesianostriana.cinezone.error.exception.entitynotfound.EntityNotFoundException;
 import com.salesianostriana.cinezone.error.exception.entitynotfound.SingleEntityNotFoundException;
+import com.salesianostriana.cinezone.error.exception.reservasexception.AsientosOcupadosException;
 import com.salesianostriana.cinezone.error.exception.reservasexception.RelacionInvalidaException;
+import com.salesianostriana.cinezone.error.exception.reservasexception.ShowEnCursoException;
 import com.salesianostriana.cinezone.models.Asiento;
 import com.salesianostriana.cinezone.models.Cine;
 import com.salesianostriana.cinezone.models.Movie;
@@ -75,6 +78,7 @@ public class ShowService extends BaseService<Show, Long, ShowRepository> {
         }
 
     }
+
 
     public Page<Show> finAllShowsByMovie(Pageable pageable, Long id, LocalDate fecha) {
         return repositorio.findAllShowsByMovieId(pageable, id, fecha);

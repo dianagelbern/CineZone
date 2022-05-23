@@ -1,16 +1,26 @@
+import 'package:cine_zone/repository/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Shared {
   static late SharedPreferences _prefs;
 
-  static Future<bool> setString(String key, String value) async {
+  static Future<void> setToken(String token) async {
     _prefs = await SharedPreferences.getInstance();
-    return await _prefs.setString(key, value);
+
+    await _prefs.setString(Constant.bearerToken, token);
   }
 
-  static Future<String?> getString(String key) async {
+  static Future<String> getToken() async {
     _prefs = await SharedPreferences.getInstance();
-    return _prefs.getString(key);
+    final currentToken = _prefs.getString(Constant.bearerToken);
+
+    return currentToken ?? '';
+  }
+
+  static Future<void> removeToken() async {
+    _prefs = await SharedPreferences.getInstance();
+
+    _prefs.remove(Constant.bearerToken);
   }
 
   //deletes..

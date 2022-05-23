@@ -1,3 +1,4 @@
+import 'package:cine_zone/ui/screens/landing_screen.dart';
 import 'package:cine_zone/ui/screens/login_screen.dart';
 import 'package:cine_zone/ui/screens/menu_screen.dart';
 import 'package:flutter/material.dart';
@@ -17,9 +18,11 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Color(0xFF1C1A29),
       ),
       title: 'Flutter Demo',
-      initialRoute: '/',
+      initialRoute: '/landing',
       routes: {
-        '/': (context) => const MenuScreen(), //MenuScreen
+        '/menu': (context) => const MenuScreen(),
+        '/login': ((context) => const LoginScreen()),
+        '/landing': ((context) => const LandingScreen()), //MenuScreen
       },
     );
   }

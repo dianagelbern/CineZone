@@ -4,6 +4,7 @@ import com.salesianostriana.cinezone.error.exception.ExistingUserException;
 import com.salesianostriana.cinezone.error.exception.entitynotfound.SingleEntityNotFoundException;
 import com.salesianostriana.cinezone.error.exception.reservasexception.AsientosOcupadosException;
 import com.salesianostriana.cinezone.error.exception.reservasexception.RelacionInvalidaException;
+import com.salesianostriana.cinezone.error.exception.reservasexception.ShowEnCursoException;
 import com.salesianostriana.cinezone.error.exception.storage.WrongFormatException;
 import com.salesianostriana.cinezone.error.model.ApiError;
 import com.salesianostriana.cinezone.error.model.ApiSubError;
@@ -120,6 +121,14 @@ public class GlobalRestControllerAdvice extends ResponseEntityExceptionHandler{
 
     @ExceptionHandler({RelacionInvalidaException.class})
     public ResponseEntity<?> handleRelacionInvalidaException(RelacionInvalidaException e, WebRequest request) {
+
+        return this.buildApiError(e, HttpStatus.resolve(409), request);
+
+
+    }
+
+    @ExceptionHandler({ShowEnCursoException.class})
+    public ResponseEntity<?> ShowEnCursoException(RelacionInvalidaException e, WebRequest request) {
 
         return this.buildApiError(e, HttpStatus.resolve(409), request);
 

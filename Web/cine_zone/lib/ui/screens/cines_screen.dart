@@ -1,5 +1,18 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cine_zone/bloc/get_cines_bloc/get_cines_bloc.dart';
+
+import 'package:cine_zone/models/cine/cine_response.dart';
+import 'package:cine_zone/repository/cine_repository/cine_repository.dart';
+import 'package:cine_zone/repository/cine_repository/cine_repository_impl.dart';
+
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+//List<Cine> _paginatedCines = [];
+//List<Cine> _cines = [];
+//int _rowsPerPage = 10;
+//List<Cine> cinesData = [];
 
 class CinesScreen extends StatefulWidget {
   const CinesScreen({Key? key}) : super(key: key);
@@ -11,12 +24,203 @@ class CinesScreen extends StatefulWidget {
 class _CinesScreenState extends State<CinesScreen> {
   TextEditingController searchController = TextEditingController();
 
+  late GetCinesBloc _getCinesBloc;
+  late CineRepository cineRepository;
+
+  //CineDataSource? cineDataSource;
+  int page = 0;
+  List<Cine> cinesData = [];
+  /*
+  
+  List<Cine> cines = <Cine>[];
+
+
+  List<DataGridRow> dataGridRows = [];
+  final double _dataPagerHeight = 60.0;
+  */
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    cineRepository = CineRepositoryImpl();
+    _getCinesBloc = GetCinesBloc(cineRepository)..add(DoGetCinesEvent("$page"));
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _opciones(),
+    return BlocProvider(
+      create: (context) => _getCinesBloc,
+      child: Scaffold(
+        body: Column(
+          children: [
+            _opciones(),
+            _blocBuilderCines(context),
+          ],
+        ),
+      ),
     );
   }
+
+  _blocBuilderCines(BuildContext context) {
+    return BlocBuilder<GetCinesBloc, GetCinesState>(
+      builder: (context, state) {
+        if (state is GetCinesInitial) {
+          return Center(child: CircularProgressIndicator());
+        } else if (state is GetCinesErrorState) {
+          return Text(state.message);
+        } else if (state is GetCinesSuccessState) {
+          //cineDataSource = CineDataSource(cineData: state.cineList);
+          cinesData = state.cineList;
+          return _tabla(context, cinesData);
+          //_tabla(context, CineDataSource(cineData: state.cineList));
+        } else {
+          return Text("");
+        }
+      },
+    );
+  }
+
+  Widget _tabla(BuildContext context, List<Cine> cines) {
+    return Container(
+      width: 1180,
+      child: Column(
+        children: [
+          SizedBox(
+            height: 10,
+          ),
+          PaginatedDataTable(
+            source: CineDataSource(cineData: cines),
+            columns: const [
+              DataColumn(
+                  label: Text(
+                'ID',
+                style: TextStyle(
+                    color: Color(0xFF000000),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14),
+              )),
+              DataColumn(
+                  label: Text('Nombre del cine',
+                      style: TextStyle(
+                          color: Color(0xFF000000),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14))),
+              DataColumn(
+                  label: Text('Dirección',
+                      style: TextStyle(
+                          color: Color(0xFF000000),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14))),
+              DataColumn(
+                  label: Text('Latitud-Longitud',
+                      style: TextStyle(
+                          color: Color(0xFF000000),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14))),
+              DataColumn(
+                  label: Text('Plaza',
+                      style: TextStyle(
+                          color: Color(0xFF000000),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14))),
+              DataColumn(
+                  label: Text('Más acciones',
+                      style: TextStyle(
+                          color: Color(0xFF000000),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14))),
+            ],
+            columnSpacing: 120,
+            horizontalMargin: 10,
+            rowsPerPage: 8,
+            showCheckboxColumn: false,
+            arrowHeadColor: Color(0xFF848484),
+          )
+        ],
+      ),
+    );
+  }
+
+  /*
+  _tabla(BuildContext context, CineDataSource cineDataSource) {
+    return Column(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          margin: EdgeInsets.all(30),
+          child: SfDataGrid(
+            footer: Row(children: [
+              ElevatedButton(
+                  onPressed: () {
+                    if (page >= 0) {
+                      setState(() {
+                        page--;
+                      });
+                    }
+                  },
+                  child: Text("<-")),
+              ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      page = page + 1;
+                    });
+                    BlocProvider.of<GetCinesBloc>(context)
+                        .add(DoGetCinesEvent("$page"));
+                    print("Pulsado, $page");
+                  },
+                  child: Text("->"))
+            ]),
+            source: cineDataSource,
+            columnWidthMode: ColumnWidthMode.fill,
+            allowMultiColumnSorting: true,
+            columns: <GridColumn>[
+              GridColumn(
+                  columnName: 'ID',
+                  label: Container(
+                      color: Colors.white,
+                      padding: EdgeInsets.all(16.0),
+                      alignment: Alignment.center,
+                      child: Text(
+                        'ID',
+                      ))),
+              GridColumn(
+                  columnName: 'Nombre',
+                  label: Container(
+                      color: Colors.white,
+                      padding: EdgeInsets.all(8.0),
+                      alignment: Alignment.center,
+                      child: Text('Nombre'))),
+              GridColumn(
+                  columnName: 'Direccion',
+                  label: Container(
+                      color: Colors.white,
+                      padding: EdgeInsets.all(8.0),
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Direccion',
+                        overflow: TextOverflow.ellipsis,
+                      ))),
+              GridColumn(
+                  columnName: 'Plaza',
+                  label: Container(
+                      color: Colors.white,
+                      padding: EdgeInsets.all(8.0),
+                      alignment: Alignment.center,
+                      child: Text('Plaza'))),
+            ],
+            selectionMode: SelectionMode.single,
+            rowsPerPage: 10,
+          ),
+        )
+      ],
+    );
+  }
+
+  */
 
   Widget _opciones() {
     return Container(
@@ -104,4 +308,56 @@ class _CinesScreenState extends State<CinesScreen> {
       ),
     );
   }
+}
+
+class CineDataSource extends DataTableSource {
+  CineDataSource({required List<Cine> cineData}) {
+    _cineData = cineData;
+  }
+  List<Cine> _cineData = [];
+
+  @override
+  DataRow? getRow(int index) {
+    return DataRow(
+      onLongPress: () =>
+          print("Seleccionada toda la fila ${_cineData[index].id}"),
+      cells: [
+        DataCell(Text(_cineData[index].id.toString())),
+        DataCell(Text(_cineData[index].nombre)),
+        DataCell(Text(_cineData[index].direccion.toString())),
+        DataCell(Text(_cineData[index].latLon.toString())),
+        DataCell(Text(_cineData[index].plaza.toString())),
+        DataCell(Row(
+          children: [
+            TextButton(
+                onPressed: () {
+                  print("seleccionado ${_cineData[index].id}");
+                },
+                child: Icon(
+                  Icons.edit,
+                  color: Color(0xFF624DE3),
+                )),
+            TextButton(
+                onPressed: () {},
+                child: Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                ))
+          ],
+        ))
+      ],
+    );
+  }
+
+  @override
+  // TODO: implement isRowCountApproximate
+  bool get isRowCountApproximate => false;
+
+  @override
+  // TODO: implement rowCount
+  int get rowCount => _cineData.length;
+
+  @override
+  // TODO: implement selectedRowCount
+  int get selectedRowCount => 0;
 }

@@ -12,7 +12,7 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Future<LoginResponse> login(LoginDto loginDto) async {
-    var tkn = await Shared.getString(Constant.bearerToken);
+    var tkn = await Shared.getToken();
 
     Map<String, String> headers = {
       'Content-Type': 'application/json',

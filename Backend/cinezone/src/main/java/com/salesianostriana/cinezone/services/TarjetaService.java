@@ -34,11 +34,7 @@ public class TarjetaService extends BaseService<Tarjeta, Long, TarjetaRepository
     }
 
     public Page<Tarjeta> findAllTarjetasByUser(Pageable pageable, UserEntity user){
-        if (repositorio.findAllTarjetasByUser(user.getId(), pageable).isEmpty()){
-            throw new ListEntityNotFoundException(Tarjeta.class);
-        }else {
-            return repositorio.findAllTarjetasByUser(user.getId(), pageable);
-        }
+        return repositorio.findAllTarjetasByUser(user.getId(), pageable);
     }
 
     public Optional<?> deleteTarjetaById(Long id){

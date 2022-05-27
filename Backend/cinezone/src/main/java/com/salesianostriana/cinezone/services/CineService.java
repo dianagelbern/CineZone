@@ -45,11 +45,7 @@ public class CineService extends BaseService<Cine, Long, CineRepository> {
 
 
     public Page<Cine> findAllCines(Pageable pageable){
-        /*if (repositorio.findAll(pageable).isEmpty()){
-            throw new ListEntityNotFoundException(Cine.class);
-        }else {
-            return repositorio.findAll(pageable);
-        }*/
+
         return repositorio.findAll(pageable);
     }
 
@@ -88,6 +84,7 @@ public class CineService extends BaseService<Cine, Long, CineRepository> {
 
     }
 
+    /*
     public Optional<?> deleteById(Long id, Cine c){
         Optional<Cine> cine  = findById(id);
         if (cine.isPresent()){
@@ -96,4 +93,5 @@ public class CineService extends BaseService<Cine, Long, CineRepository> {
             throw new EntityNotFoundException("No se encontró ningún cine con ese id");
         }
     }
+     */
 }

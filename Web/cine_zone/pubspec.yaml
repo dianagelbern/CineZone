@@ -45,6 +45,7 @@ dev_dependencies:
   flutter_bloc: ^8.0.1
   sidebarx: ^0.3.0+1
   syncfusion_flutter_datagrid: ^20.1.56
+  localstorage: ^4.0.0+1
 
 
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -70,6 +71,7 @@ flutter:
    - assets/images/fondo.png
    - assets/images/logo.svg
    - assets/images/logo.png
+   - assets/images/error.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

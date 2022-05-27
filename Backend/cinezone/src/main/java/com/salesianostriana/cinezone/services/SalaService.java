@@ -47,9 +47,6 @@ public class SalaService extends BaseService<Sala, Long, SalaRepository> {
     }
 
     public Page<Sala> findAllSalasByCine(Pageable pageable, Long id){
-        if (repositorio.encuentraSalasByCineId(pageable, id).isEmpty()){
-            throw new ListEntityNotFoundException(Sala.class);
-        } else
             return repositorio.encuentraSalasByCineId(pageable, id);
     }
 

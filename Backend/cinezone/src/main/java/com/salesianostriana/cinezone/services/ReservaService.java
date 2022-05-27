@@ -72,10 +72,6 @@ public class ReservaService extends BaseService<Reserva, UUID, ReservaRepository
     }
 
     public Page<Reserva> findAllReservasByUser(Pageable pageable, UserEntity user){
-        if (repositorio.findAllReservasByUser(user.getId(), pageable).isEmpty()){
-            throw new ListEntityNotFoundException(Reserva.class);
-        }else {
-            return repositorio.findAllReservasByUser(user.getId(), pageable);
-        }
+        return repositorio.findAllReservasByUser(user.getId(), pageable);
     }
 }

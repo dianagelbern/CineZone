@@ -57,11 +57,7 @@ public class MovieService extends BaseService<Movie, Long, MovieRepository>{
     }
 
     public Page<Movie> findAllMovies(Pageable pageable){
-        if (repositorio.findAll(pageable).isEmpty()){
-            throw new ListEntityNotFoundException(Movie.class);
-        }else{
-            return repositorio.findAll(pageable);
-        }
+        return repositorio.findAll(pageable);
     }
 
     public Optional<Movie> findMovieById(Long id, Movie movie){

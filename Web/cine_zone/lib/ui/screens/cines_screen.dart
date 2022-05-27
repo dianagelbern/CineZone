@@ -23,9 +23,11 @@ class CinesScreen extends StatefulWidget {
 
 class _CinesScreenState extends State<CinesScreen> {
   TextEditingController searchController = TextEditingController();
+  final key = new GlobalKey<PaginatedDataTableState>();
 
   late GetCinesBloc _getCinesBloc;
   late CineRepository cineRepository;
+  int _rowsPerPage = 10;
 
   //CineDataSource? cineDataSource;
   int page = 0;
@@ -69,7 +71,20 @@ class _CinesScreenState extends State<CinesScreen> {
         if (state is GetCinesInitial) {
           return Center(child: CircularProgressIndicator());
         } else if (state is GetCinesErrorState) {
-          return Text(state.message);
+          return Center(
+            child: Column(
+              children: [
+                Container(
+                  width: 500,
+                  child: Image.asset('assets/images/error.png'),
+                ),
+                Text(
+                  "Oops.. " + state.message,
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                )
+              ],
+            ),
+          );
         } else if (state is GetCinesSuccessState) {
           //cineDataSource = CineDataSource(cineData: state.cineList);
           cinesData = state.cineList;
@@ -91,6 +106,7 @@ class _CinesScreenState extends State<CinesScreen> {
             height: 10,
           ),
           PaginatedDataTable(
+            key: key,
             source: CineDataSource(cineData: cines),
             columns: const [
               DataColumn(
@@ -126,7 +142,7 @@ class _CinesScreenState extends State<CinesScreen> {
                           fontWeight: FontWeight.bold,
                           fontSize: 14))),
               DataColumn(
-                  label: Text('Más acciones',
+                  label: Text('Más',
                       style: TextStyle(
                           color: Color(0xFF000000),
                           fontWeight: FontWeight.bold,
@@ -134,10 +150,22 @@ class _CinesScreenState extends State<CinesScreen> {
             ],
             columnSpacing: 120,
             horizontalMargin: 10,
-            rowsPerPage: 8,
+            rowsPerPage: _rowsPerPage,
             showCheckboxColumn: false,
             arrowHeadColor: Color(0xFF848484),
-          )
+
+            /*
+            onPageChanged: (int n) {
+              BlocProvider.of<GetCinesBloc>(context)
+                  .add(DoGetCinesEvent(n.toString()));
+              //setState(() {});
+              key.currentState!.pageTo(n);
+              setState(() {
+                page = page + 1;
+              });
+            },
+            */
+          ),
         ],
       ),
     );
@@ -337,12 +365,6 @@ class CineDataSource extends DataTableSource {
                   Icons.edit,
                   color: Color(0xFF624DE3),
                 )),
-            TextButton(
-                onPressed: () {},
-                child: Icon(
-                  Icons.delete,
-                  color: Colors.red,
-                ))
           ],
         ))
       ],

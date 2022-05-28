@@ -24,10 +24,11 @@ class CinesScreen extends StatefulWidget {
 class _CinesScreenState extends State<CinesScreen> {
   TextEditingController searchController = TextEditingController();
   final key = new GlobalKey<PaginatedDataTableState>();
+  var _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
+  late CinesResponse _cine;
 
   late GetCinesBloc _getCinesBloc;
   late CineRepository cineRepository;
-  int _rowsPerPage = 10;
 
   //CineDataSource? cineDataSource;
   int page = 0;
@@ -87,8 +88,8 @@ class _CinesScreenState extends State<CinesScreen> {
           );
         } else if (state is GetCinesSuccessState) {
           //cineDataSource = CineDataSource(cineData: state.cineList);
-          cinesData = state.cineList;
-          return _tabla(context, cinesData);
+          //cinesData = state.cineList;
+          return _tabla(context, state.cineList);
           //_tabla(context, CineDataSource(cineData: state.cineList));
         } else {
           return Text("");
@@ -97,9 +98,10 @@ class _CinesScreenState extends State<CinesScreen> {
     );
   }
 
-  Widget _tabla(BuildContext context, List<Cine> cines) {
+  Widget _tabla(BuildContext context, CinesResponse cines) {
+    cinesData = cines.content;
     return Container(
-      width: 1180,
+      width: 1000,
       child: Column(
         children: [
           SizedBox(
@@ -107,7 +109,7 @@ class _CinesScreenState extends State<CinesScreen> {
           ),
           PaginatedDataTable(
             key: key,
-            source: CineDataSource(cineData: cines),
+            source: CineDataSource(cineData: cinesData),
             columns: const [
               DataColumn(
                   label: Text(
@@ -148,11 +150,28 @@ class _CinesScreenState extends State<CinesScreen> {
                           fontWeight: FontWeight.bold,
                           fontSize: 14))),
             ],
-            columnSpacing: 120,
+            columnSpacing: 100,
             horizontalMargin: 10,
             rowsPerPage: _rowsPerPage,
+            initialFirstRowIndex: 0,
             showCheckboxColumn: false,
             arrowHeadColor: Color(0xFF848484),
+            onPageChanged: (int n) {
+              //cines.last != false
+              setState(() {
+                if (page != null) {
+                  if (CineDataSource(cineData: cinesData)._rowCount - page <
+                      _rowsPerPage) {
+                    _rowsPerPage =
+                        CineDataSource(cineData: cinesData)._rowCount - page;
+                  } else {
+                    _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
+                  }
+                } else {
+                  _rowsPerPage = 0;
+                }
+              });
+            },
 
             /*
             onPageChanged: (int n) {
@@ -343,41 +362,46 @@ class CineDataSource extends DataTableSource {
     _cineData = cineData;
   }
   List<Cine> _cineData = [];
+  final _rowCount = 10;
 
   @override
   DataRow? getRow(int index) {
-    return DataRow(
-      onLongPress: () =>
-          print("Seleccionada toda la fila ${_cineData[index].id}"),
-      cells: [
-        DataCell(Text(_cineData[index].id.toString())),
-        DataCell(Text(_cineData[index].nombre)),
-        DataCell(Text(_cineData[index].direccion.toString())),
-        DataCell(Text(_cineData[index].latLon.toString())),
-        DataCell(Text(_cineData[index].plaza.toString())),
-        DataCell(Row(
-          children: [
-            TextButton(
-                onPressed: () {
-                  print("seleccionado ${_cineData[index].id}");
-                },
-                child: Icon(
-                  Icons.edit,
-                  color: Color(0xFF624DE3),
-                )),
-          ],
-        ))
-      ],
-    );
+    if (index < _rowCount) {
+      return DataRow(
+        onLongPress: () =>
+            print("Seleccionada toda la fila ${_cineData[index].id}"),
+        cells: [
+          DataCell(Text(_cineData[index].id.toString())),
+          DataCell(Text(_cineData[index].nombre)),
+          DataCell(Text(_cineData[index].direccion.toString())),
+          DataCell(Text(_cineData[index].latLon.toString())),
+          DataCell(Text(_cineData[index].plaza.toString())),
+          DataCell(Row(
+            children: [
+              TextButton(
+                  onPressed: () {
+                    print("seleccionado ${_cineData[index].id}");
+                  },
+                  child: Icon(
+                    Icons.edit,
+                    color: Color(0xFF624DE3),
+                  )),
+            ],
+          ))
+        ],
+      );
+    } else {
+      return null;
+    }
   }
 
   @override
   // TODO: implement isRowCountApproximate
-  bool get isRowCountApproximate => false;
+  bool get isRowCountApproximate => true;
 
   @override
   // TODO: implement rowCount
-  int get rowCount => _cineData.length;
+  int get rowCount => _rowCount;
 
   @override
   // TODO: implement selectedRowCount

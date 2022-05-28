@@ -11,7 +11,7 @@ class CineRepositoryImpl extends CineRepository {
   final Client _client = Client();
 
   @override
-  Future<List<Cine>> fetchCines(String page) async {
+  Future<CinesResponse> fetchCines(String page) async {
     //var tkn = await Shared.getToken();
 
     var tkn = window.localStorage[Constant.bearerToken];
@@ -21,9 +21,7 @@ class CineRepositoryImpl extends CineRepository {
         headers: {'Authorization': 'Bearer $tkn'});
 
     if (response.statusCode == 200) {
-      return CinesResponse.fromJson(json.decode(response.body))
-          .content
-          .toList();
+      return CinesResponse.fromJson(json.decode(response.body));
     } else {
       throw Exception(response.statusCode);
     }

@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Color(0xFF1C1A29),
       ),
       title: 'Flutter Demo',
-      initialRoute: window.localStorage[Constant.bearerToken]!.isEmpty
+      initialRoute: window.localStorage[Constant.bearerToken] != null
           ? '/menu'
           : '/login',
       routes: {

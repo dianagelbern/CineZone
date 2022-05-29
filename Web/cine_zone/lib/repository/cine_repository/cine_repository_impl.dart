@@ -17,7 +17,7 @@ class CineRepositoryImpl extends CineRepository {
     var tkn = window.localStorage[Constant.bearerToken];
 
     final response = await _client.get(
-        Uri.parse('${Constant.apiBaseUrl}/cine/?page=0'),
+        Uri.parse('${Constant.apiBaseUrl}/cine/?page=$page'),
         headers: {'Authorization': 'Bearer $tkn'});
 
     if (response.statusCode == 200) {

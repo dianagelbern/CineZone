@@ -3,7 +3,9 @@ package com.salesianostriana.cinezone.services;
 import com.salesianostriana.cinezone.dto.tarjetadto.CreateTarjetaDto;
 import com.salesianostriana.cinezone.error.exception.entitynotfound.EntityNotFoundException;
 import com.salesianostriana.cinezone.error.exception.entitynotfound.ListEntityNotFoundException;
+import com.salesianostriana.cinezone.error.exception.entitynotfound.SingleEntityNotFoundException;
 import com.salesianostriana.cinezone.models.Tarjeta;
+import com.salesianostriana.cinezone.models.show.Show;
 import com.salesianostriana.cinezone.repos.TarjetaRepository;
 import com.salesianostriana.cinezone.services.base.BaseService;
 import com.salesianostriana.cinezone.users.model.UserEntity;
@@ -44,6 +46,17 @@ public class TarjetaService extends BaseService<Tarjeta, Long, TarjetaRepository
         }else{
             throw new EntityNotFoundException("No se encontró ninguna tarjeta con ese id");
         }
+    }
+
+    public Tarjeta find(Long id) {
+        Optional<Tarjeta> optionalTarjeta = findById(id);
+
+        if (optionalTarjeta.isPresent()) {
+            return optionalTarjeta.get();
+        } else {
+            throw new SingleEntityNotFoundException(Tarjeta.class);
+        }
+
     }
 
 }

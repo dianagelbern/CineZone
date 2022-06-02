@@ -108,4 +108,15 @@ public class UserEntity implements UserDetails, Serializable {
     }
 
 
+    public void addTarjeta(Tarjeta tarjeta){
+        getTarjetas().add(tarjeta);
+        tarjeta.setUsuario(this);
+    }
+
+    public void removeTarjeta(Tarjeta tarjeta){
+        getTarjetas().remove(tarjeta);
+        tarjeta.setUsuario(null);
+    }
+
+
 }

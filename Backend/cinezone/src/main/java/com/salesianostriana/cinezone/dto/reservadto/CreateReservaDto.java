@@ -2,6 +2,7 @@ package com.salesianostriana.cinezone.dto.reservadto;
 
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -19,5 +20,11 @@ public class CreateReservaDto {
 
     private Long asientoId;
 
+    private Long tarjetaId;
 
+    private String no_tarjeta;
+
+    private LocalDate fecha_cad;
+
+    private String titular;
 }

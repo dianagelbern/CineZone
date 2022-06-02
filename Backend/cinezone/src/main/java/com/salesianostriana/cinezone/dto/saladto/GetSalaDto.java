@@ -12,4 +12,5 @@ public class GetSalaDto {
     private Long id;
 
     private String nombre;
+
 }

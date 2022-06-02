@@ -13,6 +13,15 @@ public class SalaDtoConverter {
         return GetSalaDto.builder()
                 .id(s.getId())
                 .nombre(s.getNombre())
+
+                .build();
+    }
+
+    public GetSalaDto convertSalaToGetSalaDetailsDto(Sala s){
+        return GetSalaDto.builder()
+                .id(s.getId())
+                .nombre(s.getNombre())
+
                 .build();
     }
 

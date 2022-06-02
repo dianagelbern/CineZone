@@ -50,6 +50,9 @@ public class SalaService extends BaseService<Sala, Long, SalaRepository> {
             return repositorio.encuentraSalasByCineId(pageable, id);
     }
 
+    public Page<Sala> findAllSalasByCineDetails(Pageable pageable, Long id){
+        return repositorio.encuentraSalasByCineIdDetails(pageable, id);
+    }
 
     public Sala find(Long id){
         Optional<Sala> optionalSala = repositorio.findById(id);

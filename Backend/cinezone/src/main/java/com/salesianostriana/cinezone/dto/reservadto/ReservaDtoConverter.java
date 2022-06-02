@@ -28,8 +28,6 @@ public class ReservaDtoConverter {
                 .fechaShow(reserva.getAsientoReservado().getShow().getFecha().toString())
                 .horaShow(reserva.getAsientoReservado().getShow().getHora().toString())
                 .build();
-
-
     }
 
 }

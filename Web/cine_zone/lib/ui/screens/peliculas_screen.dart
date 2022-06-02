@@ -13,7 +13,14 @@ class _PeliculasScreenState extends State<PeliculasScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: _opciones());
+    return Scaffold(
+        body: Column(
+      children: [
+        _opciones(),
+
+        //
+      ],
+    ));
   }
 
   Widget _opciones() {

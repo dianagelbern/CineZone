@@ -55,6 +55,25 @@ public class SalaController {
         return ResponseEntity.ok().header("link", paginationLinkUtils.createLinkHeader(res, uriComponentsBuilder)).body(res);
     }
 
+
+    @Operation(summary = "Muestra todas las salas relacionadas con un cine")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se listan correctamente todas las salas",
+                    content = { @Content(mediaType =  "application/json",
+                            schema = @Schema(implementation = UserEntity.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "La lista de salas está vacía",
+                    content = @Content),
+    })
+    @GetMapping("/{id}/cineSalaDetail")
+    public ResponseEntity<Page<GetSalaDto>> findAllSalasByCineIdDetails(@PageableDefault(size = 11, page = 0)Pageable pageable, HttpServletRequest request, @PathVariable Long id){
+        Page<Sala> s = salaService.findAllSalasByCineDetails(pageable, id);
+        Page<GetSalaDto> res = s.map(salaDtoConverter::convertSalaToGetSalaDto);
+        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(request.getRequestURL().toString());
+        return ResponseEntity.ok().header("link", paginationLinkUtils.createLinkHeader(res, uriComponentsBuilder)).body(res);
+    }
+
     @Operation(summary = "Elimina una sala por id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201",

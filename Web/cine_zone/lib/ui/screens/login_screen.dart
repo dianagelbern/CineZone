@@ -1,4 +1,6 @@
-import 'package:cine_zone/bloc/bloc/login_bloc.dart';
+import 'dart:html';
+
+import 'package:cine_zone/bloc/login_bloc/login_bloc.dart';
 import 'package:cine_zone/models/auth/login_dto.dart';
 import 'package:cine_zone/repository/auth_repository/auth_repository.dart';
 import 'package:cine_zone/repository/auth_repository/auth_repository_impl.dart';
@@ -102,12 +104,21 @@ class _LoginScreenState extends State<LoginScreen> {
       return state is LoginSuccessState || state is LoginErrorState;
     }, listener: (context, state) {
       if (state is LoginSuccessState) {
-        Shared.setString(Constant.bearerToken, state.loginResponse.token);
+        //print(state.loginResponse.token);
+        //Shared.setToken(state.loginResponse.token);
 
-        Navigator.push(
+        window.localStorage
+            .addAll({Constant.bearerToken: state.loginResponse.token});
+        /*
+        window.localStorage.clear();
+        */
+
+        /*    Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const MenuScreen()),
-        );
+        ); */
+
+        Navigator.pushNamed(context, '/menu');
       } else if (state is LoginErrorState) {
         _showSnackbar(context, state.message);
       }

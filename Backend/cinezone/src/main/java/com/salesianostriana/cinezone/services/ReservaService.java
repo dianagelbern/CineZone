@@ -7,6 +7,7 @@ import com.salesianostriana.cinezone.error.exception.reservasexception.RelacionI
 import com.salesianostriana.cinezone.models.Asiento;
 import com.salesianostriana.cinezone.models.Cine;
 import com.salesianostriana.cinezone.models.Reserva;
+import com.salesianostriana.cinezone.models.Tarjeta;
 import com.salesianostriana.cinezone.models.asientosshow.AsientosShow;
 import com.salesianostriana.cinezone.models.asientosshow.AsientosShowPK;
 import com.salesianostriana.cinezone.models.show.Show;
@@ -30,28 +31,43 @@ public class ReservaService extends BaseService<Reserva, UUID, ReservaRepository
     private final UserEntityService userEntityService;
     private final ShowService showService;
     private final CineService cineService;
+    private final TarjetaService tarjetaService;
 
     private final AsientosShowService asientoShowService;
 
-    public Reserva createReserva(CreateReservaDto reservaDto, UserEntity currentUser){
+    public Reserva createReserva(CreateReservaDto reservaDto, UserEntity currentUser) {
 
         Cine cine = cineService.find(reservaDto.getCineId());
         Show show = showService.find(reservaDto.getShowId());
 
 
-        if(show.getCine() == cine){
-
-
-            AsientosShow asiento = asientoShowService.find(new AsientosShowPK(reservaDto.getAsientoId(), reservaDto.getShowId()));
-
-
+        if (show.getCine() == cine) {
             Reserva newReserva = Reserva.builder()
                     .user(currentUser)
                     .cine(cine)
                     .build();
 
+            if (reservaDto.getTarjetaId() != null) {
+                Tarjeta tarjeta = tarjetaService.find(reservaDto.getTarjetaId());
+                newReserva.setTarjeta(tarjeta);
+            } else {
 
-            if(asiento.isEsOcupado()){
+                Tarjeta newTarjeta = Tarjeta.builder()
+                        .fecha_cad(reservaDto.getFecha_cad())
+                        .titular(reservaDto.getTitular())
+                        .no_tarjeta(reservaDto.getNo_tarjeta())
+                        .build();
+                tarjetaService.save(newTarjeta);
+                currentUser.addTarjeta(newTarjeta);
+                userEntityService.save(currentUser);
+
+            }
+
+
+            AsientosShow asiento = asientoShowService.find(new AsientosShowPK(reservaDto.getAsientoId(), reservaDto.getShowId()));
+
+
+            if (asiento.isEsOcupado()) {
                 throw new AsientosOcupadosException(asiento.getAsiento().getNumero(), asiento.getAsiento().getFila());
             } else {
                 asiento.setEsOcupado(true);
@@ -68,14 +84,9 @@ public class ReservaService extends BaseService<Reserva, UUID, ReservaRepository
         } else throw new RelacionInvalidaException("El show no pertenece al cine");
 
 
-
     }
 
-    public Page<Reserva> findAllReservasByUser(Pageable pageable, UserEntity user){
-        if (repositorio.findAllReservasByUser(user.getId(), pageable).isEmpty()){
-            throw new ListEntityNotFoundException(Reserva.class);
-        }else {
-            return repositorio.findAllReservasByUser(user.getId(), pageable);
-        }
+    public Page<Reserva> findAllReservasByUser(Pageable pageable, UserEntity user) {
+        return repositorio.findAllReservasByUser(user.getId(), pageable);
     }
 }

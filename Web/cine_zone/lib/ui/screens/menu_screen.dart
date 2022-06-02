@@ -1,3 +1,6 @@
+import 'dart:html';
+
+import 'package:cine_zone/repository/constants.dart';
 import 'package:cine_zone/ui/screens/cines_screen.dart';
 import 'package:cine_zone/ui/screens/peliculas_screen.dart';
 import 'package:cine_zone/ui/screens/perfil_screen.dart';
@@ -27,6 +30,13 @@ class _MenuScreenState extends State<MenuScreen> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print("DESDE MENU SCREEN ${window.localStorage[Constant.bearerToken]}");
   }
 
   @override

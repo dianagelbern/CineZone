@@ -21,6 +21,22 @@ public interface SalaRepository extends JpaRepository<Sala, Long> {
     Page<Sala> encuentraSalasByCineId(Pageable pageable, @Param("id")Long id);
 
 
+    //SELECT * FROM SALA JOIN(SELECT COUNT(*) as num_asientos FROM ASIENTO as asiento WHERE SALA_ID = 1 ) JOIN cine as cine WHERE cine = 1
+    //SELECT * FROM SALA as sala JOIN(SELECT COUNT(*) as num_asientos FROM ASIENTO as asiento GROUP BY sala_id ) JOIN cine as cine WHERE cine = 1 GROUP BY sala.id
+    @Query(value = """
+            SELECT *
+            FROM Sala as sala
+            JOIN(
+                SELECT COUNT(*) as num_asientos 
+                FROM ASIENTO as asiento 
+                GROUP BY sala_id)
+            JOIN cine as cine
+            WHERE cine = :id
+            GROUP BY sala.id
+            """, nativeQuery = true)
+    Page<Sala> encuentraSalasByCineIdDetails(Pageable pageable, @Param("id")Long id);
+
+
 
 
 }

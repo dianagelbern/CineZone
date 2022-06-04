@@ -2,6 +2,7 @@ package com.salesianostriana.cinezone.services;
 
 import com.google.auth.Credentials;
 import com.google.auth.oauth2.GoogleCredentials;
+import com.salesianostriana.cinezone.services.base.StorageService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import com.google.cloud.storage.*;
@@ -13,14 +14,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 @Service
-public class GoogleCloudStorageService {
+public class GoogleCloudStorageService implements StorageService {
 
 
     @Value("${gcp.bucket.name}")
     private String bucketName;
 
-
-    public String uploadFile(MultipartFile file) {
+    @Override
+    public String store(MultipartFile file) {
         Storage storage = StorageOptions.getDefaultInstance().getService();
         try {
             Credentials credentials = GoogleCredentials

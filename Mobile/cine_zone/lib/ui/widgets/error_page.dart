@@ -17,9 +17,9 @@ class ErrorPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            message,
-            textAlign: TextAlign.center,
+          Container(
+            width: 300,
+            child: Image.asset('assets/images/nada.png'),
           ),
           ElevatedButton(
             onPressed: () => retry,

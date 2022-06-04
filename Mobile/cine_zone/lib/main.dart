@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: const Color(0xFF1C1A29),
       ),
       title: 'Flutter Demo',
-      initialRoute: '/',
+      initialRoute: '/login',
       routes: {
         '/': (context) => const MenuScreen(), //MenuScreen
         '/home': (context) => const HomeScreen(),

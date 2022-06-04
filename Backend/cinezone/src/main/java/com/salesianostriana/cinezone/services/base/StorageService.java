@@ -10,21 +10,21 @@ import java.util.stream.Stream;
 
 public interface StorageService {
 
-    void init();
+    //void init();
 
     String store(MultipartFile file);
 
-    Stream<Path> loadAll();
+    //Stream<Path> loadAll();
 
-    Path load(String filename);
+    //Path load(String filename);
 
-    MediaTypeUrlResource loadAsResource(String filename);
+    //MediaTypeUrlResource loadAsResource(String filename);
 
-    void deleteFile(String filename) throws IOException;
+    //void deleteFile(String filename) throws IOException;
 
-    void deleteAll();
+    //void deleteAll();
 
 
 
-    BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws Exception;
+    //BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws Exception;
 }

@@ -107,40 +107,6 @@ class _WalletScreenState extends State<WalletScreen> {
     });
   }
 
-  /*
-  Container(
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Tarjetas y cuentas',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    TextButton(
-                        onPressed: () {},
-                        child: Text('+ Añadir',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600)))
-                  ],
-                ),
-              ),
-              _walletList(
-                  context, state.tarjetas.map((e) => e as Tarjeta).toList()),
-              Divider(color: Colors.grey, height: 3),
-            ],
-          ),
-        );
-  */
-
   Widget _walletList(BuildContext context, List<Tarjeta> tarjetas) {
     return Flexible(
       child: Container(

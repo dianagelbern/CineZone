@@ -30,16 +30,16 @@ public class MovieService extends BaseService<Movie, Long, MovieRepository>{
 
     public Movie createMovie(CreateMovieDto movieDtoConverter, MultipartFile file) throws Exception {
 
-        String filename = storageService.store(file);
-        BufferedImage original = ImageIO.read(file.getInputStream());
-        BufferedImage reescalada = storageService.resizeImage(original, 128, 128);
+        String url = storageService.store(file);
+        //BufferedImage original = ImageIO.read(file.getInputStream());
+       // BufferedImage reescalada = storageService.resizeImage(original, 128, 128);
 
-        ImageIO.write(reescalada, "jpg", Files.newOutputStream(storageService.load(filename)));
+      //  ImageIO.write(reescalada, "jpg", Files.newOutputStream(storageService.load(filename)));
 
-        String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
+        /*String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/download/")
                 .path(filename)
-                .toUriString();
+                .toUriString();*/
 
 
         Movie movie = Movie.builder()
@@ -47,7 +47,7 @@ public class MovieService extends BaseService<Movie, Long, MovieRepository>{
                 .director(movieDtoConverter.getDirector())
                 .duracion(movieDtoConverter.getDuracion())
                 .genero(movieDtoConverter.getGenero())
-                .imagen(uri)
+                .imagen(url)
                 .productora(movieDtoConverter.getProductora())
                 .sinopsis(movieDtoConverter.getSinopsis())
                 .titulo(movieDtoConverter.getTitulo())

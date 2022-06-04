@@ -8,10 +8,10 @@ abstract class MoviesEvent extends Equatable {
 }
 
 class FetchMovieWithType extends MoviesEvent {
-  final String type;
+  final String page;
 
-  const FetchMovieWithType(this.type);
+  const FetchMovieWithType(this.page);
 
   @override
-  List<Object> get props => [type];
+  List<Object> get props => [page];
 }

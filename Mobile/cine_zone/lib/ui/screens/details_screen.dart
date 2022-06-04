@@ -109,7 +109,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 children: [
                   Container(
                     width: 800,
-                    color: Colors.amber,
                     child: Image.network(
                       'https://static.wikia.nocookie.net/disney/images/7/7a/Star_Wars_The_Last_Jedi_Poster_Official.jpg/revision/latest?cb=20171010025646&path-prefix=es',
                       fit: BoxFit.fitWidth,
@@ -142,7 +141,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         ),
                         Container(
                           margin: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 30),
+                              horizontal: 15, vertical: 30),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -200,39 +199,45 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                       ),
                                     ),
                                     Container(
-                                      margin: const EdgeInsets.only(
-                                          top: 10, left: 20),
+                                      margin:
+                                          EdgeInsets.only(top: 10, left: 20),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
-                                        children: const [
-                                          Padding(
+                                        children: [
+                                          Container(
+                                            width: 60,
                                             padding:
                                                 EdgeInsets.only(bottom: 10),
                                             child: Text(
                                               'Rian Johnson',
+                                              overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
                                                 color: Color.fromARGB(
                                                     150, 255, 255, 255),
                                               ),
                                             ),
                                           ),
-                                          Padding(
+                                          Container(
+                                            width: 60,
                                             padding:
                                                 EdgeInsets.only(bottom: 10),
                                             child: Text(
                                               'Action',
+                                              overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
                                                 color: Color.fromARGB(
                                                     150, 255, 255, 255),
                                               ),
                                             ),
                                           ),
-                                          Padding(
+                                          Container(
+                                            width: 60,
                                             padding:
                                                 EdgeInsets.only(bottom: 10),
                                             child: Text(
                                               'LucasFilm',
+                                              overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
                                                 color: Color.fromARGB(
                                                     150, 255, 255, 255),

@@ -1,6 +1,6 @@
 import 'package:chewie/chewie.dart';
 import 'package:cine_zone/bloc/movies_bloc/movies_bloc.dart';
-import 'package:cine_zone/models/movie_response.dart';
+import 'package:cine_zone/models/movie/movie_response.dart';
 import 'package:cine_zone/repository/constants.dart';
 import 'package:cine_zone/repository/movie_repository/movie_repository.dart';
 import 'package:cine_zone/repository/movie_repository/movie_repository_impl.dart';
@@ -25,11 +25,16 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late MovieRepository movieRepository;
+  String get page => '0';
   /*
   late VideoPlayerController _controller;
   late Future<void>? _initializeVideoPlayerFuture;
   */
   //late Future<void> _initializeVideoPlayerFuture;
+
+  String convertLocalHost(String url) {
+    return url.replaceAll("localhost:", "10.0.2.2:");
+  }
 
   @override
   void initState() {
@@ -47,13 +52,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) {
-        return MoviesBloc(movieRepository)
-          ..add(FetchMovieWithType(Constant.upcoming));
+        return MoviesBloc(movieRepository)..add(FetchMovieWithType(page));
       },
       child: Scaffold(
           body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 5, vertical: 70),
+          margin: EdgeInsets.symmetric(horizontal: 5, vertical: 40),
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -76,9 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
           return ErrorPage(
             message: state.message,
             retry: () {
-              context
-                  .watch<MoviesBloc>()
-                  .add(FetchMovieWithType(Constant.popular));
+              context.watch<MoviesBloc>().add(FetchMovieWithType(page));
             },
           );
         } else if (state is MoviesFetched) {
@@ -93,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _createPopularView(BuildContext context, List<Movie> movies) {
+  Widget _createPopularView(BuildContext context, List<MovieItem> movies) {
     final contentHeight = 5.0 * (MediaQuery.of(context).size.width / 2.4) / 3;
     return Column(
       children: [
@@ -138,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _createPopularViewItem(BuildContext context, Movie movie) {
+  Widget _createPopularViewItem(BuildContext context, MovieItem movie) {
     final width = MediaQuery.of(context).size.width / 2.6;
     return InkWell(
       onTap: () {
@@ -165,11 +167,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: CachedNetworkImage(
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                     placeholder: (context, url) => const Center(
                       child: CircularProgressIndicator(),
                     ),
-                    imageUrl:
-                        'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                    imageUrl: movie.imagen,
                     width: width,
                     //height: double.infinity,
                     fit: BoxFit.cover,
@@ -182,7 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
             alignment: Alignment.center,
             width: 140,
             child: Text(
-              movie.title!,
+              movie.titulo,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontSize: 14,
@@ -197,7 +199,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _head() {
     return Container(
-        margin: EdgeInsets.only(top: 10, bottom: 20),
+        margin: EdgeInsets.only(bottom: 20),
         child: Container(
           alignment: Alignment.center,
           child: SvgPicture.asset('assets/images/logo.svg', width: 150),

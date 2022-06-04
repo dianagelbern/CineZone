@@ -10,10 +10,10 @@ abstract class MoviesState extends Equatable {
 class MoviesInitial extends MoviesState {}
 
 class MoviesFetched extends MoviesState {
-  final List<Movie> movies;
-  final String type;
+  final List<MovieItem> movies;
+  final String page;
 
-  const MoviesFetched(this.movies, this.type);
+  const MoviesFetched(this.movies, this.page);
 
   @override
   List<Object> get props => [movies];

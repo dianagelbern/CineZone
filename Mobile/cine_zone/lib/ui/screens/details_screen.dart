@@ -332,7 +332,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           fontSize: 13),
                     ),
                     Text(
-                      movie.duracion.toString(),
+                      movie.duracion.toString() + " min.",
                       style: TextStyle(color: Colors.white, fontSize: 17),
                     )
                   ],

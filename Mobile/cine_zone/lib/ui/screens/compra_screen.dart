@@ -30,15 +30,15 @@ class _CompraScreenState extends State<CompraScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF2F2C44),
+        backgroundColor: const Color(0xFF2F2C44),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new_rounded),
+          icon: const Icon(Icons.arrow_back_ios_new_rounded),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
         leadingWidth: 100,
-        title: Text('Comprar entrada'),
+        title: const Text('Comprar entrada'),
       ),
       body: SingleChildScrollView(child: cuerpo()),
     );
@@ -46,7 +46,7 @@ class _CompraScreenState extends State<CompraScreen> {
 
   Widget cuerpo() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 30),
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
       child: Column(
         children: [_resumen(), _formaPago()],
       ),
@@ -55,14 +55,14 @@ class _CompraScreenState extends State<CompraScreen> {
 
   Widget _formaPago() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 30),
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
       alignment: Alignment.bottomLeft,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin: EdgeInsets.only(bottom: 30),
-            child: Text(
+            margin: const EdgeInsets.only(bottom: 30),
+            child: const Text(
               'Pagar con',
               style: TextStyle(
                   color: Colors.white,
@@ -74,7 +74,7 @@ class _CompraScreenState extends State<CompraScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(bottom: 30),
+                margin: const EdgeInsets.only(bottom: 30),
                 child: ExpansionWidget(
                   initiallyExpanded: true,
                   titleBuilder: (double animationValue, _, bool isExpaned,
@@ -82,11 +82,11 @@ class _CompraScreenState extends State<CompraScreen> {
                     return InkWell(
                         onTap: () => toogleFunction(animated: true),
                         child: Padding(
-                          padding: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(8),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Expanded(
+                              const Expanded(
                                   child: Text(
                                 'Tarjeta asociada',
                                 style: TextStyle(
@@ -96,7 +96,7 @@ class _CompraScreenState extends State<CompraScreen> {
                               )),
                               Transform.rotate(
                                 angle: math.pi * animationValue / 1,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.keyboard_arrow_up_outlined,
                                   size: 30,
                                   color: Colors.white,
@@ -118,8 +118,9 @@ class _CompraScreenState extends State<CompraScreen> {
                           _singleValue = value as String;
                           print(value);
                         }),
-                        activeColor: Color.fromARGB(255, 134, 122, 210),
-                        textStyle: TextStyle(fontSize: 15, color: Colors.white),
+                        activeColor: const Color.fromARGB(255, 134, 122, 210),
+                        textStyle:
+                            const TextStyle(fontSize: 15, color: Colors.white),
                       ),
                       RadioButton(
                         description: "****43",
@@ -129,8 +130,9 @@ class _CompraScreenState extends State<CompraScreen> {
                           _singleValue = value as String;
                           print(value);
                         }),
-                        activeColor: Color.fromARGB(255, 134, 122, 210),
-                        textStyle: TextStyle(fontSize: 15, color: Colors.white),
+                        activeColor: const Color.fromARGB(255, 134, 122, 210),
+                        textStyle:
+                            const TextStyle(fontSize: 15, color: Colors.white),
                       ),
                       boton_compra()
                     ],
@@ -144,11 +146,11 @@ class _CompraScreenState extends State<CompraScreen> {
                   return InkWell(
                       onTap: () => toogleFunction(animated: true),
                       child: Padding(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Expanded(
+                            const Expanded(
                                 child: Text(
                               'Nueva tarjeta',
                               style: TextStyle(
@@ -158,7 +160,7 @@ class _CompraScreenState extends State<CompraScreen> {
                             )),
                             Transform.rotate(
                               angle: math.pi * animationValue / 1,
-                              child: Icon(
+                              child: const Icon(
                                 Icons.keyboard_arrow_up_outlined,
                                 size: 30,
                                 color: Colors.white,
@@ -180,16 +182,16 @@ class _CompraScreenState extends State<CompraScreen> {
 
   Widget _formularioTarjeta() {
     return Container(
-      margin: EdgeInsets.only(top: 20),
+      margin: const EdgeInsets.only(top: 20),
       child: Form(
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                padding: EdgeInsets.only(bottom: 20),
+                padding: const EdgeInsets.only(bottom: 20),
                 alignment: Alignment.centerLeft,
-                child: Text(
+                child: const Text(
                   'Nombre del titular',
                   style: TextStyle(
                     fontSize: 15,
@@ -235,9 +237,9 @@ class _CompraScreenState extends State<CompraScreen> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.only(bottom: 20),
+                padding: const EdgeInsets.only(bottom: 20),
                 alignment: Alignment.centerLeft,
-                child: Text(
+                child: const Text(
                   'Número de tarjeta',
                   style: TextStyle(
                     fontSize: 15,
@@ -283,9 +285,9 @@ class _CompraScreenState extends State<CompraScreen> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.only(bottom: 20),
+                padding: const EdgeInsets.only(bottom: 20),
                 alignment: Alignment.centerLeft,
-                child: Text(
+                child: const Text(
                   'Fecha de vencimiento',
                   style: TextStyle(
                     fontSize: 15,
@@ -296,12 +298,12 @@ class _CompraScreenState extends State<CompraScreen> {
               ),
               Container(
                 alignment: Alignment.centerLeft,
-                margin: EdgeInsets.only(bottom: 20),
+                margin: const EdgeInsets.only(bottom: 20),
                 width: 200,
                 child: DateTimeField(
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Color.fromARGB(226, 255, 255, 255), fontSize: 13),
-                  resetIcon: Icon(
+                  resetIcon: const Icon(
                     Icons.close,
                     color: Color.fromARGB(125, 255, 255, 255),
                   ),
@@ -315,22 +317,22 @@ class _CompraScreenState extends State<CompraScreen> {
                   },
                   controller: fechaVencimientoController,
                   decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(vertical: 10),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 10),
                       prefixIcon: const Icon(
                         Icons.date_range,
                         color: Color.fromARGB(125, 255, 255, 255),
                       ),
-                      focusedBorder: OutlineInputBorder(
+                      focusedBorder: const OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Color.fromARGB(244, 134, 122, 210))),
-                      enabledBorder: OutlineInputBorder(
+                      enabledBorder: const OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Color.fromARGB(244, 134, 122, 210))),
-                      border: OutlineInputBorder(
+                      border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                         Radius.circular(10),
                       )),
-                      hintStyle: TextStyle(
+                      hintStyle: const TextStyle(
                           color: Color.fromARGB(125, 255, 255, 255),
                           fontSize: 13),
                       hintText: selectedDate == null
@@ -346,23 +348,23 @@ class _CompraScreenState extends State<CompraScreen> {
 
   Widget _resumen() {
     return Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             color: Color.fromARGB(255, 47, 44, 68),
             borderRadius: BorderRadius.all(Radius.circular(30))),
         height: 220,
         child: Padding(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: Column(
             children: [
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.domain,
                     color: Colors.white,
                   ),
                   Container(
-                    margin: EdgeInsets.only(left: 10),
-                    child: Text(
+                    margin: const EdgeInsets.only(left: 10),
+                    child: const Text(
                       'Nombre del cine',
                       style: TextStyle(
                           color: Colors.white,
@@ -373,7 +375,7 @@ class _CompraScreenState extends State<CompraScreen> {
                 ],
               ),
               Padding(
-                padding: EdgeInsets.only(top: 20),
+                padding: const EdgeInsets.only(top: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -384,11 +386,11 @@ class _CompraScreenState extends State<CompraScreen> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 20),
+                padding: const EdgeInsets.only(top: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       'Lugares',
                       style: TextStyle(
                           color: Color.fromARGB(113, 212, 212, 212),
@@ -397,10 +399,10 @@ class _CompraScreenState extends State<CompraScreen> {
                     Container(
                       child: Row(
                         children: [
-                          Text('A10, ',
+                          const Text('A10, ',
                               style:
                                   TextStyle(color: Colors.white, fontSize: 14)),
-                          Text('A11',
+                          const Text('A11',
                               style:
                                   TextStyle(color: Colors.white, fontSize: 14))
                         ],
@@ -410,11 +412,11 @@ class _CompraScreenState extends State<CompraScreen> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 20),
+                padding: const EdgeInsets.only(top: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       'Total',
                       style: TextStyle(
                           color: Color.fromARGB(113, 212, 212, 212),
@@ -423,7 +425,7 @@ class _CompraScreenState extends State<CompraScreen> {
                     Container(
                       child: Row(
                         children: [
-                          Text('17.00€',
+                          const Text('17.00€',
                               style:
                                   TextStyle(color: Colors.white, fontSize: 14)),
                         ],
@@ -442,7 +444,7 @@ class _CompraScreenState extends State<CompraScreen> {
       width: 98,
       height: 52,
       decoration: BoxDecoration(
-        border: Border.all(color: Color.fromARGB(50, 253, 253, 253)),
+        border: Border.all(color: const Color.fromARGB(50, 253, 253, 253)),
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: Column(
@@ -450,12 +452,12 @@ class _CompraScreenState extends State<CompraScreen> {
         children: [
           Text(
             infoEstatica,
-            style: TextStyle(
+            style: const TextStyle(
                 color: Color.fromARGB(113, 212, 212, 212), fontSize: 13),
           ),
           Text(
             info,
-            style: TextStyle(color: Colors.white, fontSize: 17),
+            style: const TextStyle(color: Colors.white, fontSize: 17),
           )
         ],
       ),
@@ -464,11 +466,12 @@ class _CompraScreenState extends State<CompraScreen> {
 
   Widget boton_compra() {
     return Container(
-      margin: EdgeInsets.only(top: 20),
+      margin: const EdgeInsets.only(top: 20),
       width: MediaQuery.of(context).size.width,
       height: 47,
       decoration: BoxDecoration(
-          color: Color(0xFF867AD2), borderRadius: BorderRadius.circular(10)),
+          color: const Color(0xFF867AD2),
+          borderRadius: BorderRadius.circular(10)),
       child: TextButton(
           onPressed: () {
             /*
@@ -486,7 +489,7 @@ class _CompraScreenState extends State<CompraScreen> {
                 'assets/images/ticket.svg',
                 color: Colors.white,
               ),
-              Padding(
+              const Padding(
                 padding: EdgeInsets.only(left: 10),
                 child: Text(
                   "Comprar",

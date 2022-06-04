@@ -57,14 +57,14 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _body() {
-    return SingleChildScrollView(
-      child: Container(
-        height: MediaQuery.of(context).size.height,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            _fondo(),
-            Container(
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          _fondo(),
+          SingleChildScrollView(
+            child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   children: [
@@ -112,9 +112,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     })
                   ],
                   //_formulario(),
-                ))
-          ],
-        ),
+                )),
+          )
+        ],
       ),
     );
   }

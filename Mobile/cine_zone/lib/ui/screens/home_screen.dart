@@ -211,7 +211,7 @@ class _HomeScreenState extends State<HomeScreen> {
         VideoPlayerItemController: VideoPlayerController.asset(
           'assets/videos/spiderman.mp4',
         ),
-        looping: true,
+        looping: false,
       ),
     );
   }

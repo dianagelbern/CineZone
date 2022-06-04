@@ -19,23 +19,23 @@ class _CineScreenState extends State<CineScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xFF2F2C44),
+          backgroundColor: const Color(0xFF2F2C44),
           leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios_new_rounded),
+            icon: const Icon(Icons.arrow_back_ios_new_rounded),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
           leadingWidth: 100,
-          title: Text('Cine elegido'),
+          title: const Text('Cine elegido'),
         ),
         body: SingleChildScrollView(
           child: Column(
             children: [
               datePicker(),
               Container(
-                  margin: EdgeInsets.symmetric(vertical: 10),
-                  child: Divider(
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                  child: const Divider(
                       color: Color.fromARGB(158, 158, 158, 158), height: 5)),
               _type()
             ],
@@ -48,8 +48,8 @@ class _CineScreenState extends State<CineScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-            margin: EdgeInsets.only(left: 20, top: 10),
-            child: Text(
+            margin: const EdgeInsets.only(left: 20, top: 10),
+            child: const Text(
               'Regular',
               style: TextStyle(
                   color: Colors.white,
@@ -63,21 +63,21 @@ class _CineScreenState extends State<CineScreen> {
 
   Widget datePicker() {
     return Container(
-      margin: EdgeInsets.only(top: 10),
+      margin: const EdgeInsets.only(top: 10),
       child: DatePicker(
         DateTime.now(),
-        dateTextStyle:
-            TextStyle(color: Color.fromARGB(125, 255, 255, 255), fontSize: 12),
-        monthTextStyle:
-            TextStyle(color: Color.fromARGB(125, 255, 255, 255), fontSize: 12),
-        dayTextStyle:
-            TextStyle(color: Color.fromARGB(125, 255, 255, 255), fontSize: 12),
+        dateTextStyle: const TextStyle(
+            color: Color.fromARGB(125, 255, 255, 255), fontSize: 12),
+        monthTextStyle: const TextStyle(
+            color: Color.fromARGB(125, 255, 255, 255), fontSize: 12),
+        dayTextStyle: const TextStyle(
+            color: Color.fromARGB(125, 255, 255, 255), fontSize: 12),
         width: 60,
         height: 80,
         daysCount: 9,
         controller: _controller,
         initialSelectedDate: DateTime.now(),
-        selectionColor: Color(0xFF2F2C44),
+        selectionColor: const Color(0xFF2F2C44),
         selectedTextColor: Colors.white,
         onDateChange: (date) {
           setState(() {
@@ -92,7 +92,7 @@ class _CineScreenState extends State<CineScreen> {
 
   Widget _movieItem() {
     return Container(
-      margin: EdgeInsets.all(20),
+      margin: const EdgeInsets.all(20),
       child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Container(
           width: 117,
@@ -106,13 +106,13 @@ class _CineScreenState extends State<CineScreen> {
           ),
         ),
         Container(
-          margin: EdgeInsets.only(left: 10),
+          margin: const EdgeInsets.only(left: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.only(bottom: 10),
-                child: Text(
+                margin: const EdgeInsets.only(bottom: 10),
+                child: const Text(
                   'Star Wars: The Last Jedi',
                   style: TextStyle(
                       color: Colors.white,
@@ -121,8 +121,8 @@ class _CineScreenState extends State<CineScreen> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(bottom: 10),
-                child: Text('P-G 13+',
+                margin: const EdgeInsets.only(bottom: 10),
+                child: const Text('P-G 13+',
                     style: TextStyle(
                       color: Color.fromARGB(104, 255, 255, 255),
                       fontSize: 12,
@@ -142,10 +142,10 @@ class _CineScreenState extends State<CineScreen> {
 
   Widget _buttonTime() {
     return Container(
-      margin: EdgeInsets.only(bottom: 10, right: 10),
+      margin: const EdgeInsets.only(bottom: 10, right: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-        color: Color(0xFF6C61AF),
+        color: const Color(0xFF6C61AF),
       ),
       width: 50,
       height: 30,
@@ -156,7 +156,7 @@ class _CineScreenState extends State<CineScreen> {
             MaterialPageRoute(builder: (context) => const SalaScreen()),
           );
         },
-        child: Text(
+        child: const Text(
           '16:00',
           style: TextStyle(color: Colors.white, fontSize: 13),
         ),

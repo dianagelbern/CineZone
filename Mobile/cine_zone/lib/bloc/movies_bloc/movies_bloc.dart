@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:cine_zone/models/movie_response.dart';
 import 'package:cine_zone/repository/movie_repository/movie_repository.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 
 part 'movies_event.dart';
 part 'movies_state.dart';

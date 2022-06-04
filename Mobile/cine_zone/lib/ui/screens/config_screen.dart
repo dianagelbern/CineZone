@@ -16,18 +16,18 @@ class _ConfigScreenState extends State<ConfigScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xFF2F2C44),
+          backgroundColor: const Color(0xFF2F2C44),
           leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios_new_rounded),
+            icon: const Icon(Icons.arrow_back_ios_new_rounded),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
           leadingWidth: 100,
-          title: Text('Configuración'),
+          title: const Text('Configuración'),
         ),
         body: Container(
-          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           child: Column(
             children: [
               _botonAyuda(),
@@ -47,12 +47,12 @@ class _ConfigScreenState extends State<ConfigScreen> {
 */
   Widget _botonAyuda() {
     return Container(
-      margin: EdgeInsets.only(top: 20),
+      margin: const EdgeInsets.only(top: 20),
       child: TextButton(
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => AyudaScreen()),
+              MaterialPageRoute(builder: (context) => const AyudaScreen()),
             );
           },
           child: Row(
@@ -67,15 +67,15 @@ class _ConfigScreenState extends State<ConfigScreen> {
                     color: Colors.white,
                   )),
                   Container(
-                    margin: EdgeInsets.only(left: 30),
-                    child: Text(
+                    margin: const EdgeInsets.only(left: 30),
+                    child: const Text(
                       'Ayuda',
                       style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
                   )
                 ],
               ),
-              Icon(
+              const Icon(
                 Icons.arrow_forward_ios_rounded,
                 color: Colors.white,
               )
@@ -86,7 +86,7 @@ class _ConfigScreenState extends State<ConfigScreen> {
 
   Widget _botonTerminos() {
     return Container(
-      margin: EdgeInsets.only(top: 20),
+      margin: const EdgeInsets.only(top: 20),
       child: TextButton(
           onPressed: () {
             /*
@@ -109,15 +109,15 @@ class _ConfigScreenState extends State<ConfigScreen> {
                     color: Colors.white,
                   )),
                   Container(
-                    margin: EdgeInsets.only(left: 30),
-                    child: Text(
+                    margin: const EdgeInsets.only(left: 30),
+                    child: const Text(
                       'Términos de servicio',
                       style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
                   )
                 ],
               ),
-              Icon(
+              const Icon(
                 Icons.arrow_forward_ios_rounded,
                 color: Colors.white,
               )
@@ -128,7 +128,7 @@ class _ConfigScreenState extends State<ConfigScreen> {
 
   Widget _botonPrivacidad() {
     return Container(
-      margin: EdgeInsets.only(top: 20),
+      margin: const EdgeInsets.only(top: 20),
       child: TextButton(
           onPressed: () {
             /*
@@ -151,15 +151,15 @@ class _ConfigScreenState extends State<ConfigScreen> {
                     color: Colors.white,
                   )),
                   Container(
-                    margin: EdgeInsets.only(left: 30),
-                    child: Text(
+                    margin: const EdgeInsets.only(left: 30),
+                    child: const Text(
                       'Políticas de privacidad',
                       style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
                   )
                 ],
               ),
-              Icon(
+              const Icon(
                 Icons.arrow_forward_ios_rounded,
                 color: Colors.white,
               )
@@ -170,12 +170,12 @@ class _ConfigScreenState extends State<ConfigScreen> {
 
   Widget _botonOff() {
     return Container(
-      margin: EdgeInsets.only(top: 20),
+      margin: const EdgeInsets.only(top: 20),
       child: TextButton(
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => LoginScreen()),
+              MaterialPageRoute(builder: (context) => const LoginScreen()),
             );
           },
           child: Row(
@@ -187,11 +187,11 @@ class _ConfigScreenState extends State<ConfigScreen> {
                       child: SvgPicture.asset(
                     'assets/images/off.svg',
                     height: 25,
-                    color: Color(0xFFD74343),
+                    color: const Color(0xFFD74343),
                   )),
                   Container(
-                    margin: EdgeInsets.only(left: 30),
-                    child: Text(
+                    margin: const EdgeInsets.only(left: 30),
+                    child: const Text(
                       'Cerrar sesión',
                       style: TextStyle(color: Color(0xFFD74343), fontSize: 18),
                     ),

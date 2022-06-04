@@ -81,7 +81,7 @@ public class Reserva {
     @OneToOne(fetch = FetchType.LAZY)
     private AsientosShow asientoReservado;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "tarjeta_id")
     private Tarjeta tarjeta;
 

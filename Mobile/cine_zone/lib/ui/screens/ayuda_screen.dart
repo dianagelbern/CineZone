@@ -13,15 +13,15 @@ class _AyudaScreenState extends State<AyudaScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF2F2C44),
+        backgroundColor: const Color(0xFF2F2C44),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new_rounded),
+          icon: const Icon(Icons.arrow_back_ios_new_rounded),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
         leadingWidth: 100,
-        title: Text('Ayuda'),
+        title: const Text('Ayuda'),
       ),
       body: SingleChildScrollView(child: cuerpo()),
     );
@@ -32,22 +32,22 @@ class _AyudaScreenState extends State<AyudaScreen> {
       child: Column(
         children: [
           Container(
-            margin: EdgeInsets.symmetric(vertical: 40),
+            margin: const EdgeInsets.symmetric(vertical: 40),
             child: Column(
               children: [
-                Text(
+                const Text(
                   'Contacta con CineZone',
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 20,
                       color: Colors.white,
                       fontWeight: FontWeight.w600),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 20),
+                const Padding(
+                  padding: const EdgeInsets.only(top: 20),
                   child: Text(
                     'Siempre que quieras puedes contactar con nosotros por cualquiera de nuestras redes sociales',
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white),
                   ),
                 )
               ],
@@ -74,28 +74,28 @@ class _AyudaScreenState extends State<AyudaScreen> {
 
   Widget socialMedia(String titulo, String imagen, String nombre) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 20),
+      padding: const EdgeInsets.symmetric(vertical: 20),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             titulo,
-            style: TextStyle(
+            style: const TextStyle(
                 color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
           ),
           Padding(
-            padding: EdgeInsets.only(top: 20),
+            padding: const EdgeInsets.only(top: 20),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(right: 10),
+                  padding: const EdgeInsets.only(right: 10),
                   child: Image.asset(imagen),
                 ),
                 Text(
                   nombre,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
                       decoration: TextDecoration.underline,
                       fontSize: 15),

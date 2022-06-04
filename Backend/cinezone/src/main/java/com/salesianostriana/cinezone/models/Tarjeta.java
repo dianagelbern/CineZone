@@ -5,6 +5,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -27,4 +29,8 @@ public class Tarjeta {
     //Usuario asociado
     @ManyToOne
     private UserEntity usuario;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "tarjeta", fetch = FetchType.EAGER)
+    private List<Reserva> reservas = new ArrayList<>();
 }

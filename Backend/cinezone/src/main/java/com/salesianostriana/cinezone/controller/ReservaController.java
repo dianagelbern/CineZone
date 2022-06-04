@@ -49,7 +49,7 @@ public class ReservaController {
     @PostMapping
     public ResponseEntity<GetReservaDto> reservarAsiento(@RequestBody CreateReservaDto reservaDto, @AuthenticationPrincipal UserEntity currentUser){
 
-        Reserva newReserva = reservaService.createReserva(reservaDto, currentUser);
+        Reserva newReserva = reservaService.createReserva(reservaDto, currentUser.getId());
         GetReservaDto getReservaDto = reservaDtoConverter.convertToGetReservaDto(newReserva);
         return ResponseEntity.status(HttpStatus.CREATED).body(getReservaDto);
 

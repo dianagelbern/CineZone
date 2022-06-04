@@ -1,3 +1,4 @@
+/*
 package com.salesianostriana.cinezone.services;
 
 import com.salesianostriana.cinezone.config.StorageProperties;
@@ -29,7 +30,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @Service
-public class FileSystemStorageService implements StorageService {
+public class FileSystemStorageService  {
 
     private final Path rootLocation;
 
@@ -144,4 +145,4 @@ public class FileSystemStorageService implements StorageService {
         ByteArrayInputStream inputStream = new ByteArrayInputStream(data);
         return ImageIO.read(inputStream);
     }
-}
+}*/

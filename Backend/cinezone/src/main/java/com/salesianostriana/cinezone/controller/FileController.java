@@ -41,7 +41,7 @@ public class FileController {
 
     }
 
-    @GetMapping("/download/{filename:.+}")
+/*    @GetMapping("/download/{filename:.+}")
     public ResponseEntity<Resource> getFile(@PathVariable String filename) {
         MediaTypeUrlResource resource = (MediaTypeUrlResource) storageService.loadAsResource(filename);
 
@@ -51,6 +51,6 @@ public class FileController {
                 .body(resource);
 
 
-    }
+    }*/
 
 }

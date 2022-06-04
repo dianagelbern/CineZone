@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+
 @Service
 @RequiredArgsConstructor
 public class ReservaService extends BaseService<Reserva, UUID, ReservaRepository> {
@@ -35,11 +36,11 @@ public class ReservaService extends BaseService<Reserva, UUID, ReservaRepository
 
     private final AsientosShowService asientoShowService;
 
-    public Reserva createReserva(CreateReservaDto reservaDto, UserEntity currentUser) {
+    public Reserva createReserva(CreateReservaDto reservaDto, UUID userId) {
 
         Cine cine = cineService.find(reservaDto.getCineId());
         Show show = showService.find(reservaDto.getShowId());
-
+        UserEntity currentUser = userEntityService.find(userId);
 
         if (show.getCine() == cine) {
             Reserva newReserva = Reserva.builder()

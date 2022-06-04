@@ -34,7 +34,7 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
       allowMuting: true,
       allowFullScreen: false,
       showOptions: false,
-      autoPlay: true,
+      autoPlay: false,
       errorBuilder: (context, errorMessage) {
         return Center(
           child: Text(

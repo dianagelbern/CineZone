@@ -95,6 +95,13 @@ public class UserEntityService extends BaseService <UserEntity, UUID, UserEntity
 
     }
 
+    public UserEntity find(UUID id){
+        Optional<UserEntity> optionalUser = repositorio.findById(id);
+
+        if(optionalUser.isPresent()){
+            return optionalUser.get();
+        }else throw new SingleEntityNotFoundException(UserEntity.class);
+    }
 
     public Page <UserEntity> findAllUsuarios(Pageable pageable){
 

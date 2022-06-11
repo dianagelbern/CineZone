@@ -251,7 +251,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
         Column(
           children: [
             _infoUsuario("Nombre", user.nombre.toString(), nombreController),
-            _infoUsuario("Email", user.email.toString(), emailController),
+            Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(bottom: 20),
+                  alignment: Alignment.bottomLeft,
+                  child: Text("Email",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500)),
+                ),
+                Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 47,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: const Color.fromARGB(0, 243, 243, 243),
+                        border: Border.all(
+                            color: const Color.fromARGB(244, 134, 122, 210),
+                            width: 1)),
+                    margin: const EdgeInsets.only(bottom: 20),
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 15, left: 20),
+                      child: Text(
+                        user.email!,
+                        style: TextStyle(
+                            fontSize: 13,
+                            color: Color.fromARGB(73, 255, 255, 255)),
+                      ),
+                    ))
+              ],
+            ),
             _infoUsuario(
                 "Telefono", user.telefono.toString(), telefonoController),
             Container(
@@ -302,9 +333,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             telefono: telefonoController.text.isEmpty
                 ? user.telefono!
                 : telefonoController.text,
-            email: emailController.text.isEmpty
-                ? user.email!
-                : emailController.text,
+            email: user.email!,
             fechaNacimiento: user.fechaNacimiento!);
         BlocProvider.of<EditUserBloc>(context).add(DoEditUser(editProfile));
         print(editProfile.toJson().toString());
@@ -343,7 +372,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             decoration: InputDecoration(
               hintText: info,
               hintStyle: TextStyle(
-                  fontSize: 13, color: Color.fromARGB(125, 255, 255, 255)),
+                  fontSize: 13, color: Color.fromARGB(214, 255, 255, 255)),
               focusedBorder: OutlineInputBorder(
                   borderSide:
                       BorderSide(color: Color.fromARGB(244, 134, 122, 210))),

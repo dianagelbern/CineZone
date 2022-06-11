@@ -69,10 +69,7 @@ class _NewTarjetaScreenState extends State<NewTarjetaScreen> {
       },
       listener: (context, state) {
         if (state is CreateTarjetaSuccesState) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const WalletScreen()),
-          );
+          Navigator.pop(context);
           final snackBar = SnackBar(
             backgroundColor: Color(0xFF867AD2),
             content: const Text(
@@ -249,9 +246,9 @@ class _NewTarjetaScreenState extends State<NewTarjetaScreen> {
                   onShowPicker: (context, currentValue) {
                     return showDatePicker(
                         context: context,
-                        firstDate: DateTime(1900),
+                        firstDate: DateTime.now(),
                         initialDate: currentValue ?? DateTime.now(),
-                        lastDate: DateTime.now());
+                        lastDate: DateTime(2100));
                   },
                   controller: fechaVencimientoController,
                   decoration: InputDecoration(

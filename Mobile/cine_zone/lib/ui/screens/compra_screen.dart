@@ -455,9 +455,9 @@ class _CompraScreenState extends State<CompraScreen> {
                   onShowPicker: (context, currentValue) {
                     return showDatePicker(
                         context: context,
-                        firstDate: DateTime(1900),
+                        firstDate: DateTime.now(),
                         initialDate: currentValue ?? DateTime.now(),
-                        lastDate: DateTime.now());
+                        lastDate: DateTime(2100));
                   },
                   controller: fechaVencimientoController,
                   decoration: InputDecoration(

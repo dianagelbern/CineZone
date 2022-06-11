@@ -1,4 +1,7 @@
+import 'package:cine_zone/bloc/edit_user_bloc/edit_user_bloc.dart';
 import 'package:cine_zone/bloc/profile_bloc/profile_bloc.dart';
+import 'package:cine_zone/models/user/new_user_dto.dart';
+import 'package:cine_zone/models/user/user_dto.dart';
 import 'package:cine_zone/models/user/user_response.dart';
 import 'package:cine_zone/repository/user_repository/user_repository.dart';
 import 'package:cine_zone/repository/user_repository/user_repository_impl.dart';
@@ -20,6 +23,8 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   late UserRepository userRepository;
+  late ProfileBloc _profileBloc;
+  late EditUserBloc _editUserBloc;
 
   @override
   void initState() {
@@ -40,12 +45,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) {
-        return ProfileBloc(userRepository)..add(ProfileFetchEvent());
-      },
-      child: Scaffold(body: _createProfileView(context)),
-    );
+    return MultiBlocProvider(providers: [
+      BlocProvider(
+        create: (context) {
+          return ProfileBloc(userRepository)..add(ProfileFetchEvent());
+        },
+      ),
+      BlocProvider(create: (context) {
+        return EditUserBloc(userRepository);
+      })
+    ], child: Scaffold(body: _createProfileView(context)));
   }
 
   Widget _createProfileView(BuildContext context) {
@@ -66,6 +75,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
         return const Text('Not Support');
       }
     });
+  }
+
+  Widget _updateProfile(BuildContext context, UserResponse user) {
+    return BlocConsumer<EditUserBloc, EditUserState>(
+      listenWhen: (context, state) {
+        return state is EditUserSuccesState || state is EditUserErrorState;
+      },
+      listener: (context, state) {
+        if (state is EditUserSuccesState) {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => ProfileScreen()));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("El perfil se modificó correctamente",
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.w800)),
+              backgroundColor: Color(0xFF867AD2),
+            ),
+          );
+        } else if (state is EditUserErrorState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Algo salió mal, vuelve a intentarlo")),
+          );
+        }
+      },
+      builder: (context, state) {
+        if (state is EditUserInitial) {
+          return _botonEdit(context, user);
+        } else {
+          return _botonEdit(context, user);
+        }
+      },
+      buildWhen: (context, state) {
+        return state is EditUserInitial || state is EditUserErrorState;
+      },
+    );
   }
 
   Widget _body(BuildContext context, UserResponse userResponse) {
@@ -205,48 +250,74 @@ class _ProfileScreenState extends State<ProfileScreen> {
       children: [
         Column(
           children: [
-            _infoUsuario("Nombre", user.nombre.toString()),
-            _infoUsuario("Email", user.email.toString()),
-            _infoUsuario("Telefono", user.telefono.toString()),
+            _infoUsuario("Nombre", user.nombre.toString(), nombreController),
+            _infoUsuario("Email", user.email.toString(), emailController),
+            _infoUsuario(
+                "Telefono", user.telefono.toString(), telefonoController),
             Container(
-              margin: const EdgeInsets.only(top: 30),
-              width: 350,
-              height: 50,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                gradient: const LinearGradient(
-                  colors: [
-                    Color.fromARGB(244, 134, 122, 210),
-                    Color.fromARGB(255, 107, 97, 175)
-                  ],
-                  begin: FractionalOffset.topCenter,
-                  end: FractionalOffset.bottomCenter,
+                margin: const EdgeInsets.only(top: 30),
+                width: 350,
+                height: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  gradient: const LinearGradient(
+                    colors: [
+                      Color.fromARGB(244, 134, 122, 210),
+                      Color.fromARGB(255, 107, 97, 175)
+                    ],
+                    begin: FractionalOffset.topCenter,
+                    end: FractionalOffset.bottomCenter,
+                  ),
                 ),
-              ),
-              child: TextButton(
-                onPressed: () {
-                  /*
-                if (_formKey.currentState!.validate()) {
-                  final loginDto = LoginDto(
-                      email: emailController.text,
-                      password: passwordController.text);
-                  BlocProvider.of<LoginBloc>(context)
-                      .add(DoLoginEvent(loginDto));
-                } */
-                },
-                child: const Text(
-                  'Editar perfil',
-                  style: TextStyle(color: Colors.white, fontSize: 18),
-                ),
-              ),
-            ),
+                child: _updateProfile(context, user)),
           ],
         ),
       ],
     );
   }
+  /*
+  TextEditingController emailController = TextEditingController();
+  TextEditingController nombreController = TextEditingController();
+  TextEditingController telefonoController = TextEditingController();
+  */
 
-  Widget _infoUsuario(String ref, String info) {
+  Widget _botonEdit(BuildContext context, UserResponse user) {
+    return TextButton(
+      /*
+      nombre: nombreController.text.isEmpty
+                ? user.nombre
+                : nombreController.text,
+            email: emailController.text.isEmpty
+                ? user.email
+                : emailController.text,
+            telefono: telefonoController.text.isEmpty
+                ? user.telefono
+                : telefonoController.text
+      */
+      onPressed: () {
+        final editProfile = NewUserDto(
+            nombre: nombreController.text.isEmpty
+                ? user.nombre!
+                : nombreController.text,
+            telefono: telefonoController.text.isEmpty
+                ? user.telefono!
+                : telefonoController.text,
+            email: emailController.text.isEmpty
+                ? user.email!
+                : emailController.text,
+            fechaNacimiento: user.fechaNacimiento!);
+        BlocProvider.of<EditUserBloc>(context).add(DoEditUser(editProfile));
+        print(editProfile.toJson().toString());
+      },
+      child: const Text(
+        'Editar perfil',
+        style: TextStyle(color: Colors.white, fontSize: 18),
+      ),
+    );
+  }
+
+  Widget _infoUsuario(
+      String ref, String info, TextEditingController controlador) {
     return Column(
       children: [
         Container(
@@ -259,22 +330,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   fontWeight: FontWeight.w500)),
         ),
         Container(
-            width: MediaQuery.of(context).size.width,
-            height: 47,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                color: const Color.fromARGB(0, 243, 243, 243),
-                border: Border.all(
-                    color: const Color.fromARGB(244, 134, 122, 210), width: 1)),
-            margin: const EdgeInsets.only(bottom: 20),
-            child: Padding(
-              padding: EdgeInsets.only(top: 15, left: 20),
-              child: Text(
-                info,
-                style: TextStyle(
-                    fontSize: 13, color: Color.fromARGB(125, 255, 255, 255)),
-              ),
-            )),
+          height: 47,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.0),
+              color: const Color.fromARGB(0, 243, 243, 243),
+              border: Border.all(
+                  color: const Color.fromARGB(244, 134, 122, 210), width: 1)),
+          margin: const EdgeInsets.only(bottom: 20),
+          child: TextFormField(
+            style: const TextStyle(color: Colors.white),
+            controller: controlador,
+            decoration: InputDecoration(
+              hintText: info,
+              hintStyle: TextStyle(
+                  fontSize: 13, color: Color.fromARGB(125, 255, 255, 255)),
+              focusedBorder: OutlineInputBorder(
+                  borderSide:
+                      BorderSide(color: Color.fromARGB(244, 134, 122, 210))),
+              enabledBorder: OutlineInputBorder(
+                  borderSide:
+                      BorderSide(color: Color.fromARGB(244, 134, 122, 210))),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                Radius.circular(10),
+              )),
+            ),
+            onSaved: (String? value) {},
+            validator: (value) {
+              return (value == null || value.isEmpty) ? 'Write a $ref' : null;
+            },
+          ),
+        ),
       ],
     );
   }

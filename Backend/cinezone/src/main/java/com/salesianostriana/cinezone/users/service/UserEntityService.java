@@ -9,26 +9,20 @@ import com.salesianostriana.cinezone.services.GoogleCloudStorageService;
 import com.salesianostriana.cinezone.services.base.BaseService;
 import com.salesianostriana.cinezone.services.base.StorageService;
 import com.salesianostriana.cinezone.users.dto.CreateUserDto;
+import com.salesianostriana.cinezone.users.dto.EditUserDto;
 import com.salesianostriana.cinezone.users.model.UserEntity;
 import com.salesianostriana.cinezone.users.model.UserRole;
 import com.salesianostriana.cinezone.users.repository.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Optional;
-import java.nio.file.Files;
 import java.util.UUID;
 @Service("userDetailsService")
 @RequiredArgsConstructor
@@ -84,13 +78,14 @@ public class UserEntityService extends BaseService <UserEntity, UUID, UserEntity
 
     }
 
-    public UserEntity edit(CreateUserDto userDto,  UserEntity usuario){
+    public UserEntity edit(EditUserDto userDto, UserEntity usuario){
         Optional<UserEntity> u = repositorio.findById(usuario.getId());
             UserEntity newU = u.get();
             newU.setNombre(userDto.getNombre());
             newU.setEmail(userDto.getEmail());
             newU.setFechaNacimiento(userDto.getFechaNacimiento());
             newU.setTelefono(userDto.getTelefono());
+
             return repositorio.save(newU);
 
     }

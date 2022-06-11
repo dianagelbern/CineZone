@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cine_zone/models/reserva/reserva_item_dto.dart';
 import 'package:cine_zone/models/reserva/reservas_dto.dart';
 import 'package:cine_zone/models/reserva/reservas_response.dart';
 import 'package:cine_zone/repository/constants.dart';
@@ -9,6 +10,7 @@ import 'package:http/http.dart';
 
 class ReservaRepositoryImpl extends ReservaRepository {
   final Client _client = Client();
+  //final ReservaRepository reservaRepository = ReservaRepositoryImpl();
   //final ReservaRepository reservaRepository = ReservaRepositoryImpl();
 
   /*
@@ -50,7 +52,8 @@ class ReservaRepositoryImpl extends ReservaRepository {
         headers: {'Authorization': 'Bearer $tkn'});
 
     if (response.statusCode == 200) {
-      return ReservasResponse.fromJson(json.decode(response.body))
+      return ReservasResponse.fromJson(
+              json.decode(utf8.decode(response.body.runes.toList())))
           .content
           .reversed
           .toList();
@@ -60,8 +63,23 @@ class ReservaRepositoryImpl extends ReservaRepository {
   }
 
   @override
-  Future<Reserva> createReserva(ReservasDto dto) {
-    // TODO: implement createReserva
-    throw UnimplementedError();
+  Future<Reserva> createReserva(ReservaItemDto dto) async {
+    var tkn = await Shared.getString(Constant.bearerToken);
+
+    Map<String, String> headers = {
+      "Authorization": "Bearer $tkn",
+      "content-type": "application/json"
+    };
+
+    final response = await _client.post(
+        Uri.parse('${Constant.apiBaseUrl}/reserva'),
+        headers: headers,
+        body: jsonEncode(dto));
+
+    if (response.statusCode == 201) {
+      return Reserva.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception("Oops ${response.statusCode}");
+    }
   }
 }

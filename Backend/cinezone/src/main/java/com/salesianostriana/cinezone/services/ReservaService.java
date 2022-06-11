@@ -58,9 +58,18 @@ public class ReservaService extends BaseService<Reserva, UUID, ReservaRepository
                         .titular(reservaDto.getTitular())
                         .no_tarjeta(reservaDto.getNo_tarjeta())
                         .build();
-                tarjetaService.save(newTarjeta);
+
+                if (tarjetaService.findByNum(newTarjeta.getNo_tarjeta()).isPresent()) {
+                    newReserva.setTarjeta(newTarjeta);
+                } else {
+                    tarjetaService.save(newTarjeta);
+                    currentUser.addTarjeta(newTarjeta);
+                    userEntityService.save(currentUser);
+                }
+
+              /*  tarjetaService.save(newTarjeta);
                 currentUser.addTarjeta(newTarjeta);
-                userEntityService.save(currentUser);
+                userEntityService.save(currentUser);*/
 
             }
 

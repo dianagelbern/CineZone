@@ -32,10 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
   */
   //late Future<void> _initializeVideoPlayerFuture;
 
-  String convertLocalHost(String url) {
-    return url.replaceAll("localhost:", "10.0.2.2:");
-  }
-
   @override
   void initState() {
     super.initState();
@@ -146,7 +142,10 @@ class _HomeScreenState extends State<HomeScreen> {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const DetailsScreen()),
+          MaterialPageRoute(
+              builder: (context) => DetailsScreen(
+                    id: movie.id.toString(),
+                  )),
         );
       },
       child: Column(

@@ -7,11 +7,16 @@ import com.salesianostriana.cinezone.models.asientosshow.AsientosShowPK;
 import com.salesianostriana.cinezone.models.show.Show;
 import com.salesianostriana.cinezone.repos.AsientosShowRepository;
 import com.salesianostriana.cinezone.services.base.BaseService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class AsientosShowService extends BaseService<AsientosShow, AsientosShowPK, AsientosShowRepository> {
 
 
@@ -40,6 +45,14 @@ public class AsientosShowService extends BaseService<AsientosShow, AsientosShowP
         }
 
 
+    }
+
+/*    public Page<AsientosShow> findAllAsientosByShowId(Long id, Pageable pageable){
+        return repositorio.findAllAsientosByShowId(id, pageable);
+    }*/
+
+    public List<AsientosShow> findAllAsientosByShowId(Long id){
+        return repositorio.findAllAsientosByShowId(id);
     }
 
 }

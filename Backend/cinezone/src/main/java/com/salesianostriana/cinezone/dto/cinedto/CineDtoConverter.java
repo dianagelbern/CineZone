@@ -1,8 +1,11 @@
 package com.salesianostriana.cinezone.dto.cinedto;
 
 import com.salesianostriana.cinezone.models.Cine;
+import com.salesianostriana.cinezone.models.Movie;
 import lombok.*;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
 
 @Component
 public class CineDtoConverter {
@@ -25,4 +28,6 @@ public class CineDtoConverter {
                 .latLon(c.getLatLon())
                 .plaza(c.getPlaza()).build();
     }
+
+
 }

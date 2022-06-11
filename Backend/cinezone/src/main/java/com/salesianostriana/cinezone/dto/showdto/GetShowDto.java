@@ -28,5 +28,11 @@ public class GetShowDto {
 
     private LocalTime hora;
 
+    private String nombreCine;
+
+    private Long idCine;
+
+    private Long idMovie;
+
 
 }

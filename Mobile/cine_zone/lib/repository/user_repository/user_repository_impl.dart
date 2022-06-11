@@ -23,7 +23,8 @@ class UserRepositoryImpl implements UserRepository {
     final response = await _client.get(Uri.parse('${Constant.apiBaseUrl}/me'),
         headers: {'Authorization': 'Bearer $tkn'});
     if (response.statusCode == 200) {
-      return UserResponse.fromJson(json.decode(response.body));
+      return UserResponse.fromJson(
+          json.decode(utf8.decode(response.body.runes.toList())));
     } else {
       throw Exception("Fail to load");
     }

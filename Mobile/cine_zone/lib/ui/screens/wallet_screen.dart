@@ -1,8 +1,11 @@
+import 'package:cine_zone/bloc/create_tarjeta_bloc/create_tarjeta_bloc.dart';
+import 'package:cine_zone/bloc/eliminar_tarjeta_bloc/eliminar_tarjeta_bloc.dart';
 import 'package:cine_zone/bloc/tarjeta_bloc/tarjeta_bloc.dart';
 import 'package:cine_zone/models/tarjeta/tarjeta_response.dart';
 import 'package:cine_zone/repository/tarjeta_repository/tarjeta_repository.dart';
 import 'package:cine_zone/repository/tarjeta_repository/tarjeta_repository_impl.dart';
 import 'package:cine_zone/ui/screens/menu_screen.dart';
+import 'package:cine_zone/ui/screens/new_tarjeta_screen.dart';
 import 'package:cine_zone/ui/widgets/error_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +20,8 @@ class WalletScreen extends StatefulWidget {
 
 class _WalletScreenState extends State<WalletScreen> {
   late TarjetaRepository tarjetaRepository;
+  late TarjetaBloc _tarjetaBloc;
+  late EliminarTarjetaBloc _eliminarTarjetaBloc;
 
   String get page => '0';
 
@@ -34,10 +39,15 @@ class _WalletScreenState extends State<WalletScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) {
-        return TarjetaBloc(tarjetaRepository)..add(FetchTarjetaWithPage(page));
-      },
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) =>
+              TarjetaBloc(tarjetaRepository)..add(FetchTarjetaWithPage(page)),
+        ),
+        BlocProvider(
+            create: (context) => EliminarTarjetaBloc(tarjetaRepository))
+      ],
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xFF2F2C44),
@@ -87,7 +97,12 @@ class _WalletScreenState extends State<WalletScreen> {
                             fontWeight: FontWeight.w600),
                       ),
                       TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => NewTarjetaScreen()));
+                          },
                           child: Text('+ Añadir',
                               style: TextStyle(
                                   color: Colors.white,
@@ -105,6 +120,82 @@ class _WalletScreenState extends State<WalletScreen> {
         return Text('Not support');
       }
     });
+  }
+
+  _blocConsumerEliminarTarjeta(BuildContext context, int id) {
+    return BlocConsumer<EliminarTarjetaBloc, EliminarTarjetaState>(
+      listenWhen: (context, state) {
+        return state is EliminarTarjetaSuccessState ||
+            state is EliminarTarjetaErrorState;
+      },
+      listener: (context, state) {
+        if (state is EliminarTarjetaSuccessState) {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => WalletScreen()));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("¡La tarjeta se eliminó con éxito",
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.w800)),
+              backgroundColor: Color(0xFF867AD2),
+            ),
+          );
+        } else if (state is EliminarTarjetaErrorState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Algo salió mal, vuelve a intentarlo")),
+          );
+        }
+      },
+      builder: (context, state) {
+        if (state is EliminarTarjetaInitial) {
+          return _botonEliminar(context, id);
+        } else if (state is EliminarTarjetaLoadingState) {
+          return ElevatedButton(
+              onPressed: () {}, child: CircularProgressIndicator());
+        } else {
+          return _botonEliminar(context, id);
+        }
+      },
+      buildWhen: (context, state) {
+        return state is EliminarTarjetaInitial ||
+            state is EliminarTarjetaErrorState;
+      },
+    );
+  }
+
+  Widget _botonEliminar(BuildContext context, int id) {
+    return TextButton(
+      onPressed: () {
+        showDialog(
+            context: context,
+            builder: (BuildContext ctx) {
+              return AlertDialog(
+                actions: [
+                  ElevatedButton(
+                    onPressed: () {
+                      BlocProvider.of<EliminarTarjetaBloc>(context)
+                          .add(DoEliminarTarjetaEvent(id.toString()));
+                      Navigator.pop(ctx);
+                    },
+                    child: Text("Sí"),
+                  ),
+                  ElevatedButton(
+                    onPressed: () => Navigator.pop(ctx),
+                    child: Text("No"),
+                  ),
+                ],
+                content: Text("¿Estás seguro de querer eliminar esta tarjeta?"),
+              );
+            });
+      },
+      child: Text(
+        'Eliminar tarjeta',
+        style: TextStyle(
+            color: Color(0xFFD74343),
+            fontSize: 15,
+            fontWeight: FontWeight.w600),
+      ),
+    );
   }
 
   Widget _walletList(BuildContext context, List<Tarjeta> tarjetas) {
@@ -169,75 +260,11 @@ class _WalletScreenState extends State<WalletScreen> {
           Container(
             margin: EdgeInsets.symmetric(horizontal: 30),
             alignment: Alignment.centerRight,
-            child: TextButton(
-              onPressed: () {},
-              child: Text(
-                'Eliminar tarjeta',
-                style: TextStyle(
-                    color: Color(0xFFD74343),
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600),
-              ),
-            ),
+            child: _blocConsumerEliminarTarjeta(context, tarjeta.id),
           ),
           Padding(
             padding: EdgeInsets.only(bottom: 20),
             child: Divider(color: Colors.grey, height: 3),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget suscription() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 30),
-      child: Column(
-        children: [
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 30),
-            width: 330,
-            height: 212,
-            child: Stack(
-              children: [
-                Container(
-                    decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage("assets/images/suscripcion.png"),
-                      fit: BoxFit.cover),
-                )),
-                Container(
-                  margin: EdgeInsets.only(right: 40, bottom: 40),
-                  alignment: Alignment.bottomRight,
-                  child: Text(
-                    '5519 1997 1053 4218',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(right: 20, top: 20),
-                  alignment: Alignment.topRight,
-                  child: Text(
-                    'Fanático',
-                    style: TextStyle(color: Colors.white, fontSize: 22),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 30),
-            alignment: Alignment.centerRight,
-            child: TextButton(
-              onPressed: () {},
-              child: Text(
-                'Eliminar Suscripción',
-                style: TextStyle(
-                    color: Color(0xFFD74343),
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600),
-              ),
-            ),
           )
         ],
       ),

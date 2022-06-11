@@ -1,5 +1,6 @@
 package com.salesianostriana.cinezone.services;
 
+import com.salesianostriana.cinezone.error.exception.entitynotfound.SingleEntityNotFoundException;
 import com.salesianostriana.cinezone.models.Asiento;
 import com.salesianostriana.cinezone.models.Sala;
 import com.salesianostriana.cinezone.repos.AsientoRepository;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,4 +32,17 @@ public class AsientoService extends BaseService<Asiento, Long, AsientoRepository
         }
         return repositorio.saveAll(result);
     }
+
+    public Asiento find(Long id){
+
+        Optional<Asiento> optionalAsiento = repositorio.findById(id);
+
+        if(optionalAsiento.isPresent()){
+            return optionalAsiento.get();
+        } else {
+            throw new SingleEntityNotFoundException(Asiento.class);
+        }
+
+    }
+
 }

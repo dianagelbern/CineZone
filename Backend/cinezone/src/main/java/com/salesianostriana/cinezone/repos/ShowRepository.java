@@ -38,7 +38,6 @@ public interface ShowRepository extends JpaRepository<Show, Long> {
             """, nativeQuery = true)
     Page<Show> findAllShowsByMovieId(Pageable pageable, @Param("id") Long idmovie, @Param("fecha") LocalDate fecha);
 
-
     @Query(value= """
             SELECT *
             FROM SHOW s
@@ -46,7 +45,7 @@ public interface ShowRepository extends JpaRepository<Show, Long> {
             AND s.fecha = :fecha
             ORDER BY movie
             """, nativeQuery = true)
-    Page<Show> finsAllShowsByCineId(Pageable pageable, @Param("id") Long idcine, @Param("fecha") LocalDate fecha);
+    Page<Show> findsAllShowsByCineId(Pageable pageable, @Param("id") Long idcine, @Param("fecha") LocalDate fecha);
 
 
     @Query(value= """

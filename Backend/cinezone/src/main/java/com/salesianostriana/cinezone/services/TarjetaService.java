@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service
@@ -24,12 +25,15 @@ public class TarjetaService extends BaseService<Tarjeta, Long, TarjetaRepository
     private final UserEntityService userEntityService;
 
     public Tarjeta createTarjeta(CreateTarjetaDto tarjetaDto, UserEntity currentUser){
+
+
         Tarjeta newTarjeta = Tarjeta.builder()
                 .usuario(currentUser)
                 .titular(tarjetaDto.getTitular())
                 .fecha_cad(tarjetaDto.getFecha_cad())
                 .no_tarjeta(tarjetaDto.getNo_tarjeta())
                 .build();
+
         repositorio.save(newTarjeta);
         userEntityService.save(currentUser);
         return newTarjeta;
@@ -59,4 +63,7 @@ public class TarjetaService extends BaseService<Tarjeta, Long, TarjetaRepository
 
     }
 
+    public Optional<Tarjeta> findByNum(String num){
+        return repositorio.findTarjetaByNumber(num);
+    }
 }

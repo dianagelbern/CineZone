@@ -23,7 +23,6 @@ class DetailsScreen extends StatefulWidget {
 
 class _DetailsScreenState extends State<DetailsScreen> {
   late MovieRepository movieRepository;
-  //String get id => "1";
 
   @override
   void initState() {
@@ -118,7 +117,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const CinesScreen()),
+                              builder: (context) => CinesScreen(
+                                  id: movie.id, nombre: movie.titulo)),
                         );
                       },
                       child: Row(
@@ -367,6 +367,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
           ),
         ),
         Container(
+          padding: EdgeInsets.symmetric(horizontal: 10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

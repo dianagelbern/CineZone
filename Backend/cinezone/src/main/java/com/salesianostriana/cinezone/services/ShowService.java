@@ -1,11 +1,8 @@
 package com.salesianostriana.cinezone.services;
 
 import com.salesianostriana.cinezone.dto.showdto.CreateShowDto;
-import com.salesianostriana.cinezone.error.exception.entitynotfound.EntityNotFoundException;
 import com.salesianostriana.cinezone.error.exception.entitynotfound.SingleEntityNotFoundException;
-import com.salesianostriana.cinezone.error.exception.reservasexception.AsientosOcupadosException;
 import com.salesianostriana.cinezone.error.exception.reservasexception.RelacionInvalidaException;
-import com.salesianostriana.cinezone.error.exception.reservasexception.ShowEnCursoException;
 import com.salesianostriana.cinezone.models.Asiento;
 import com.salesianostriana.cinezone.models.Cine;
 import com.salesianostriana.cinezone.models.Movie;
@@ -13,15 +10,12 @@ import com.salesianostriana.cinezone.models.Sala;
 import com.salesianostriana.cinezone.models.show.Show;
 import com.salesianostriana.cinezone.repos.ShowRepository;
 import com.salesianostriana.cinezone.services.base.BaseService;
-import com.sun.xml.bind.v2.runtime.unmarshaller.XsiNilLoader;
 import lombok.RequiredArgsConstructor;
-import org.joda.time.DateTime;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -86,7 +80,7 @@ public class ShowService extends BaseService<Show, Long, ShowRepository> {
 
 
     public Page<Show> findAllShowsByCine(Pageable pageable, Long id, LocalDate fecha){
-        return repositorio.finsAllShowsByCineId(pageable, id, fecha);
+        return repositorio.findsAllShowsByCineId(pageable, id, fecha);
     }
 
 

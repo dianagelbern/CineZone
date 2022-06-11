@@ -1,6 +1,6 @@
 import 'package:cine_zone/ui/screens/home_screen.dart';
 import 'package:cine_zone/ui/screens/profile_screen.dart';
-import 'package:cine_zone/ui/screens/search_screen.dart';
+import 'package:cine_zone/ui/screens/map_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +15,7 @@ class _MenuScreenState extends State<MenuScreen> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
-    SearchScreen(),
+    MapaScreen(),
     ProfileScreen(),
   ];
 

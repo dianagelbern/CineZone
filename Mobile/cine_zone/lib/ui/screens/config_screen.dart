@@ -1,3 +1,5 @@
+import 'package:cine_zone/repository/constants.dart';
+import 'package:cine_zone/repository/shared.dart';
 import 'package:cine_zone/ui/screens/ayuda_screen.dart';
 import 'package:cine_zone/ui/screens/login_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -173,10 +175,10 @@ class _ConfigScreenState extends State<ConfigScreen> {
       margin: const EdgeInsets.only(top: 20),
       child: TextButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const LoginScreen()),
-            );
+            Shared.remove(Constant.bearerToken).whenComplete(() =>
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/login', ModalRoute.withName('/')));
+            Navigator.pop(context);
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

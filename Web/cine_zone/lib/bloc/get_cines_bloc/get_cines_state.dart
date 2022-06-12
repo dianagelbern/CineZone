@@ -8,7 +8,7 @@ abstract class GetCinesState extends Equatable {
 class GetCinesInitial extends GetCinesState {}
 
 class GetCinesSuccessState extends GetCinesState {
-  final CinesResponse cineList;
+  final List<Cine> cineList;
 
   GetCinesSuccessState(this.cineList);
 

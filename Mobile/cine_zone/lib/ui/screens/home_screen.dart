@@ -172,6 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     imageUrl: movie.imagen,
                     width: width,
+                    height: 210,
                     //height: double.infinity,
                     fit: BoxFit.cover,
                   ),

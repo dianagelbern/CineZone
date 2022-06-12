@@ -88,7 +88,7 @@ public class UserController {
                     description = "La lista de usuarios está vacía",
                     content = @Content),
     })
-    @GetMapping("/usuarios")
+    @GetMapping("/usuarios/")
     public ResponseEntity<Page<GetUserDto>> findAllUsuarios(@PageableDefault(size = 10, page = 0) Pageable pageable, HttpServletRequest request){
         Page<UserEntity> u = userEntityService.findAllUsuarios(pageable);
 

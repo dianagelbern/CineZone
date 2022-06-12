@@ -3,6 +3,7 @@ import 'package:cine_zone/bloc/get_cines_bloc/get_cines_bloc.dart';
 import 'package:cine_zone/models/cine/cine_response.dart';
 import 'package:cine_zone/repository/cine_repository/cine_repository.dart';
 import 'package:cine_zone/repository/cine_repository/cine_repository_impl.dart';
+import 'package:cine_zone/ui/screens/salas_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -30,18 +31,8 @@ class _CinesScreenState extends State<CinesScreen> {
   late GetCinesBloc _getCinesBloc;
   late CineRepository cineRepository;
 
-  //CineDataSource? cineDataSource;
   int page = 0;
   List<Cine> cinesData = [];
-  /*
-  
-  List<Cine> cines = <Cine>[];
-
-
-  List<DataGridRow> dataGridRows = [];
-  final double _dataPagerHeight = 60.0;
-  */
-
   @override
   void initState() {
     // TODO: implement initState
@@ -89,185 +80,133 @@ class _CinesScreenState extends State<CinesScreen> {
         } else if (state is GetCinesSuccessState) {
           //cineDataSource = CineDataSource(cineData: state.cineList);
           //cinesData = state.cineList;
-          return _tabla(context, state.cineList);
-          //_tabla(context, CineDataSource(cineData: state.cineList));
+          return Container(
+            width: 1050,
+            height: 580,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.0),
+              color: Colors.white,
+            ),
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 30),
+                  child: Row(
+                    children: [
+                      _modelTableHead("ID"),
+                      _modelTableHead("Nombre"),
+                      _modelTableHead("Dirección"),
+                      _modelTableHead("Plaza"),
+                      _modelTableHead("LatLon"),
+                      _modelTableHead("Más"),
+                    ],
+                  ),
+                ),
+                _cineList(context, state.cineList),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 30, horizontal: 50),
+                  alignment: Alignment.center,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.arrow_back_ios_new_rounded,
+                            color: Colors.grey,
+                          )),
+                      IconButton(
+                          onPressed: () {
+                            /*
+                            setState(() {
+                              page = page + 1;
+                            });
+                            BlocProvider.of<GetMoviesBloc>(context)
+                                .add(DoGetMoviesEvent(page.toString()));
+                            print(page);
+                            */
+                          },
+                          icon: Icon(Icons.arrow_forward_ios_rounded,
+                              color: Colors.grey))
+                    ],
+                  ),
+                )
+              ],
+            ),
+          );
         } else {
-          return Text("");
+          return Text("Algo salió mal");
         }
       },
     );
   }
 
-  Widget _tabla(BuildContext context, CinesResponse cines) {
-    cinesData = cines.content;
-    return Container(
-      width: 1000,
-      child: Column(
-        children: [
-          SizedBox(
-            height: 10,
-          ),
-          PaginatedDataTable(
-            key: key,
-            source: CineDataSource(cineData: cinesData),
-            columns: const [
-              DataColumn(
-                  label: Text(
-                'ID',
-                style: TextStyle(
-                    color: Color(0xFF000000),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14),
-              )),
-              DataColumn(
-                  label: Text('Nombre del cine',
-                      style: TextStyle(
-                          color: Color(0xFF000000),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14))),
-              DataColumn(
-                  label: Text('Dirección',
-                      style: TextStyle(
-                          color: Color(0xFF000000),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14))),
-              DataColumn(
-                  label: Text('Latitud-Longitud',
-                      style: TextStyle(
-                          color: Color(0xFF000000),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14))),
-              DataColumn(
-                  label: Text('Plaza',
-                      style: TextStyle(
-                          color: Color(0xFF000000),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14))),
-              DataColumn(
-                  label: Text('Más',
-                      style: TextStyle(
-                          color: Color(0xFF000000),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14))),
-            ],
-            columnSpacing: 100,
-            horizontalMargin: 10,
-            rowsPerPage: _rowsPerPage,
-            initialFirstRowIndex: 0,
-            showCheckboxColumn: false,
-            arrowHeadColor: Color(0xFF848484),
-            onPageChanged: (int n) {
-              //cines.last != false
-              setState(() {
-                if (page != null) {
-                  if (CineDataSource(cineData: cinesData)._rowCount - page <
-                      _rowsPerPage) {
-                    _rowsPerPage =
-                        CineDataSource(cineData: cinesData)._rowCount - page;
-                  } else {
-                    _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
-                  }
-                } else {
-                  _rowsPerPage = 0;
-                }
-              });
-            },
+  Widget _cineList(BuildContext context, List<Cine> cines) {
+    return Flexible(
+      child: Container(
+          child: ListView.builder(
+        shrinkWrap: true,
+        physics: const BouncingScrollPhysics(),
+        itemBuilder: (BuildContext context, int index) {
+          return _cineItem(context, cines.elementAt(index));
+        },
+        itemCount: cines.length,
+      )),
+    );
+  }
 
-            /*
-            onPageChanged: (int n) {
-              BlocProvider.of<GetCinesBloc>(context)
-                  .add(DoGetCinesEvent(n.toString()));
-              //setState(() {});
-              key.currentState!.pageTo(n);
-              setState(() {
-                page = page + 1;
-              });
-            },
-            */
-          ),
+  Widget _cineItem(BuildContext context, Cine cine) {
+    return GestureDetector(
+      onTap: () {
+        print(cine.id);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SalasScreen(
+                    idCine: cine.id.toString(),
+                    nombreCine: cine.nombre,
+                    nombrePlaza: cine.plaza)));
+      },
+      child: Row(
+        children: [
+          _modelTable(cine.id.toString()),
+          _modelTable(cine.nombre),
+          _modelTable(cine.direccion),
+          _modelTable(cine.plaza),
+          _modelTable(cine.latLon),
+          Container(
+            width: 150,
+            child: IconButton(
+              icon: Icon(
+                Icons.edit,
+                color: Color.fromARGB(255, 107, 97, 175),
+              ),
+              onPressed: () {},
+            ),
+          )
         ],
       ),
     );
   }
 
-  /*
-  _tabla(BuildContext context, CineDataSource cineDataSource) {
-    return Column(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-          ),
-          margin: EdgeInsets.all(30),
-          child: SfDataGrid(
-            footer: Row(children: [
-              ElevatedButton(
-                  onPressed: () {
-                    if (page >= 0) {
-                      setState(() {
-                        page--;
-                      });
-                    }
-                  },
-                  child: Text("<-")),
-              ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      page = page + 1;
-                    });
-                    BlocProvider.of<GetCinesBloc>(context)
-                        .add(DoGetCinesEvent("$page"));
-                    print("Pulsado, $page");
-                  },
-                  child: Text("->"))
-            ]),
-            source: cineDataSource,
-            columnWidthMode: ColumnWidthMode.fill,
-            allowMultiColumnSorting: true,
-            columns: <GridColumn>[
-              GridColumn(
-                  columnName: 'ID',
-                  label: Container(
-                      color: Colors.white,
-                      padding: EdgeInsets.all(16.0),
-                      alignment: Alignment.center,
-                      child: Text(
-                        'ID',
-                      ))),
-              GridColumn(
-                  columnName: 'Nombre',
-                  label: Container(
-                      color: Colors.white,
-                      padding: EdgeInsets.all(8.0),
-                      alignment: Alignment.center,
-                      child: Text('Nombre'))),
-              GridColumn(
-                  columnName: 'Direccion',
-                  label: Container(
-                      color: Colors.white,
-                      padding: EdgeInsets.all(8.0),
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Direccion',
-                        overflow: TextOverflow.ellipsis,
-                      ))),
-              GridColumn(
-                  columnName: 'Plaza',
-                  label: Container(
-                      color: Colors.white,
-                      padding: EdgeInsets.all(8.0),
-                      alignment: Alignment.center,
-                      child: Text('Plaza'))),
-            ],
-            selectionMode: SelectionMode.single,
-            rowsPerPage: 10,
-          ),
-        )
-      ],
+  Widget _modelTable(String dato) {
+    return Container(
+      width: 175,
+      alignment: Alignment.center,
+      child: Text(dato),
     );
   }
 
-  */
+  Widget _modelTableHead(String dato) {
+    return Container(
+      width: 175,
+      alignment: Alignment.center,
+      child: Text(
+        dato,
+        style: TextStyle(fontWeight: FontWeight.w800),
+      ),
+    );
+  }
 
   Widget _opciones() {
     return Container(
@@ -355,55 +294,4 @@ class _CinesScreenState extends State<CinesScreen> {
       ),
     );
   }
-}
-
-class CineDataSource extends DataTableSource {
-  CineDataSource({required List<Cine> cineData}) {
-    _cineData = cineData;
-  }
-  List<Cine> _cineData = [];
-  final _rowCount = 10;
-
-  @override
-  DataRow? getRow(int index) {
-    if (index < _rowCount) {
-      return DataRow(
-        onLongPress: () =>
-            print("Seleccionada toda la fila ${_cineData[index].id}"),
-        cells: [
-          DataCell(Text(_cineData[index].id.toString())),
-          DataCell(Text(_cineData[index].nombre)),
-          DataCell(Text(_cineData[index].direccion.toString())),
-          DataCell(Text(_cineData[index].latLon.toString())),
-          DataCell(Text(_cineData[index].plaza.toString())),
-          DataCell(Row(
-            children: [
-              TextButton(
-                  onPressed: () {
-                    print("seleccionado ${_cineData[index].id}");
-                  },
-                  child: Icon(
-                    Icons.edit,
-                    color: Color(0xFF624DE3),
-                  )),
-            ],
-          ))
-        ],
-      );
-    } else {
-      return null;
-    }
-  }
-
-  @override
-  // TODO: implement isRowCountApproximate
-  bool get isRowCountApproximate => true;
-
-  @override
-  // TODO: implement rowCount
-  int get rowCount => _rowCount;
-
-  @override
-  // TODO: implement selectedRowCount
-  int get selectedRowCount => 0;
 }

@@ -11,8 +11,7 @@ class SalaRepositoryImpl extends SalaRepository {
   final Client _client = Client();
 
   @override
-  Future<SalasFromCineResponse> getAllSalasFromCine(
-      String page, String cineId) async {
+  Future<List<Sala>> getAllSalasFromCine(String page, String cineId) async {
     var tkn = window.localStorage[Constant.bearerToken];
 
     final response = await _client.get(
@@ -20,7 +19,10 @@ class SalaRepositoryImpl extends SalaRepository {
         headers: {'Authorization': 'Bearer $tkn'});
 
     if (response.statusCode == 200) {
-      return SalasFromCineResponse.fromJson(json.decode(response.body));
+      return SalasFromCineResponse.fromJson(
+              json.decode(utf8.decode(response.body.runes.toList())))
+          .content
+          .toList();
     } else {
       throw Exception(response.statusCode);
     }

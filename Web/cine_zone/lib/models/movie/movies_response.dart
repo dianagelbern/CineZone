@@ -1,5 +1,5 @@
-class SalasFromCineResponse {
-  SalasFromCineResponse({
+class MoviesResponse {
+  MoviesResponse({
     required this.content,
     required this.pageable,
     required this.last,
@@ -12,7 +12,7 @@ class SalasFromCineResponse {
     required this.numberOfElements,
     required this.empty,
   });
-  late final List<Sala> content;
+  late final List<Movie> content;
   late final Pageable pageable;
   late final bool last;
   late final int totalPages;
@@ -24,8 +24,8 @@ class SalasFromCineResponse {
   late final int numberOfElements;
   late final bool empty;
 
-  SalasFromCineResponse.fromJson(Map<String, dynamic> json) {
-    content = List.from(json['content']).map((e) => Sala.fromJson(e)).toList();
+  MoviesResponse.fromJson(Map<String, dynamic> json) {
+    content = List.from(json['content']).map((e) => Movie.fromJson(e)).toList();
     pageable = Pageable.fromJson(json['pageable']);
     last = json['last'];
     totalPages = json['totalPages'];
@@ -55,23 +55,55 @@ class SalasFromCineResponse {
   }
 }
 
-class Sala {
-  Sala({
+class Movie {
+  Movie({
     required this.id,
-    required this.nombre,
+    required this.genero,
+    required this.titulo,
+    required this.director,
+    required this.clasificacion,
+    required this.productora,
+    required this.sinopsis,
+    required this.duracion,
+    required this.imagen,
+    required this.trailer,
   });
   late final int id;
-  late final String nombre;
+  late final String genero;
+  late final String titulo;
+  late final String director;
+  late final String clasificacion;
+  late final String productora;
+  late final String sinopsis;
+  late final int duracion;
+  late final String imagen;
+  late final String trailer;
 
-  Sala.fromJson(Map<String, dynamic> json) {
+  Movie.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    nombre = json['nombre'];
+    genero = json['genero'];
+    titulo = json['titulo'];
+    director = json['director'];
+    clasificacion = json['clasificacion'];
+    productora = json['productora'];
+    sinopsis = json['sinopsis'];
+    duracion = json['duracion'];
+    imagen = json['imagen'];
+    trailer = json['trailer'];
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['id'] = id;
-    _data['nombre'] = nombre;
+    _data['genero'] = genero;
+    _data['titulo'] = titulo;
+    _data['director'] = director;
+    _data['clasificacion'] = clasificacion;
+    _data['productora'] = productora;
+    _data['sinopsis'] = sinopsis;
+    _data['duracion'] = duracion;
+    _data['imagen'] = imagen;
+    _data['trailer'] = trailer;
     return _data;
   }
 }
@@ -80,23 +112,23 @@ class Pageable {
   Pageable({
     required this.sort,
     required this.offset,
-    required this.pageSize,
     required this.pageNumber,
+    required this.pageSize,
     required this.paged,
     required this.unpaged,
   });
   late final Sort sort;
   late final int offset;
-  late final int pageSize;
   late final int pageNumber;
+  late final int pageSize;
   late final bool paged;
   late final bool unpaged;
 
   Pageable.fromJson(Map<String, dynamic> json) {
     sort = Sort.fromJson(json['sort']);
     offset = json['offset'];
-    pageSize = json['pageSize'];
     pageNumber = json['pageNumber'];
+    pageSize = json['pageSize'];
     paged = json['paged'];
     unpaged = json['unpaged'];
   }
@@ -105,8 +137,8 @@ class Pageable {
     final _data = <String, dynamic>{};
     _data['sort'] = sort.toJson();
     _data['offset'] = offset;
-    _data['pageSize'] = pageSize;
     _data['pageNumber'] = pageNumber;
+    _data['pageSize'] = pageSize;
     _data['paged'] = paged;
     _data['unpaged'] = unpaged;
     return _data;

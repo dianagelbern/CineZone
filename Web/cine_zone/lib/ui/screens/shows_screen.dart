@@ -616,7 +616,7 @@ class _ShowsScreenState extends State<ShowsScreen> {
                               color: Color.fromARGB(125, 255, 255, 255),
                               fontSize: 13),
                           hintText: selectedDate == null
-                              ? 'Fecha de vencimiento'
+                              ? 'Fecha de emisión'
                               : DateFormat.EEEE(selectedDate).toString()),
                     ),
                   ),

@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:cine_zone/bloc/create_movie_bloc/create_movie_bloc.dart';
 import 'package:cine_zone/bloc/get_movies_bloc/get_movies_bloc.dart';
 import 'package:cine_zone/bloc/image_pick_bloc/image_pick_bloc.dart';
@@ -35,8 +37,11 @@ class _PeliculasScreenState extends State<PeliculasScreen> {
   TextEditingController productoraController = TextEditingController();
   TextEditingController sinopsisController = TextEditingController();
   TextEditingController duracionController = TextEditingController();
+  XFile? _selectedFile;
+  File _file = File("zz");
+  Uint8List webImage = Uint8List(8);
 
-  XFile? _pickedFile;
+  File? _pickedFile;
   final ImagePicker _picker = ImagePicker();
 
   @override
@@ -309,49 +314,84 @@ class _PeliculasScreenState extends State<PeliculasScreen> {
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
-                content: Column(
-                  children: [
-                    Center(child: _imagePickerBoton(ctx)),
-                    _formCreateMovie(context),
-                    Container(
-                      margin: EdgeInsets.only(left: 60),
-                      width: 161,
-                      height: 47,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        gradient: LinearGradient(
-                          colors: [
-                            Color.fromARGB(244, 134, 122, 210),
-                            Color.fromARGB(255, 107, 97, 175)
-                          ],
-                          begin: FractionalOffset.topCenter,
-                          end: FractionalOffset.bottomCenter,
-                        ),
-                      ),
-                      child: TextButton(
-                        onPressed: () {
-                          final createMovie = MovieDto(
-                              genero: generoController.text,
-                              titulo: tituloController.text,
-                              director: directorController.text,
-                              clasificacion: clasificacionController.text,
-                              productora: productoraController.text,
-                              sinopsis: sinopsisController.text,
-                              duracion: int.parse(duracionController.text));
+                content: StatefulBuilder(
+                    builder: (BuildContext context, StateSetter setState) {
+                  return Column(
+                    children: [
+                      Center(
+                        child: Column(
+                          children: [
+                            _pickedFile == null
+                                ? Image.asset(
+                                    "assets/images/error.png",
+                                    scale: 3,
+                                  )
+                                : Image.memory(
+                                    webImage,
+                                    width: 50,
+                                    fit: BoxFit.cover,
+                                  ),
+                            /* (kIsWeb)
+                                    ? Image.memory(
+                                        webImage,
+                                        fit: BoxFit.fill,
+                                      )
+                                    : Image.file(
+                                        _pickedFile!,
+                                        fit: BoxFit.fill,
+                                      ), */
 
-                          BlocProvider.of<CreateMovieBloc>(ctx)
-                              .add(CreateMovie(createMovie, path!));
-                          print(createMovie.toJson().toString());
-                        },
-                        child: Text(
-                          'Añadir película',
-                          style: TextStyle(color: Colors.white, fontSize: 16),
+                            ElevatedButton(
+                              onPressed: () {
+                                _pickImage(setState);
+                                print(_pickedFile?.path);
+                              },
+                              child: Text("Upload"),
+                            )
+                          ],
                         ),
                       ),
-                    )
-                    // createMovieBlocConsumer(context)
-                  ],
-                ),
+                      _formCreateMovie(context),
+                      Container(
+                        margin: EdgeInsets.only(left: 60),
+                        width: 161,
+                        height: 47,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          gradient: LinearGradient(
+                            colors: [
+                              Color.fromARGB(244, 134, 122, 210),
+                              Color.fromARGB(255, 107, 97, 175)
+                            ],
+                            begin: FractionalOffset.topCenter,
+                            end: FractionalOffset.bottomCenter,
+                          ),
+                        ),
+                        child: TextButton(
+                          onPressed: () {
+                            final createMovie = MovieDto(
+                                genero: generoController.text,
+                                titulo: tituloController.text,
+                                director: directorController.text,
+                                clasificacion: clasificacionController.text,
+                                productora: productoraController.text,
+                                sinopsis: sinopsisController.text,
+                                duracion: int.parse(duracionController.text));
+
+                            BlocProvider.of<CreateMovieBloc>(ctx)
+                                .add(CreateMovie(createMovie, _selectedFile!));
+                            print(createMovie.toJson().toString());
+                          },
+                          child: Text(
+                            'Añadir película',
+                            style: TextStyle(color: Colors.white, fontSize: 16),
+                          ),
+                        ),
+                      )
+                      // createMovieBlocConsumer(context)
+                    ],
+                  );
+                }),
               );
             }),
         child: Text(
@@ -361,6 +401,90 @@ class _PeliculasScreenState extends State<PeliculasScreen> {
       ),
     );
   }
+
+  Future<void> _pickImage(StateSetter setState) async {
+    final ImagePicker _picker = ImagePicker();
+    XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      var imageBytes = await image.readAsBytes();
+
+      setState(() {
+        _selectedFile = image;
+        webImage = imageBytes;
+        _pickedFile = File(image.path);
+      });
+      print(_pickedFile?.path);
+    } else {
+      Text("No file selected");
+    }
+
+    /*   if (!kIsWeb) {
+      final ImagePicker _picker = ImagePicker();
+      XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+      if (image != null) {
+        var selected = File(image.path);
+
+        setState(() {
+          _pickedFile = selected;
+        });
+      } else {
+        Text("No file selected");
+      }
+    } else if (kIsWeb) {
+      final ImagePicker _picker = ImagePicker();
+      XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+      if (image != null) {
+        var f = await image.readAsBytes();
+        setState(() {
+          webImage = f;
+          _pickedFile = File("a");
+        });
+      } else {
+        Text("No file selected");
+      }
+    } else {
+      print("Algo salio mal");
+    } */
+  }
+
+  /*
+  uploadImage() async {
+    //var permissionStatus = requestPermissions();
+
+    // MOBILE
+    if (!kIsWeb) {
+      final ImagePicker _picker = ImagePicker();
+      XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+
+      if (image != null) {
+        var selected = File(image.path);
+
+        setState(() {
+          _file = selected;
+        });
+      } else {
+        Text("No file selected");
+      }
+    }
+    // WEB
+    else if (kIsWeb) {
+      final ImagePicker _picker = ImagePicker();
+      XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+      if (image != null) {
+        var f = await image.readAsBytes();
+        setState(() {
+          _file = File("a");
+          webImage = f;
+        });
+      } else {
+        Text("No file selected");
+      }
+    } else {
+      Text("Permission not granted");
+    }
+  }
+  */
 
   /* Widget imageBloc(BuildContext context) {
     return BlocConsumer<ImagePickBloc, ImagePickState>(
@@ -378,6 +502,7 @@ class _PeliculasScreenState extends State<PeliculasScreen> {
     );
   }
  */
+  /*
   _selectedImage() {
     if (_pickedFile != null) {
       return Image.asset(
@@ -414,9 +539,6 @@ class _PeliculasScreenState extends State<PeliculasScreen> {
         Text("No hay permiso para la operación");
       }
 
-      /*
-      
-      */
     } catch (e) {
       throw Exception("Hubo un error con la imagen");
     }
@@ -431,6 +553,7 @@ class _PeliculasScreenState extends State<PeliculasScreen> {
           onTap: () => _pickImage(),
         ));
   }
+ */
 
   /*  _imagePickerBoton(BuildContext context) {
     return Center(

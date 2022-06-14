@@ -28,7 +28,6 @@ public interface UserEntityRepository extends JpaRepository<UserEntity, UUID> {
     @Query("""
             SELECT p
             FROM UserEntity p
-            WHERE p.role like 'USER'
             """)
     Page<UserEntity> findAllUsuarios(Pageable pageable);
 

@@ -18,7 +18,6 @@ import 'package:provider/provider.dart';
 
 class MovieRepositoryImpl extends MovieRepository {
   final Client _client = Client();
-  var image;
 
   @override
   Future<List<Movie>> fetchMovies(String page) async {
@@ -39,26 +38,34 @@ class MovieRepositoryImpl extends MovieRepository {
   }
 
   @override
-  Future<Movie> createMovie(MovieDto dto, String image) async {
+  Future<Movie> createMovie(MovieDto dto, XFile image) async {
     var tkn = window.localStorage[Constant.bearerToken];
-    Uint8List _bytesData =
-        Base64Decoder().convert(image.toString().split(",").last);
-    List<int> _selectedFile = _bytesData;
+    //Uint8List _bytesData = Base64Decoder().convert(image.path);
+    //List<int> _selectedFile = _bytesData;
 
     final request = http.MultipartRequest(
         'POST', Uri.parse('${Constant.apiBaseUrl}/movie/'))
       ..files.add(http.MultipartFile.fromString('body', jsonEncode(dto),
           contentType: MediaType('application', 'json')))
-      /*
-          http.MultipartFile.fromPath('file', image,
-          contentType: MediaType('image', 'jpg')
-          */
+      ..files.add(http.MultipartFile.fromBytes(
+          'image',
+          await image.readAsBytes().then((value) {
+            return value.cast();
+          }),
+          filename: image.path.toString() + image.name))
+      ..headers.addAll({"Authorization": "Bearer $tkn"});
+
+    /*    final request = http.MultipartRequest(
+        'POST', Uri.parse('${Constant.apiBaseUrl}/movie/'))
+      ..files.add(http.MultipartFile.fromString('body', jsonEncode(dto),
+          contentType: MediaType('application', 'json')))
       ..files.add(await http.MultipartFile.fromBytes('file', _selectedFile,
           contentType: MediaType('image', 'jpg')))
       ..headers.addAll({"Authorization": "Bearer $tkn"});
+ */
 
     final response = await request.send();
-
+    print(response.statusCode);
     if (response.statusCode == 201) {
       return Movie.fromJson(jsonDecode(await response.stream.bytesToString()));
     } else {

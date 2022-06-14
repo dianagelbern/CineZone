@@ -1,10 +1,13 @@
+import 'dart:html';
+import 'dart:typed_data';
+
 import 'package:bloc/bloc.dart';
 import 'package:cine_zone/models/movie/movie_dto.dart';
 import 'package:cine_zone/models/movie/movies_response.dart';
 import 'package:cine_zone/repository/movie_repository/movie_repository.dart';
 import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
-
+import 'package:image_picker/image_picker.dart';
 part 'create_movie_event.dart';
 part 'create_movie_state.dart';
 

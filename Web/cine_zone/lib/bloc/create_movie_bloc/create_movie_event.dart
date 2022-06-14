@@ -9,7 +9,7 @@ abstract class CreateMovieEvent extends Equatable {
 
 class CreateMovie extends CreateMovieEvent {
   final MovieDto movieDto;
-  final String image;
+  final XFile image;
 
   const CreateMovie(this.movieDto, this.image);
 

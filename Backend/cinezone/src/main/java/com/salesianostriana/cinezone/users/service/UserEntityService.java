@@ -99,12 +99,7 @@ public class UserEntityService extends BaseService <UserEntity, UUID, UserEntity
     }
 
     public Page <UserEntity> findAllUsuarios(Pageable pageable){
-
-        if(repositorio.findAllUsuarios(pageable).isEmpty()){
-            throw new ListEntityNotFoundException(UserEntity.class);
-        }else{
             return repositorio.findAllUsuarios(pageable);
-        }
     }
 
 

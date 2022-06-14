@@ -49,6 +49,8 @@ dev_dependencies:
   intl: ^0.17.0
   date_picker_timeline: ^1.2.3
   datetime_picker_formfield: ^2.0.0
+  flutter_typeahead: ^4.0.0
+  dropdown_button2: ^1.6.2
 
 
   # The "flutter_lints" package below contains a set of recommended lints to

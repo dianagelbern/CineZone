@@ -15,7 +15,7 @@ class SalasScreen extends StatefulWidget {
       required this.nombrePlaza})
       : super(key: key);
 
-  String idCine;
+  int idCine;
   String nombreCine;
   String nombrePlaza;
   @override
@@ -34,7 +34,7 @@ class _SalasScreenState extends State<SalasScreen> {
     super.initState();
     salaRepository = SalaRepositoryImpl();
     getSalasFromCineBloc = GetSalasFromCineBloc(salaRepository)
-      ..add(DoGetSalasFromCineEvent(page.toString(), widget.idCine));
+      ..add(DoGetSalasFromCineEvent(page.toString(), widget.idCine.toString()));
   }
 
   @override
@@ -155,7 +155,8 @@ class _SalasScreenState extends State<SalasScreen> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => ShowsScreen(salaId: sala.id.toString())));
+                builder: (context) =>
+                    ShowsScreen(salaId: sala.id, cineId: widget.idCine)));
       },
       child: Row(
         children: [

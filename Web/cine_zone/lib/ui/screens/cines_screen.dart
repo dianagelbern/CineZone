@@ -1,4 +1,6 @@
+import 'package:cine_zone/bloc/create_cine_bloc/create_cine_bloc.dart';
 import 'package:cine_zone/bloc/get_cines_bloc/get_cines_bloc.dart';
+import 'package:cine_zone/models/cine/cine_dto.dart';
 
 import 'package:cine_zone/models/cine/cine_response.dart';
 import 'package:cine_zone/repository/cine_repository/cine_repository.dart';
@@ -6,6 +8,7 @@ import 'package:cine_zone/repository/cine_repository/cine_repository_impl.dart';
 import 'package:cine_zone/ui/screens/salas_screen.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,6 +27,13 @@ class CinesScreen extends StatefulWidget {
 
 class _CinesScreenState extends State<CinesScreen> {
   TextEditingController searchController = TextEditingController();
+
+  TextEditingController nombreController = TextEditingController();
+  TextEditingController direccionController = TextEditingController();
+  TextEditingController latLonController = TextEditingController();
+  TextEditingController numSalasController = TextEditingController();
+  TextEditingController plazaController = TextEditingController();
+
   final key = new GlobalKey<PaginatedDataTableState>();
   var _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
   late CinesResponse _cine;
@@ -44,17 +54,50 @@ class _CinesScreenState extends State<CinesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => _getCinesBloc,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => _getCinesBloc),
+        BlocProvider(
+          create: (context) => CreateCineBloc(cineRepository),
+        ),
+      ],
       child: Scaffold(
         body: Column(
           children: [
-            _opciones(),
+            createCineBlocConsumer(context),
             _blocBuilderCines(context),
           ],
         ),
       ),
     );
+  }
+
+  Widget createCineBlocConsumer(BuildContext context) {
+    return BlocConsumer<CreateCineBloc, CreateCineState>(
+        listenWhen: (context, state) {
+      return state is CreateCineSuccesState || state is CreateCineErrorState;
+    }, listener: (context, state) {
+      if (state is CreateCineSuccesState) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => CinesScreen()));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Se añadió un cine correctamente",
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w800)),
+            backgroundColor: Color(0xFF867AD2),
+          ),
+        );
+      } else if (state is CreateCineErrorState) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Algo salió mal, vuelve a intentarlo")),
+        );
+      }
+    }, buildWhen: (context, state) {
+      return state is CreateCineInitial && state is CreateCineSuccesState;
+    }, builder: (context, state) {
+      return _opciones(context);
+    });
   }
 
   _blocBuilderCines(BuildContext context) {
@@ -163,7 +206,7 @@ class _CinesScreenState extends State<CinesScreen> {
             context,
             MaterialPageRoute(
                 builder: (context) => SalasScreen(
-                    idCine: cine.id.toString(),
+                    idCine: cine.id,
                     nombreCine: cine.nombre,
                     nombrePlaza: cine.plaza)));
       },
@@ -208,7 +251,7 @@ class _CinesScreenState extends State<CinesScreen> {
     );
   }
 
-  Widget _opciones() {
+  Widget _opciones(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
       margin: EdgeInsets.symmetric(horizontal: 50),
@@ -224,7 +267,7 @@ class _CinesScreenState extends State<CinesScreen> {
           ),
           Container(
             child: Row(
-              children: [_search(), _boton()],
+              children: [_search(), _boton(context)],
             ),
           )
         ],
@@ -269,7 +312,7 @@ class _CinesScreenState extends State<CinesScreen> {
     );
   }
 
-  Widget _boton() {
+  Widget _boton(BuildContext ctx) {
     return Container(
       margin: EdgeInsets.only(left: 60),
       width: 161,
@@ -286,12 +329,194 @@ class _CinesScreenState extends State<CinesScreen> {
         ),
       ),
       child: TextButton(
-        onPressed: () {},
+        onPressed: () => showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                  backgroundColor: Color(0xFF2F2C44),
+                  title: Container(
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Añadir Cine',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  content: Container(
+                    alignment: Alignment.center,
+                    width: 310,
+                    height: 600,
+                    child: Column(
+                      children: [
+                        _formCreateMovie(context),
+                        Container(
+                          margin: EdgeInsets.only(top: 20),
+                          width: 300,
+                          height: 47,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            gradient: LinearGradient(
+                              colors: [
+                                Color.fromARGB(244, 134, 122, 210),
+                                Color.fromARGB(255, 107, 97, 175)
+                              ],
+                              begin: FractionalOffset.topCenter,
+                              end: FractionalOffset.bottomCenter,
+                            ),
+                          ),
+                          child: TextButton(
+                            onPressed: () {
+                              final createCine = CineDto(
+                                  nombre: nombreController.text,
+                                  direccion: direccionController.text,
+                                  latLon: latLonController.text,
+                                  numSalas: int.parse(numSalasController.text),
+                                  plaza: plazaController.text);
+
+                              BlocProvider.of<CreateCineBloc>(ctx)
+                                  .add(CreateCine(createCine));
+                              print(createCine.toJson().toString());
+                            },
+                            child: Text(
+                              'Añadir Cine',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 16),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ));
+            }),
         child: Text(
-          'Añadir cine',
+          'Añadir Cine',
           style: TextStyle(color: Colors.white, fontSize: 16),
         ),
       ),
+    );
+  }
+
+  Widget _formCreateMovie(BuildContext context) {
+    return Form(
+      child: Column(
+        children: [
+          Column(
+            children: [
+              _infoCine("Nombre", "Nombre del cine", nombreController, 300),
+              _infoCine("Dirección", "Dirección", direccionController, 300),
+              _infoCine("Latitud y longitud", "Latitud y longitud",
+                  latLonController, 300),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 20),
+                    alignment: Alignment.bottomLeft,
+                    child: Text("Número de salas",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500)),
+                  ),
+                  Container(
+                    height: 47,
+                    width: 300,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: const Color.fromARGB(0, 243, 243, 243),
+                        border: Border.all(
+                            color: const Color.fromARGB(244, 134, 122, 210),
+                            width: 1)),
+                    margin: const EdgeInsets.only(bottom: 20),
+                    child: TextFormField(
+                      style: const TextStyle(color: Colors.white),
+                      controller: numSalasController,
+                      decoration: InputDecoration(
+                        hintText: "Número de salas",
+                        hintStyle: TextStyle(
+                            fontSize: 13,
+                            color: Color.fromARGB(214, 255, 255, 255)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color.fromARGB(244, 134, 122, 210))),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color.fromARGB(244, 134, 122, 210))),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        )),
+                      ),
+                      keyboardType: TextInputType.number,
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                        LengthLimitingTextInputFormatter(2),
+                      ],
+                      onSaved: (String? value) {},
+                      validator: (value) {
+                        return (value == null || value.isEmpty)
+                            ? 'Escribe el num de salas'
+                            : null;
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              _infoCine("Plaza", "Nombre de la plaza", plazaController, 300),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _infoCine(
+      String ref, String info, TextEditingController controlador, double size) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          margin: const EdgeInsets.only(bottom: 20),
+          alignment: Alignment.bottomLeft,
+          child: Text(ref,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500)),
+        ),
+        Container(
+          height: 47,
+          width: size,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.0),
+              color: const Color.fromARGB(0, 243, 243, 243),
+              border: Border.all(
+                  color: const Color.fromARGB(244, 134, 122, 210), width: 1)),
+          margin: const EdgeInsets.only(bottom: 20),
+          child: TextFormField(
+            style: const TextStyle(color: Colors.white),
+            controller: controlador,
+            decoration: InputDecoration(
+              hintText: info,
+              hintStyle: TextStyle(
+                  fontSize: 13, color: Color.fromARGB(214, 255, 255, 255)),
+              focusedBorder: OutlineInputBorder(
+                  borderSide:
+                      BorderSide(color: Color.fromARGB(244, 134, 122, 210))),
+              enabledBorder: OutlineInputBorder(
+                  borderSide:
+                      BorderSide(color: Color.fromARGB(244, 134, 122, 210))),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                Radius.circular(10),
+              )),
+            ),
+            onSaved: (String? value) {},
+            validator: (value) {
+              return (value == null || value.isEmpty) ? 'Write a $ref' : null;
+            },
+          ),
+        ),
+      ],
     );
   }
 }

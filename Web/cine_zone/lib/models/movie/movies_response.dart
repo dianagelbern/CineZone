@@ -66,7 +66,6 @@ class Movie {
     required this.sinopsis,
     required this.duracion,
     required this.imagen,
-    required this.trailer,
   });
   late final int id;
   late final String genero;
@@ -77,7 +76,6 @@ class Movie {
   late final String sinopsis;
   late final int duracion;
   late final String imagen;
-  late final String trailer;
 
   Movie.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -89,7 +87,6 @@ class Movie {
     sinopsis = json['sinopsis'];
     duracion = json['duracion'];
     imagen = json['imagen'];
-    trailer = json['trailer'];
   }
 
   Map<String, dynamic> toJson() {
@@ -103,7 +100,6 @@ class Movie {
     _data['sinopsis'] = sinopsis;
     _data['duracion'] = duracion;
     _data['imagen'] = imagen;
-    _data['trailer'] = trailer;
     return _data;
   }
 }

@@ -645,6 +645,7 @@ class _CompraScreenState extends State<CompraScreen> {
                 asientoId: element.asientoId.toString(),
                 tarjetaId: tarjetaSeleccionada,
                 //TODO: si existe la tarjeta que la seleccione, si no creala 1 vez
+
                 no_tarjeta: numTarjetaController.text,
                 fecha_cad: fechaVencimientoController.text,
                 titular: nombreTitularController.text,

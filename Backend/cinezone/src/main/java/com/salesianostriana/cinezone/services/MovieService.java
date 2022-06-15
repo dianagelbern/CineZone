@@ -51,7 +51,6 @@ public class MovieService extends BaseService<Movie, Long, MovieRepository>{
                 .productora(movieDtoConverter.getProductora())
                 .sinopsis(movieDtoConverter.getSinopsis())
                 .titulo(movieDtoConverter.getTitulo())
-                .trailer(movieDtoConverter.getTrailer())
                 .build();
         return save(movie);
     }
@@ -81,7 +80,6 @@ public class MovieService extends BaseService<Movie, Long, MovieRepository>{
             nueva.setProductora(movieDto.getProductora());
             nueva.setSinopsis(movieDto.getSinopsis());
             nueva.setTitulo(movieDto.getTitulo());
-            nueva.setTrailer(movieDto.getTrailer());
 
             return repositorio.save(nueva);
         }else{

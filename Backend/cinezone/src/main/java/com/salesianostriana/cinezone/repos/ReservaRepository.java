@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface ReservaRepository extends JpaRepository<Reserva, UUID> {
@@ -26,6 +27,13 @@ public interface ReservaRepository extends JpaRepository<Reserva, UUID> {
             WHERE r.user_id = :id
             """, nativeQuery = true)
     Page<Reserva> findAllReservasByUser(@Param("id")UUID id, Pageable pageable);
+
+    @Query(value = """
+            SELECT *
+            FROM RESERVA r
+            WHERE r.tarjeta_id = :id
+            """, nativeQuery = true)
+    List<Reserva> findAllReservasByTarjeta(@Param("id") Long id);
 
   /*  @EntityGraph("grafo-reserva-user-asientoReservado-cine")
     Page<Reserva> findAll(Pageable pageable);*/

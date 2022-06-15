@@ -154,7 +154,7 @@ class _CinesScreenState extends State<CinesScreen> {
         // return cineItem(context, cinemas.elementAt(index));
         return cineItem(context, newMap.entries.elementAt(index).value);
       },
-      itemCount: shows.length,
+      itemCount: newMap.values.length,
     );
   }
 

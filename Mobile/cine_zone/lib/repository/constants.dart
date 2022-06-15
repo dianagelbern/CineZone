@@ -4,6 +4,6 @@ class Constant {
   static String nowPlaying = "now_playing";
   static String topRated = "top_rated";
   static String upcoming = "upcoming";
-  static const apiBaseUrl = 'http://10.0.2.2:8080';
+  static const apiBaseUrl = 'http://192.168.1.124:8080';
   static const bearerToken = 'token';
 }

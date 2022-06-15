@@ -20,5 +20,4 @@ public class CreateMovieDto {
 
     private String imagen;
 
-    private String trailer;
 }

@@ -206,7 +206,7 @@ class _UsuariosScreenState extends State<UsuariosScreen> {
           ),
           Container(
             child: Row(
-              children: [_search(), _boton()],
+              children: [_search()],
             ),
           )
         ],
@@ -247,32 +247,6 @@ class _UsuariosScreenState extends State<UsuariosScreen> {
               ? 'Escribe el nombre del usuario'
               : null;
         },
-      ),
-    );
-  }
-
-  Widget _boton() {
-    return Container(
-      margin: EdgeInsets.only(left: 60),
-      width: 161,
-      height: 47,
-      decoration: new BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        gradient: new LinearGradient(
-          colors: [
-            Color.fromARGB(244, 134, 122, 210),
-            Color.fromARGB(255, 107, 97, 175)
-          ],
-          begin: FractionalOffset.topCenter,
-          end: FractionalOffset.bottomCenter,
-        ),
-      ),
-      child: TextButton(
-        onPressed: () {},
-        child: Text(
-          'Añadir usuario',
-          style: TextStyle(color: Colors.white, fontSize: 16),
-        ),
       ),
     );
   }

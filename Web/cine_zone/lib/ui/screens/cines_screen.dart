@@ -5,6 +5,7 @@ import 'package:cine_zone/models/cine/cine_dto.dart';
 import 'package:cine_zone/models/cine/cine_response.dart';
 import 'package:cine_zone/repository/cine_repository/cine_repository.dart';
 import 'package:cine_zone/repository/cine_repository/cine_repository_impl.dart';
+import 'package:cine_zone/ui/screens/menu_screen.dart';
 import 'package:cine_zone/ui/screens/salas_screen.dart';
 
 import 'package:flutter/material.dart';
@@ -79,7 +80,7 @@ class _CinesScreenState extends State<CinesScreen> {
     }, listener: (context, state) {
       if (state is CreateCineSuccesState) {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => CinesScreen()));
+            context, MaterialPageRoute(builder: (context) => MenuScreen()));
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text("Se añadió un cine correctamente",

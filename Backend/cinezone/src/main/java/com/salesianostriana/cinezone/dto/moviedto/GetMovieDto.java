@@ -18,6 +18,5 @@ public class GetMovieDto {
 
     private String imagen;
 
-    private String trailer;
 
 }

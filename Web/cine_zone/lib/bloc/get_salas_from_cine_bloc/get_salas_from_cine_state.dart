@@ -8,12 +8,12 @@ abstract class GetSalasFromCineState extends Equatable {
 class GetSalasFromCineInitial extends GetSalasFromCineState {}
 
 class GetSalasFromCineSuccessState extends GetSalasFromCineState {
-  final SalasFromCineResponse cineList;
+  final List<Sala> salaList;
 
-  GetSalasFromCineSuccessState(this.cineList);
+  GetSalasFromCineSuccessState(this.salaList);
 
   @override
-  List<Object> get props => [cineList];
+  List<Object> get props => [salaList];
 }
 
 class GetSalasFromCineErrorState extends GetSalasFromCineState {

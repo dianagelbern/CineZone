@@ -10,8 +10,8 @@ import 'package:http/http.dart';
 class TarjetaRepositoryImpl extends TarjetaRepository {
   final Client _client = Client();
   //final TarjetaRepository tarjetaRepository = TarjetaRepositoryImpl();
+  //final TarjetaRepository tarjetaRepository = TarjetaRepositoryImpl();
 
-  /*
   @override
   Future<Tarjeta> createTarjeta(TarjetaDto dto) async {
     var tkn = await Shared.getString(Constant.bearerToken);
@@ -26,15 +26,11 @@ class TarjetaRepositoryImpl extends TarjetaRepository {
         body: jsonEncode(dto));
 
     if (response.statusCode == 201) {
-      return tarjetaRepository.createTarjeta(TarjetaDto(
-          noTarjeta: dto.noTarjeta,
-          fechaCad: dto.fechaCad,
-          titular: dto.titular));
+      return Tarjeta.fromJson(jsonDecode(response.body));
     } else {
       throw Exception("Oops ${response.statusCode}");
     }
   }
-  */
 
   @override
   Future<List<Tarjeta>> fetchTarjetas(String page) async {
@@ -44,7 +40,8 @@ class TarjetaRepositoryImpl extends TarjetaRepository {
         headers: {'Authorization': 'Bearer $tkn'});
 
     if (response.statusCode == 200) {
-      return TarjetaResponse.fromJson(json.decode(response.body))
+      return TarjetaResponse.fromJson(
+              json.decode(utf8.decode(response.body.runes.toList())))
           .content
           .reversed
           .toList();
@@ -54,8 +51,16 @@ class TarjetaRepositoryImpl extends TarjetaRepository {
   }
 
   @override
-  Future<Tarjeta> createTarjeta(TarjetaDto dto) {
-    // TODO: implement createTarjeta
-    throw UnimplementedError();
+  Future<void> eliminarTarjeta(String id) async {
+    var tkn = await Shared.getString(Constant.bearerToken);
+    final response = await _client.delete(
+        Uri.parse('${Constant.apiBaseUrl}/tarjeta/$id'),
+        headers: {'Authorization': 'Bearer $tkn'});
+
+    if (response.statusCode == 204) {
+      return;
+    } else {
+      throw Exception("Fail to load");
+    }
   }
 }

@@ -46,6 +46,15 @@ dev_dependencies:
   sidebarx: ^0.3.0+1
   syncfusion_flutter_datagrid: ^20.1.56
   localstorage: ^4.0.0+1
+  intl: ^0.17.0
+  date_picker_timeline: ^1.2.3
+  datetime_picker_formfield: ^2.0.0
+  image_picker: ^0.8.5+3
+  cached_network_image: ^3.2.0
+  image_picker_web: ^2.1.1
+  image_picker_for_web: ^2.1.8
+  flutter_typeahead: ^4.0.0
+  dropdown_button2: ^1.6.2
 
 
   # The "flutter_lints" package below contains a set of recommended lints to

@@ -1,3 +1,5 @@
+import 'package:timeago/timeago.dart';
+
 class UserResponse {
   UserResponse({
     required this.id,
@@ -5,6 +7,8 @@ class UserResponse {
     required this.nombre,
     required this.telefono,
     required this.fechaNacimiento,
+    required this.password,
+    required this.password2,
     required this.role,
   });
   late final String? id;
@@ -12,6 +16,8 @@ class UserResponse {
   late final String? nombre;
   late final String? telefono;
   late final String? fechaNacimiento;
+  late final String? password;
+  late final String? password2;
   late final String? role;
 
   UserResponse.fromJson(Map<String, dynamic> json) {
@@ -20,6 +26,8 @@ class UserResponse {
     nombre = json['nombre'];
     telefono = json['telefono'];
     fechaNacimiento = json['fechaNacimiento'];
+    password = json['password'];
+    password2 = json['password2'];
     role = json['role'];
   }
 
@@ -30,6 +38,8 @@ class UserResponse {
     _data['nombre'] = nombre;
     _data['telefono'] = telefono;
     _data['fechaNacimiento'] = fechaNacimiento;
+    _data['password'] = password;
+    _data['password2'] = password2;
     _data['role'] = role;
     return _data;
   }

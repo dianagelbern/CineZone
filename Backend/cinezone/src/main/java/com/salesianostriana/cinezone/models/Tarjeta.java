@@ -2,6 +2,7 @@ package com.salesianostriana.cinezone.models;
 
 import com.salesianostriana.cinezone.users.model.UserEntity;
 import lombok.*;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -20,6 +21,7 @@ public class Tarjeta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    //@NaturalId
     private String no_tarjeta;
 
     private LocalDate fecha_cad;
@@ -30,7 +32,7 @@ public class Tarjeta {
     @ManyToOne
     private UserEntity usuario;
 
-    @Builder.Default
+    /*@Builder.Default
     @OneToMany(mappedBy = "tarjeta", fetch = FetchType.EAGER)
-    private List<Reserva> reservas = new ArrayList<>();
+    private List<Reserva> reservas = new ArrayList<>();*/
 }

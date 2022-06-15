@@ -17,9 +17,14 @@ public class ShowDtoConverter {
                 .movieImagen(show.getMovie().getImagen())
                 .movieTitulo(show.getMovie().getTitulo())
                 .salaNombre(show.getSala().getNombre())
+                .nombreCine(show.getCine().getNombre())
+                .idCine(show.getCine().getId())
+                .idMovie(show.getMovie().getId())
                 .build();
 
 
     }
+
+
 
 }

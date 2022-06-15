@@ -151,8 +151,10 @@ class _TicketsScreenState extends State<TicketsScreen> {
             ),
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
+                width: 100,
                 alignment: Alignment.centerLeft,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -165,15 +167,19 @@ class _TicketsScreenState extends State<TicketsScreen> {
                               fontWeight: FontWeight.w700,
                               fontSize: 14)),
                     ),
-                    Text(reserva.movie,
-                        style: TextStyle(color: Colors.white, fontSize: 13))
+                    Container(
+                        width: 200,
+                        child: Text(
+                          reserva.movie,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(color: Colors.white, fontSize: 13),
+                        ))
                   ],
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(left: 50),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Container(
                         margin: EdgeInsets.only(bottom: 10),
@@ -187,7 +193,7 @@ class _TicketsScreenState extends State<TicketsScreen> {
                         children: [
                           Container(
                               margin: EdgeInsets.only(right: 50),
-                              child: Text("Formato",
+                              child: Text("Formato:",
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 13))),
                           Text(reserva.formato,

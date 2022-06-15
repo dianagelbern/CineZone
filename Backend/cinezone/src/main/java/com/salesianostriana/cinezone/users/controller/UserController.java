@@ -1,6 +1,7 @@
 package com.salesianostriana.cinezone.users.controller;
 
 import com.salesianostriana.cinezone.users.dto.CreateUserDto;
+import com.salesianostriana.cinezone.users.dto.EditUserDto;
 import com.salesianostriana.cinezone.users.dto.GetUserDto;
 import com.salesianostriana.cinezone.users.dto.UserDtoConverter;
 import com.salesianostriana.cinezone.users.model.UserEntity;
@@ -87,7 +88,7 @@ public class UserController {
                     description = "La lista de usuarios está vacía",
                     content = @Content),
     })
-    @GetMapping("/usuarios")
+    @GetMapping("/usuarios/")
     public ResponseEntity<Page<GetUserDto>> findAllUsuarios(@PageableDefault(size = 10, page = 0) Pageable pageable, HttpServletRequest request){
         Page<UserEntity> u = userEntityService.findAllUsuarios(pageable);
 
@@ -141,7 +142,7 @@ public class UserController {
                     content = @Content),
     })
     @PutMapping("/usuario/")
-    public ResponseEntity<GetUserDto> editUser(@Valid @RequestBody CreateUserDto userDto, @AuthenticationPrincipal UserEntity currentUser){
+    public ResponseEntity<GetUserDto> editUser(@Valid @RequestBody EditUserDto userDto, @AuthenticationPrincipal UserEntity currentUser){
         UserEntity user = userEntityService.edit(userDto, currentUser);
         GetUserDto newUserDto = userDtoConverter.convertUserToGetUserDto(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(newUserDto);

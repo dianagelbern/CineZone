@@ -2,7 +2,7 @@ import 'package:cine_zone/ui/screens/home_screen.dart';
 import 'package:cine_zone/ui/screens/login_screen.dart';
 import 'package:cine_zone/ui/screens/menu_screen.dart';
 import 'package:cine_zone/ui/screens/profile_screen.dart';
-import 'package:cine_zone/ui/screens/search_screen.dart';
+import 'package:cine_zone/ui/screens/map_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -25,12 +25,13 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: const Color(0xFF1C1A29),
       ),
       title: 'Flutter Demo',
+      //initialRoute: '/login',
       initialRoute: '/login',
       routes: {
         '/': (context) => const MenuScreen(), //MenuScreen
         '/home': (context) => const HomeScreen(),
         '/profile': (context) => const ProfileScreen(),
-        '/search': (context) => const SearchScreen(),
+        '/search': (context) => const MapaScreen(),
         '/login': (context) => const LoginScreen()
       },
     );

@@ -5,6 +5,7 @@ import 'package:cine_zone/repository/constants.dart';
 import 'package:cine_zone/repository/movie_repository/movie_repository.dart';
 import 'package:cine_zone/repository/shared.dart';
 import 'package:http/http.dart';
+import 'dart:convert' show utf8;
 
 class MovieRepositoryImpl extends MovieRepository {
   final Client _client = Client();
@@ -17,7 +18,8 @@ class MovieRepositoryImpl extends MovieRepository {
         headers: {'Authorization': 'Bearer $tkn'});
 
     if (response.statusCode == 200) {
-      return MovieResponse.fromJson(json.decode(response.body))
+      return MovieResponse.fromJson(
+              json.decode(utf8.decode(response.body.runes.toList())))
           .content
           .reversed
           .toList();
@@ -34,7 +36,8 @@ class MovieRepositoryImpl extends MovieRepository {
         headers: {'Authorization': 'Bearer $tkn'});
 
     if (response.statusCode == 200) {
-      return MovieItem.fromJson(json.decode(response.body));
+      return MovieItem.fromJson(
+          json.decode(utf8.decode(response.body.runes.toList())));
     } else {
       throw Exception("Fail to load");
     }

@@ -5,4 +5,6 @@ abstract class TarjetaRepository {
   Future<List<Tarjeta>> fetchTarjetas(String page);
 
   Future<Tarjeta> createTarjeta(TarjetaDto dto);
+
+  Future<void> eliminarTarjeta(String id);
 }

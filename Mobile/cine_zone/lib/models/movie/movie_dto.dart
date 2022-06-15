@@ -1,5 +1,5 @@
-class MovieItem {
-  MovieItem({
+class Movie {
+  Movie({
     required this.id,
     required this.genero,
     required this.titulo,

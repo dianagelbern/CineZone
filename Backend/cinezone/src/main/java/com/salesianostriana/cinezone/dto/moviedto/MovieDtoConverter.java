@@ -19,7 +19,6 @@ public class MovieDtoConverter {
                 .productora(m.getProductora())
                 .sinopsis(m.getSinopsis())
                 .titulo(m.getTitulo())
-                .trailer(m.getTrailer())
                 .build();
     }
 
@@ -34,7 +33,6 @@ public class MovieDtoConverter {
                 .productora(m.getProductora())
                 .sinopsis(m.getSinopsis())
                 .titulo(m.getTitulo())
-                .trailer(m.getTrailer())
                 .build();
     }
 }

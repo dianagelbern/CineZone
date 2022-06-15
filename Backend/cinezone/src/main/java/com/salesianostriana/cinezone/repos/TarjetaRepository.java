@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public interface TarjetaRepository extends JpaRepository<Tarjeta, Long> {
@@ -17,4 +18,13 @@ public interface TarjetaRepository extends JpaRepository<Tarjeta, Long> {
             WHERE t.usuario_id = :id
             """, nativeQuery = true)
     Page<Tarjeta> findAllTarjetasByUser(@Param("id")UUID id, Pageable pageable);
+
+
+
+    @Query(value = """
+            SELECT *
+            FROM TARJETA t
+            WHERE t.no_tarjeta = :no_tarjeta
+            """, nativeQuery = true)
+    Optional<Tarjeta> findTarjetaByNumber(@Param("no_tarjeta")String no_tarjeta);
 }

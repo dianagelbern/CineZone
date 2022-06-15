@@ -12,7 +12,7 @@ class SalasFromCineResponse {
     required this.numberOfElements,
     required this.empty,
   });
-  late final List<Content> content;
+  late final List<Sala> content;
   late final Pageable pageable;
   late final bool last;
   late final int totalPages;
@@ -25,8 +25,7 @@ class SalasFromCineResponse {
   late final bool empty;
 
   SalasFromCineResponse.fromJson(Map<String, dynamic> json) {
-    content =
-        List.from(json['content']).map((e) => Content.fromJson(e)).toList();
+    content = List.from(json['content']).map((e) => Sala.fromJson(e)).toList();
     pageable = Pageable.fromJson(json['pageable']);
     last = json['last'];
     totalPages = json['totalPages'];
@@ -56,15 +55,15 @@ class SalasFromCineResponse {
   }
 }
 
-class Content {
-  Content({
+class Sala {
+  Sala({
     required this.id,
     required this.nombre,
   });
   late final int id;
   late final String nombre;
 
-  Content.fromJson(Map<String, dynamic> json) {
+  Sala.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     nombre = json['nombre'];
   }

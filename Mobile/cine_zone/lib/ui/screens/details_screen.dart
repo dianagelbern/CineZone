@@ -311,7 +311,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
           ],
         ),
         Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20),
+          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Row(
             children: [
               Container(

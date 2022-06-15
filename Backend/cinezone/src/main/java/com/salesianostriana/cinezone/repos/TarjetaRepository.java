@@ -20,6 +20,7 @@ public interface TarjetaRepository extends JpaRepository<Tarjeta, Long> {
     Page<Tarjeta> findAllTarjetasByUser(@Param("id")UUID id, Pageable pageable);
 
 
+
     @Query(value = """
             SELECT *
             FROM TARJETA t

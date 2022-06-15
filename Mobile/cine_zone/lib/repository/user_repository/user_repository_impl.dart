@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cine_zone/models/auth/login_dto.dart';
 import 'package:cine_zone/models/auth/login_response.dart';
+import 'package:cine_zone/models/error/api_exception.dart';
 import 'package:cine_zone/models/user/new_user_dto.dart';
 import 'package:cine_zone/models/user/user_dto.dart';
 import 'package:cine_zone/models/user/user_response.dart';
@@ -51,6 +52,9 @@ class UserRepositoryImpl implements UserRepository {
       return authRepository
           .login(LoginDto(email: dto.email!, password: dto.password!));
     } else {
+      print(ApiErrorResponse.fromJson(jsonDecode(response.body))
+          .toJson()
+          .toString());
       throw Exception("Oops ${response.statusCode}");
     }
   }

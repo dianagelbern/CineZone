@@ -32,7 +32,7 @@ public class Tarjeta {
     @ManyToOne
     private UserEntity usuario;
 
-    @Builder.Default
+    /*@Builder.Default
     @OneToMany(mappedBy = "tarjeta", fetch = FetchType.EAGER)
-    private List<Reserva> reservas = new ArrayList<>();
+    private List<Reserva> reservas = new ArrayList<>();*/
 }

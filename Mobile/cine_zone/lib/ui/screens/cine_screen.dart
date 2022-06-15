@@ -88,6 +88,7 @@ class _CineScreenState extends State<CineScreen> {
                     page));
             });
       } else if (state is ShowsByCineFetched) {
+        var altura = state.shows.length * 50;
         return SingleChildScrollView(
           child: Column(
             children: [
@@ -101,7 +102,7 @@ class _CineScreenState extends State<CineScreen> {
                       color: Color.fromARGB(158, 158, 158, 158), height: 5)),
               state.shows.isNotEmpty
                   ? SizedBox(
-                      height: MediaQuery.of(context).size.height,
+                      height: MediaQuery.of(context).size.height + altura,
                       width: MediaQuery.of(context).size.width,
                       child: Column(
                         children: [
@@ -136,6 +137,13 @@ class _CineScreenState extends State<CineScreen> {
     var newMap = movies.groupListsBy((element) => element.idMovie);
     List<CineShow> shows = newMap.entries.elementAt(0).value;
 
+    //print(newMap);
+/*     newMap.forEach((key, value) {
+      value.forEach((element) {
+        print(element.toJson());
+      });
+    }); */
+
     return ListView.builder(
       shrinkWrap: true,
       physics: const BouncingScrollPhysics(),
@@ -143,7 +151,7 @@ class _CineScreenState extends State<CineScreen> {
         // return cineItem(context, cinemas.elementAt(index));
         return _type(context, newMap.entries.elementAt(index).value);
       },
-      itemCount: shows.length,
+      itemCount: newMap.values.length,
     );
   }
 
@@ -220,7 +228,7 @@ class _CineScreenState extends State<CineScreen> {
       margin: const EdgeInsets.all(20),
       child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Container(
-          width: 117,
+          width: 100,
           height: 167,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(10),
@@ -284,7 +292,6 @@ class _CineScreenState extends State<CineScreen> {
     return SingleChildScrollView(
       child: Container(
         margin: EdgeInsets.only(top: 10),
-        padding: const EdgeInsets.all(8.0),
         child: Wrap(
           runSpacing: 10,
           children: [for (var s in shows) _buttonTime(context, s)],

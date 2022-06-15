@@ -10,6 +10,7 @@ import 'package:cine_zone/ui/screens/menu_screen.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
@@ -60,7 +61,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           return RegisterBloc(userRepository);
         },
         child: Scaffold(
-          body: SingleChildScrollView(child: _content(context)),
+          body: _content(context),
         ));
   }
 
@@ -103,51 +104,53 @@ class _RegisterScreenState extends State<RegisterScreen> {
         fit: StackFit.expand,
         children: [
           _fondo(),
-          Container(
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(
-                      top: 65,
+          SingleChildScrollView(
+            child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: 65,
+                      ),
+                      alignment: Alignment.bottomLeft,
+                      child: Text(
+                        "Registro",
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
                     ),
-                    alignment: Alignment.bottomLeft,
-                    child: Text(
-                      "Registro",
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                    ),
-                  ),
-                  Container(
-                      margin: EdgeInsets.only(top: 40, left: 60),
-                      child: SvgPicture.asset('assets/images/logo.svg')),
-                  _formulario(context),
-                  Container(
-                      margin: EdgeInsets.only(top: 10),
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LoginScreen()),
-                          );
-                        },
-                        child: Text.rich(TextSpan(
-                            text: '¿Ya tienes cuenta? ',
-                            style: TextStyle(
-                                fontSize: 15,
-                                color: Color.fromARGB(178, 255, 255, 255)),
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: 'Inicia sesión',
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    color: Colors.white,
-                                    decoration: TextDecoration.underline),
-                              )
-                            ])),
-                      ))
-                ],
-              ))
+                    Container(
+                        margin: EdgeInsets.only(top: 40, left: 60),
+                        child: SvgPicture.asset('assets/images/logo.svg')),
+                    _formulario(context),
+                    Container(
+                        margin: EdgeInsets.only(top: 10),
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LoginScreen()),
+                            );
+                          },
+                          child: Text.rich(TextSpan(
+                              text: '¿Ya tienes cuenta? ',
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color.fromARGB(178, 255, 255, 255)),
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: 'Inicia sesión',
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                      decoration: TextDecoration.underline),
+                                )
+                              ])),
+                        ))
+                  ],
+                )),
+          )
         ],
       ),
     );
@@ -582,35 +585,41 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             width: 1)),
                                     margin: EdgeInsets.only(bottom: 20),
                                     child: TextFormField(
-                                      style: TextStyle(color: Colors.white),
-                                      controller: telefonoController,
-                                      decoration: const InputDecoration(
-                                        labelText:
-                                            'Ingresa tu número de teléfono',
-                                        labelStyle: TextStyle(
-                                            fontSize: 13,
-                                            color: Color.fromARGB(
-                                                125, 255, 255, 255)),
-                                        focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Color.fromARGB(
-                                                    244, 134, 122, 210))),
-                                        enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Color.fromARGB(
-                                                    244, 134, 122, 210))),
-                                        border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.all(
-                                          Radius.circular(10),
-                                        )),
-                                      ),
-                                      onSaved: (String? value) {},
-                                      validator: (value) {
-                                        return (value == null || value.isEmpty)
-                                            ? 'Escribe tu número de teléfono'
-                                            : null;
-                                      },
-                                    ),
+                                        style: TextStyle(color: Colors.white),
+                                        controller: telefonoController,
+                                        decoration: const InputDecoration(
+                                          labelText:
+                                              'Ingresa tu número de teléfono',
+                                          labelStyle: TextStyle(
+                                              fontSize: 13,
+                                              color: Color.fromARGB(
+                                                  125, 255, 255, 255)),
+                                          focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Color.fromARGB(
+                                                      244, 134, 122, 210))),
+                                          enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Color.fromARGB(
+                                                      244, 134, 122, 210))),
+                                          border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(
+                                            Radius.circular(10),
+                                          )),
+                                        ),
+                                        onSaved: (String? value) {},
+                                        validator: (value) {
+                                          return (value == null ||
+                                                  value.isEmpty)
+                                              ? 'Escribe tu número de teléfono'
+                                              : null;
+                                        },
+                                        keyboardType: TextInputType.number,
+                                        inputFormatters: <TextInputFormatter>[
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp(r'[0-9]')),
+                                          LengthLimitingTextInputFormatter(9),
+                                        ]),
                                   ),
                                 ],
                               ),

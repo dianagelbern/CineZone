@@ -79,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     Container(
-                        margin: EdgeInsets.only(top: 80, left: 60),
+                        margin: EdgeInsets.only(top: 50, left: 60),
                         child: SvgPicture.asset('assets/images/logo.svg')),
                     BlocConsumer<LoginBloc, LoginState>(
                         listenWhen: (context, state) {
@@ -134,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              margin: EdgeInsets.only(top: 160),
+              margin: EdgeInsets.only(top: 50),
               child: Column(
                 children: [
                   Container(

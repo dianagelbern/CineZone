@@ -7,9 +7,11 @@ import 'package:cine_zone/models/movie/movie_dto.dart';
 import 'package:cine_zone/models/movie/movies_response.dart';
 import 'package:cine_zone/repository/movie_repository/movie_repository.dart';
 import 'package:cine_zone/repository/movie_repository/movie_repository_impl.dart';
+import 'package:cine_zone/ui/screens/menu_screen.dart';
 import 'package:cine_zone/ui/screens/salas_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -328,19 +330,9 @@ class _PeliculasScreenState extends State<PeliculasScreen> {
                                   )
                                 : Image.memory(
                                     webImage,
-                                    width: 50,
+                                    width: 100,
                                     fit: BoxFit.cover,
                                   ),
-                            /* (kIsWeb)
-                                    ? Image.memory(
-                                        webImage,
-                                        fit: BoxFit.fill,
-                                      )
-                                    : Image.file(
-                                        _pickedFile!,
-                                        fit: BoxFit.fill,
-                                      ), */
-
                             ElevatedButton(
                               onPressed: () {
                                 _pickImage(setState);
@@ -353,8 +345,7 @@ class _PeliculasScreenState extends State<PeliculasScreen> {
                       ),
                       _formCreateMovie(context),
                       Container(
-                        margin: EdgeInsets.only(left: 60),
-                        width: 161,
+                        width: 300,
                         height: 47,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
@@ -412,198 +403,30 @@ class _PeliculasScreenState extends State<PeliculasScreen> {
       setState(() {
         _selectedFile = image;
         webImage = imageBytes;
-        _pickedFile = File(image.path);
+        _pickedFile = File(image.name);
       });
-      print(_pickedFile?.path);
+      print("ESTE ES EL PATH ---> ${_pickedFile!.path}");
     } else {
       Text("No file selected");
     }
-
-    /*   if (!kIsWeb) {
-      final ImagePicker _picker = ImagePicker();
-      XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-      if (image != null) {
-        var selected = File(image.path);
-
-        setState(() {
-          _pickedFile = selected;
-        });
-      } else {
-        Text("No file selected");
-      }
-    } else if (kIsWeb) {
-      final ImagePicker _picker = ImagePicker();
-      XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-      if (image != null) {
-        var f = await image.readAsBytes();
-        setState(() {
-          webImage = f;
-          _pickedFile = File("a");
-        });
-      } else {
-        Text("No file selected");
-      }
-    } else {
-      print("Algo salio mal");
-    } */
   }
 
-  /*
-  uploadImage() async {
-    //var permissionStatus = requestPermissions();
-
-    // MOBILE
-    if (!kIsWeb) {
-      final ImagePicker _picker = ImagePicker();
-      XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-
-      if (image != null) {
-        var selected = File(image.path);
-
-        setState(() {
-          _file = selected;
-        });
-      } else {
-        Text("No file selected");
-      }
-    }
-    // WEB
-    else if (kIsWeb) {
-      final ImagePicker _picker = ImagePicker();
-      XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-      if (image != null) {
-        var f = await image.readAsBytes();
-        setState(() {
-          _file = File("a");
-          webImage = f;
-        });
-      } else {
-        Text("No file selected");
-      }
-    } else {
-      Text("Permission not granted");
-    }
-  }
-  */
-
-  /* Widget imageBloc(BuildContext context) {
-    return BlocConsumer<ImagePickBloc, ImagePickState>(
-      buildWhen: (context, state) {
-        return state is ImagePickInitial || state is ImageSelectedSuccessState;
-      },
-      builder: (context, state) {
-        return _imagePickerBoton(context);
-      },
-      listenWhen: (context, state) {
-        return state is ImageSelectedSuccessState || state is ImagePickInitial;
-      },
-      listener: (context, state) {},
-      //TEXTO
-    );
-  }
- */
-  /*
-  _selectedImage() {
-    if (_pickedFile != null) {
-      return Image.asset(
-        "assets/images/logo.svg",
-        //File(_pickedFile!.path),
-        fit: BoxFit.cover,
-      );
-    } else {
-      return Container(
-        color: Colors.blue,
-        width: 50,
-        height: 50,
-      );
-    }
-  }
-
-  _pickImage() async {
-    try {
-      if (!kIsWeb) {
-        final XFile? file =
-            await _picker.pickImage(source: ImageSource.gallery);
-
-        setState(() {
-          _pickedFile = file;
-        });
-      } else if (kIsWeb) {
-        final XFile? file =
-            await _picker.pickImage(source: ImageSource.gallery);
-
-        setState(() {
-          _pickedFile = file;
-        });
-      } else {
-        Text("No hay permiso para la operación");
-      }
-
-    } catch (e) {
-      throw Exception("Hubo un error con la imagen");
-    }
-  }
-
-  _imagePickerBoton(BuildContext context) {
-    return Card(
-        elevation: 0.0,
-        color: Colors.white.withOpacity(0),
-        child: InkWell(
-          child: _selectedImage(),
-          onTap: () => _pickImage(),
-        ));
-  }
- */
-
-  /*  _imagePickerBoton(BuildContext context) {
-    return Center(
-      child: InkWell(
-          onTap: () {
-            BlocProvider.of<ImagePickBloc>(context)
-                .add(SelectImageEvent(ImageSource.gallery));
-          },
-          child: Container(
-              width: 100.0,
-              height: 100.0,
-              child: Stack(
-                children: [
-                  Container(
-                    decoration:
-                        BoxDecoration(image: DecorationImage(image: AssetImage(
-                            //Hacer un if para que si el usuario no selecciona una imagen salga como predeterminada esta
-                            'assets/images/user_avatar.png'), fit: BoxFit.cover)),
-                  ),
-                  Positioned(
-                      bottom: 3,
-                      right: 2,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            // The child of a round Card should be in round shape
-                            shape: BoxShape.circle,
-                            color: Colors.blue),
-                        child: Icon(
-                          Icons.edit_outlined,
-                          color: Colors.white,
-                          size: 35,
-                        ),
-                      ))
-                ],
-              ))),
-    );
-  }
- */
   Widget _formCreateMovie(BuildContext context) {
     return Form(
       child: Column(
         children: [
           Column(
             children: [
-              _infoMovie("Nombre", "Título", tituloController, 300),
-              _infoMovie("Director", "Director", directorController, 300),
+              _infoMovie("Nombre", "Título", tituloController, 410),
+              _infoMovie("Director", "Director", directorController, 410),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _infoMovie("Género", "Género", generoController, 200),
+                  Container(
+                    margin: EdgeInsets.only(right: 10),
+                    child:
+                        _infoMovie("Género", "Género", generoController, 200),
+                  ),
                   _infoMovie(
                       "Productora", "Productora", productoraController, 200),
                 ],
@@ -613,10 +436,64 @@ class _PeliculasScreenState extends State<PeliculasScreen> {
                 children: [
                   _infoMovie("Clasificación", "Clasificación",
                       clasificacionController, 200),
-                  _infoMovie("Duración", "Duración", duracionController, 200),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 20),
+                        alignment: Alignment.bottomLeft,
+                        child: Text("Duración",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500)),
+                      ),
+                      Container(
+                        height: 47,
+                        width: 200,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: const Color.fromARGB(0, 243, 243, 243),
+                            border: Border.all(
+                                color: const Color.fromARGB(244, 134, 122, 210),
+                                width: 1)),
+                        margin: const EdgeInsets.only(bottom: 20),
+                        child: TextFormField(
+                          style: const TextStyle(color: Colors.white),
+                          controller: duracionController,
+                          decoration: InputDecoration(
+                            hintText: "Duración",
+                            hintStyle: TextStyle(
+                                fontSize: 13,
+                                color: Color.fromARGB(214, 255, 255, 255)),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color.fromARGB(244, 134, 122, 210))),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color.fromARGB(244, 134, 122, 210))),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                              Radius.circular(10),
+                            )),
+                          ),
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                            LengthLimitingTextInputFormatter(3),
+                          ],
+                          onSaved: (String? value) {},
+                          validator: (value) {
+                            return (value == null || value.isEmpty)
+                                ? 'Escribe la duración de la película'
+                                : null;
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
-              _infoMovie("Sinopsis", "Sinopsis", sinopsisController, 300),
+              _infoMovie("Sinopsis", "Sinopsis", sinopsisController, 410),
             ],
           ),
         ],
@@ -624,55 +501,14 @@ class _PeliculasScreenState extends State<PeliculasScreen> {
     );
   }
 
-  /*
-  _botonSubmit(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(left: 60),
-      width: 161,
-      height: 47,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        gradient: LinearGradient(
-          colors: [
-            Color.fromARGB(244, 134, 122, 210),
-            Color.fromARGB(255, 107, 97, 175)
-          ],
-          begin: FractionalOffset.topCenter,
-          end: FractionalOffset.bottomCenter,
-        ),
-      ),
-      child: TextButton(
-        onPressed: () {
-          final createMovie = MovieDto(
-              genero: generoController.text,
-              titulo: tituloController.text,
-              director: directorController.text,
-              clasificacion: clasificacionController.text,
-              productora: productoraController.text,
-              sinopsis: sinopsisController.text,
-              duracion: int.parse(duracionController.text));
-
-          BlocProvider.of<CreateMovieBloc>(context)
-              .add(CreateMovie(createMovie, path!));
-          print(createMovie.toJson().toString());
-        },
-        child: Text(
-          'Añadir película',
-          style: TextStyle(color: Colors.white, fontSize: 16),
-        ),
-      ),
-    );
-  }
-  */
-
   Widget createMovieBlocConsumer(BuildContext context) {
     return BlocConsumer<CreateMovieBloc, CreateMovieState>(
         listenWhen: (context, state) {
       return state is CreateMovieSuccesState || state is CreateMovieErrorState;
     }, listener: (context, state) {
       if (state is CreateMovieSuccesState) {
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => PeliculasScreen()));
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => MenuScreen()));
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text("Se añadió una película correctamente",
@@ -682,8 +518,11 @@ class _PeliculasScreenState extends State<PeliculasScreen> {
           ),
         );
       } else if (state is CreateMovieErrorState) {
-        ScaffoldMessenger.of(context).showSnackBar(
+        /*  ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Algo salió mal, vuelve a intentarlo")),
+        ); */
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(state.message)),
         );
       }
     }, buildWhen: (context, state) {
@@ -693,67 +532,6 @@ class _PeliculasScreenState extends State<PeliculasScreen> {
     });
   }
 
-/*   Widget imageBloc(BuildContext context) {
-    return BlocConsumer<ImagePickBloc, ImagePickState>(
-      buildWhen: (context, state) {
-        return state is ImagePickInitial || state is ImageSelectedSuccessState;
-      },
-      builder: (context, state) {
-        return _boton(context);
-      },
-      listenWhen: (context, state) {
-        return state is ImageSelectedSuccessState || state is ImagePickInitial;
-      },
-      listener: (context, state) {},
-      //TEXTO
-    );
-  } */
-/* 
- 
-
- 
-
- 
-  _botonSubmit(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(left: 60),
-      width: 161,
-      height: 47,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        gradient: LinearGradient(
-          colors: [
-            Color.fromARGB(244, 134, 122, 210),
-            Color.fromARGB(255, 107, 97, 175)
-          ],
-          begin: FractionalOffset.topCenter,
-          end: FractionalOffset.bottomCenter,
-        ),
-      ),
-      child: TextButton(
-        onPressed: () {
-          final createMovie = MovieDto(
-              genero: generoController.text,
-              titulo: tituloController.text,
-              director: directorController.text,
-              clasificacion: clasificacionController.text,
-              productora: productoraController.text,
-              sinopsis: sinopsisController.text,
-              duracion: int.parse(duracionController.text));
-
-          BlocProvider.of<CreateMovieBloc>(context)
-              .add(CreateMovie(createMovie, path!));
-          print(createMovie.toJson().toString());
-        },
-        child: Text(
-          'Añadir película',
-          style: TextStyle(color: Colors.white, fontSize: 16),
-        ),
-      ),
-    );
-  }
-
- */
   Widget _infoMovie(
       String ref, String info, TextEditingController controlador, double size) {
     return Column(

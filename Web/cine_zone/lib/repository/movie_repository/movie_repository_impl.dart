@@ -1,10 +1,12 @@
 import 'dart:typed_data';
 
+import 'package:cine_zone/models/error/api_error.dart';
 import 'package:cine_zone/models/movie/message_dto.dart';
 import 'package:cine_zone/models/movie/movie_dto.dart';
 import 'package:cine_zone/models/movie/movies_response.dart';
 import 'package:cine_zone/repository/constants.dart';
 import 'package:cine_zone/repository/movie_repository/movie_repository.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 import 'dart:html';
@@ -45,31 +47,35 @@ class MovieRepositoryImpl extends MovieRepository {
 
     final request = http.MultipartRequest(
         'POST', Uri.parse('${Constant.apiBaseUrl}/movie/'))
-      ..files.add(http.MultipartFile.fromString('body', jsonEncode(dto),
+      ..files.add(http.MultipartFile.fromString('movie', jsonEncode(dto),
           contentType: MediaType('application', 'json')))
       ..files.add(http.MultipartFile.fromBytes(
           'image',
           await image.readAsBytes().then((value) {
             return value.cast();
           }),
-          filename: image.path.toString() + image.name))
+          filename: image.name))
       ..headers.addAll({"Authorization": "Bearer $tkn"});
 
-    /*    final request = http.MultipartRequest(
+/*     final request = http.MultipartRequest(
         'POST', Uri.parse('${Constant.apiBaseUrl}/movie/'))
-      ..files.add(http.MultipartFile.fromString('body', jsonEncode(dto),
+      ..files.add(http.MultipartFile.fromString('movie', jsonEncode(dto),
           contentType: MediaType('application', 'json')))
       ..files.add(await http.MultipartFile.fromBytes('file', _selectedFile,
-          contentType: MediaType('image', 'jpg')))
+          contentType: MediaType('image', image.mimeType.toString())))
       ..headers.addAll({"Authorization": "Bearer $tkn"});
  */
-
     final response = await request.send();
     print(response.statusCode);
     if (response.statusCode == 201) {
       return Movie.fromJson(jsonDecode(await response.stream.bytesToString()));
     } else {
-      throw Exception("Oops ${response.statusCode}");
+      response.stream.transform(utf8.decoder).listen((value) {
+        debugPrint(
+            ApiErrorResponse.fromJson(jsonDecode(value)).toJson().toString());
+      });
+
+      throw Exception(response.statusCode);
     }
   }
 }

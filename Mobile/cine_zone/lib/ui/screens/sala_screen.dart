@@ -136,6 +136,7 @@ class _SalaScreenState extends State<SalaScreen> {
       margin: EdgeInsets.only(top: 30, left: 20, right: 10),
       height: 370,
       child: GridView.builder(
+          physics: NeverScrollableScrollPhysics(),
           itemCount: asientos.length,
           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 45,

@@ -32,3 +32,22 @@ Usuario administrador: dianaAdmin@gmail.com
 > 
 > Abrimos la aplicación y creamos un usuario
 
+
+## Uso de Postman con interacción con Heroku
+
+> Ingresamos a la carpeta de documentacion en [Postman](https://github.com/dianagelbern/CineZone/tree/main/documentacion/Postman) 
+> 
+> Una vez descargado e importado iremos a la parte izquierda en environments y tanto en initial value como en current value pondremos la ruta de nuestra api en heroku
+> 
+> https://cinezone.herokuapp.com
+> 
+> El API_BASE_URL ahora pasará a tomar este valor y podremos hacer las llamadas sin dificultad 
+> 
+> - Nota: para crear una nueva película desde postman el profesorado dispondrá de algunos recursos para facilitarles la inserción de datos
+> dentro de la carpeta de Backend en el siguiente [enlace](https://github.com/dianagelbern/CineZone/tree/main/Backend/cinezone/src/main/resources/postman)
+
+
+
+
+
+

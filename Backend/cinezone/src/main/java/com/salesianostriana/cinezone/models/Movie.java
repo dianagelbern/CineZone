@@ -2,6 +2,7 @@ package com.salesianostriana.cinezone.models;
 
 import com.salesianostriana.cinezone.models.show.Show;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class Movie {
     private String genero, titulo, director, clasificacion, productora;
 
     @Lob
+    @Type(type = "text")
     private String sinopsis;
 
     private int duracion;

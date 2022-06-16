@@ -10,9 +10,11 @@
     .
     ├── Backend                   # Ubicación del API 
     ├── Mobile                    # Ubicación del proyecto Flutter donde se aloja la parte movil
+    ├── Web                       # Ubicación del proyecto Flutter donde se aloja la parte web
     ├── documentacion             # Principal carpeta donde se encontrará las imágenes del prototipado y el guion de memoria
     │   ├── Figma                 # Imágenes exportadas de figma en formato png
     │   ├──  Guion de memoria     # Docuento pdf que alberga el plan de empresa, prototipado, diagrama, diseño de la base de datos, etc.
     │   └── Portada               
     └── README.md
     
+Enlace al vídeo promocional [Promo Cine Zone] (https://youtu.be/4ih-mwP7Pa8)

@@ -17,4 +17,4 @@
     │   └── Portada               
     └── README.md
     
-Enlace al vídeo promocional [Promo Cine Zone] (https://youtu.be/4ih-mwP7Pa8)
+Enlace al vídeo promocional [Promo Cine Zone](https://youtu.be/4ih-mwP7Pa8)

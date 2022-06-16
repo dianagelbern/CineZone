@@ -28,18 +28,16 @@ public class MovieService extends BaseService<Movie, Long, MovieRepository>{
     private final StorageService storageService;
 
 
+    /**
+     * Crea una nueva pelicula
+     * @param movieDtoConverter
+     * @param file
+     * @return retorna la película creada
+     * @throws Exception
+     */
     public Movie createMovie(CreateMovieDto movieDtoConverter, MultipartFile file) throws Exception {
 
         String url = storageService.store(file);
-        //BufferedImage original = ImageIO.read(file.getInputStream());
-       // BufferedImage reescalada = storageService.resizeImage(original, 128, 128);
-
-      //  ImageIO.write(reescalada, "jpg", Files.newOutputStream(storageService.load(filename)));
-
-        /*String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/download/")
-                .path(filename)
-                .toUriString();*/
 
 
         Movie movie = Movie.builder()
@@ -55,10 +53,21 @@ public class MovieService extends BaseService<Movie, Long, MovieRepository>{
         return save(movie);
     }
 
+    /**
+     * Encuentra todas las peliculas
+     * @param pageable
+     * @return Retorna las peliculas de forma paginada
+     */
     public Page<Movie> findAllMovies(Pageable pageable){
         return repositorio.findAll(pageable);
     }
 
+    /**
+     * Encuentra una pelicula por su id
+     * @param id
+     * @param movie
+     * @return Retorna la pelicula o una exception de entidad no encontrada
+     */
     public Optional<Movie> findMovieById(Long id, Movie movie){
         if (movie.getId().equals(id)){
             Optional<Movie> m = findById(id);
@@ -68,6 +77,12 @@ public class MovieService extends BaseService<Movie, Long, MovieRepository>{
         }
     }
 
+    /**
+     * Edita una pelicula por medio de su id
+     * @param movieDto
+     * @param id
+     * @return Retorna la nueva pelicula o una exception de entidad no encontrada
+     */
     public Movie edit(CreateMovieDto movieDto, Long id){
         Optional<Movie> m = repositorio.findById(id);
         if (m.isPresent()){
@@ -87,6 +102,11 @@ public class MovieService extends BaseService<Movie, Long, MovieRepository>{
         }
     }
 
+    /**
+     * Metodo que emplearemos en otros serivios para buscar una pelicula por su id
+     * @param id
+     * @return Retorna la pelicula o una exception de entidad no encontrada
+     */
     public Movie find(Long id){
         Optional<Movie> optionalMovie = repositorio.findById(id);
 

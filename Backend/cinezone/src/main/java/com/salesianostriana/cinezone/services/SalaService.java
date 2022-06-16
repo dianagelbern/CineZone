@@ -26,7 +26,12 @@ public class SalaService extends BaseService<Sala, Long, SalaRepository> {
 
     private final AsientoService asientoService;
 
-
+    /**
+     * Metodo que crea una nueva sala asociada a un cine a su vez generando los asientos, en este caso 8 asientos por 8 filas
+     * @param nombre
+     * @param cine
+     * @return Trae la nueva sala
+     */
     public Sala createSala(String nombre, Cine cine){
 
         Sala newSala = Sala.builder()
@@ -46,14 +51,31 @@ public class SalaService extends BaseService<Sala, Long, SalaRepository> {
 
     }
 
+    /**
+     * Encuentra todas las salas asociadas a un cine
+     * @param pageable
+     * @param id
+     * @return Retorna la lista de salas de forma paginable
+     */
     public Page<Sala> findAllSalasByCine(Pageable pageable, Long id){
             return repositorio.encuentraSalasByCineId(pageable, id);
     }
 
+    /**
+     * Trae los detalles de las salas asociadas a un cine
+     * @param pageable
+     * @param id
+     * @return retorna las salas con su id y su nombre
+     */
     public Page<Sala> findAllSalasByCineDetails(Pageable pageable, Long id){
         return repositorio.encuentraSalasByCineIdDetails(pageable, id);
     }
 
+    /**
+     * Metodo que encuentra una sala por medio de su id que nos servira para usar en otros servicios
+     * @param id
+     * @return Retorna sala encontrada o una exception de entidad no encontrada
+     */
     public Sala find(Long id){
         Optional<Sala> optionalSala = repositorio.findById(id);
 
@@ -65,7 +87,12 @@ public class SalaService extends BaseService<Sala, Long, SalaRepository> {
     }
 
 
-
+    /**
+     * Metodo que elimina la sala por su id
+     * @param id
+     * @param s
+     * @return Si la sala existe la elimina, de lo contrario lanza una exception de entidad no encontrada
+     */
     public Optional<?> deleteById(Long id, Sala s){
         Optional<Sala> sala = findById(id);
         if (sala.isPresent()){

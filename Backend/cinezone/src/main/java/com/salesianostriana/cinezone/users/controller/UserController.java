@@ -114,6 +114,7 @@ public class UserController {
             return ResponseEntity.ok().body(userDtoConverter.convertUserToGetUserDto(user.get()));
     }
 
+    /*
     @Operation(summary = "Borrar un usuario por su id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204",
@@ -130,6 +131,7 @@ public class UserController {
             return ResponseEntity.noContent().build();
 
     }
+     */
 
     @Operation(summary = "Editar un usuario por id")
     @ApiResponses(value = {

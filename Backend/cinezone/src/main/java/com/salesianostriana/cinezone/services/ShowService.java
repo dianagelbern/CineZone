@@ -27,6 +27,12 @@ public class ShowService extends BaseService<Show, Long, ShowRepository> {
     private final MovieService movieService;
     private final CineService cineService;
 
+    /**
+     * Crea un nuevo show asociando una pelicula, sala y cine.
+     * Una vez creado genera los asientos del show asociados con la sala
+     * @param newShow
+     * @return Retorna el nuevo show creado o una exception en cuyo caso la sala no pertenezca al cine
+     */
     public Show createShow(CreateShowDto newShow) {
 
 
@@ -61,7 +67,11 @@ public class ShowService extends BaseService<Show, Long, ShowRepository> {
 
     }
 
-
+    /**
+     * Encuentra un show por su id, este metodo lo emplearemos en otros servicios
+     * @param id
+     * @return trae el show si existe o una exception de entidad no encontrada
+     */
     public Show find(Long id) {
         Optional<Show> optionalShow = findById(id);
 
@@ -73,17 +83,35 @@ public class ShowService extends BaseService<Show, Long, ShowRepository> {
 
     }
 
-
+    /**
+     * Encuentra todos los shows asociados a una película en una fecha determianda
+     * @param pageable
+     * @param id
+     * @param fecha
+     * @return Trae los shows encotrados de forma paginable o una lista vacia
+     */
     public Page<Show> finAllShowsByMovie(Pageable pageable, Long id, LocalDate fecha) {
         return repositorio.findAllShowsByMovieId(pageable, id, fecha);
     }
 
-
+    /**
+     * Encuentra todos los shows asociados a un cine en una fecha determinada
+     * @param pageable
+     * @param id
+     * @param fecha
+     * @return Trae los shows encotrados de forma paginable o una lista vacia
+     */
     public Page<Show> findAllShowsByCine(Pageable pageable, Long id, LocalDate fecha){
         return repositorio.findsAllShowsByCineId(pageable, id, fecha);
     }
 
-
+    /**
+     * Encuentra todos los shows asociados a una sala en una fecha determinada
+     * @param pageable
+     * @param id
+     * @param fecha
+     * @return Trae los shows encotrados de forma paginable o una lista vacia
+     */
     public Page<Show> findAllShowsBySala(Pageable pageable, Long id, LocalDate fecha){
         return repositorio.findAllShowsBySalaAndFecha(pageable, id, fecha);
     }

@@ -1,0 +1,910 @@
+{
+	"info": {
+		"_postman_id": "533f79b8-2735-4507-aa5f-b22f7a2a5f7b",
+		"name": "CineZone",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17654621"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register Admin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"micontraseña\",\r\n    \"password2\": \"micontraseña\",\r\n    \"nombre\": \"Diana admin\",\r\n    \"telefono\": \"3331417640\",\r\n    \"email\": \"dianaAdmin@gmail\",\r\n    \"fechaNacimiento\": \"28-01-1996\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_BASE_URL}}/auth/register/admin",
+							"host": [
+								"{{API_BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"register",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"token\", jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"email\": \"dianaAdmin@gmail\",\r\n    \"password\": \"micontraseña\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_BASE_URL}}/auth/login",
+							"host": [
+								"{{API_BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Me",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE_URL}}/me",
+							"host": [
+								"{{API_BASE_URL}}"
+							],
+							"path": [
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User register  sin foto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"micontraseña\",\r\n    \"password2\": \"micontraseña\",\r\n    \"nombre\": \"Diana usuario 2\",\r\n    \"telefono\": \"3331417640\",\r\n    \"email\": \"dianaUsuario@gmail\",\r\n    \"fechaNacimiento\": \"28-01-1996\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_BASE_URL}}/auth/register/usuario",
+							"host": [
+								"{{API_BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"register",
+								"usuario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Diana usuario 2\",\r\n    \"telefono\": \"333141764012\",\r\n    \"email\": \"dianaAdmin@gmail\",\r\n    \"fechaNacimiento\": \"28-01-1997\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_BASE_URL}}/usuario/",
+							"host": [
+								"{{API_BASE_URL}}"
+							],
+							"path": [
+								"usuario",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find all usuarios",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE_URL}}/usuarios/",
+							"host": [
+								"{{API_BASE_URL}}"
+							],
+							"path": [
+								"usuarios",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cine",
+			"item": [
+				{
+					"name": "Create Cine",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\" : \"Cine Zona norte\",\r\n    \"direccion\" : \"Avenida siempre viva 600\",\r\n    \"latLon\" : \"37.3846066, -5.9733626\",\r\n    \"numSalas\" : 10,\r\n    \"plaza\" : \"Plaza norte\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_BASE_URL}}/cine/",
+							"host": [
+								"{{API_BASE_URL}}"
+							],
+							"path": [
+								"cine",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All cines",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{API_BASE_URL}}/cine/?page=0",
+							"host": [
+								"{{API_BASE_URL}}"
+							],
+							"path": [
+								"cine",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get cine by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE_URL}}/cine/1",
+							"host": [
+								"{{API_BASE_URL}}"
+							],
+							"path": [
+								"cine",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "put cine",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\" : \"Cine Avenida ver 2\",\r\n    \"direccion\" : \"Avenida siempre viva 4\",\r\n    \"latLon\" : \"-19082, 2837\",\r\n    \"numSalas\" : 4,\r\n    \"plaza\" : \"Plaza este\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_BASE_URL}}/cine/2",
+							"host": [
+								"{{API_BASE_URL}}"
+							],
+							"path": [
+								"cine",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Movie",
+			"item": [
+				{
+					"name": "Create Movie",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "movie",
+									"type": "file",
+									"src": "/D:/ProyectoCineZone/Backend/cinezone/src/main/resources/postman/starwarsr.json"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/D:/ProyectoCineZone/Backend/cinezone/src/main/resources/postman/starwarsr.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{API_BASE_URL}}/movie/",
+							"host": [
+								"{{API_BASE_URL}}"
+							],
+							"path": [
+								"movie",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Movie by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE_URL}}/movie/1",
+							"host": [
+								"{{API_BASE_URL}}"
+							],
+							"path": [
+								"movie",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All movies",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE_URL}}/movie/",
+							"host": [
+								"{{API_BASE_URL}}"
+							],
+							"path": [
+								"movie",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put movie by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "movie",
+									"type": "file",
+									"src": "/D:/ProyectoCineZone/Backend/cinezone/src/main/resources/postman/starwarsr.json"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{API_BASE_URL}}/movie/1",
+							"host": [
+								"{{API_BASE_URL}}"
+							],
+							"path": [
+								"movie",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sala",
+			"item": [
+				{
+					"name": "get salas fron cine",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE_URL}}/sala/1/cineSala",
+							"host": [
+								"{{API_BASE_URL}}"
+							],
+							"path": [
+								"sala",
+								"1",
+								"cineSala"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Show",
+			"item": [
+				{
+					"name": "CREATE SHOW",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idMovie\" : 1,\r\n    \"idCine\" : 1,\r\n    \"idSala\" : 4,\r\n    \"fecha\" : \"2022-06-14\",\r\n    \"hora\" : \"19:30:00\",\r\n    \"formato\" : \"DIGITAL\",\r\n    \"idioma\" : \"ES\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_BASE_URL}}/show",
+							"host": [
+								"{{API_BASE_URL}}"
+							],
+							"path": [
+								"show"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Shows By Movie And Fecha",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE_URL}}/show/movie/1/date/2022-06-14?page=0",
+							"host": [
+								"{{API_BASE_URL}}"
+							],
+							"path": [
+								"show",
+								"movie",
+								"1",
+								"date",
+								"2022-06-14"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Shows By Cine And Date",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE_URL}}/show/cine/1/date/2022-06-14",
+							"host": [
+								"{{API_BASE_URL}}"
+							],
+							"path": [
+								"show",
+								"cine",
+								"1",
+								"date",
+								"2022-06-14"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All shows by sala id and fecha",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE_URL}}/show/sala/1/date/2022-06-14",
+							"host": [
+								"{{API_BASE_URL}}"
+							],
+							"path": [
+								"show",
+								"sala",
+								"1",
+								"date",
+								"2022-06-14"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reserva",
+			"item": [
+				{
+					"name": "Create Reserva",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"showId\" : 1,\r\n    \"cineId\" : 1,\r\n    \"asientoId\" : 193,\r\n    \"tarjetaId\" : null,\r\n    \"no_tarjeta\" : \"1\",\r\n    \"fecha_cad\" : \"2026-05-05\",\r\n    \"titular\" : \"Diana\"\r\n\r\n}\r\n\r\n/*\r\n/*\r\n    \"no_tarjeta\" : \"3234342342\",\r\n    \"fecha_cad\" : \"2026-05-05\",\r\n    \"titular\" : \"Diana\"\r\n    */\r\n\r\n\r\n// \"asientoId\" : [\"1\", \"2\", \"3\"]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_BASE_URL}}/reserva",
+							"host": [
+								"{{API_BASE_URL}}"
+							],
+							"path": [
+								"reserva"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllReservasByUser",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{API_BASE_URL}}/reserva/?page=0",
+							"host": [
+								"{{API_BASE_URL}}"
+							],
+							"path": [
+								"reserva",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tarjeta",
+			"item": [
+				{
+					"name": "Create new tarjeta",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"no_tarjeta\" : \"987654321\",\r\n    \"fecha_cad\" : \"2026-05-05T10:30:00\",\r\n    \"titular\" : \"Diana  1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_BASE_URL}}/tarjeta/",
+							"host": [
+								"{{API_BASE_URL}}"
+							],
+							"path": [
+								"tarjeta",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All tarjetas de usuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE_URL}}/tarjeta/",
+							"host": [
+								"{{API_BASE_URL}}"
+							],
+							"path": [
+								"tarjeta",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete tarjeta By id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE_URL}}/tarjeta/1",
+							"host": [
+								"{{API_BASE_URL}}"
+							],
+							"path": [
+								"tarjeta",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "AsientosShow",
+			"item": [
+				{
+					"name": "FindAllAsientosByShowId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE_URL}}/asientoShow/show/1",
+							"host": [
+								"{{API_BASE_URL}}"
+							],
+							"path": [
+								"asientoShow",
+								"show",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "API_BASE_URL",
+			"value": "localhost:8080"
+		}
+	]
+}

@@ -42,24 +42,17 @@ public class UserEntityService extends BaseService <UserEntity, UUID, UserEntity
                 .orElseThrow(()-> new UsernameNotFoundException(email + " no se encontró"));
     }
 
+    /**
+     * Metodo que crea un usuario nuevo, sirve tanto para administrador o usuario
+     * @param newUSer
+     * @param role
+     * @return El nuevo usuario guardado o una exception porque un usuario con ese email ya existe
+     * @throws Exception
+     */
     public UserEntity save(CreateUserDto newUSer, UserRole role) throws Exception {
 
 
         if(repositorio.findFirstByEmail(newUSer.getEmail()).isEmpty()){
-            //String url = storageService.uploadFile(image);
-
-            /*
-            String filename = storageService.store(file);
-            BufferedImage original = ImageIO.read(file.getInputStream());
-            BufferedImage reescalada = storageService.resizeImage(original, 128, 128);
-
-            ImageIO.write(reescalada, "jpg", Files.newOutputStream(storageService.load(filename)));
-
-            String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("/download/")
-                    .path(filename)
-                    .toUriString();
-             */
 
             UserEntity user = UserEntity.builder()
                     .password(passwordEncoder.encode(newUSer.getPassword()))
@@ -78,6 +71,12 @@ public class UserEntityService extends BaseService <UserEntity, UUID, UserEntity
 
     }
 
+    /**
+     * Metodo que edita al usuario propietario
+     * @param userDto
+     * @param usuario
+     * @return el nuevo valor del usuario
+     */
     public UserEntity edit(EditUserDto userDto, UserEntity usuario){
         Optional<UserEntity> u = repositorio.findById(usuario.getId());
             UserEntity newU = u.get();
@@ -90,6 +89,11 @@ public class UserEntityService extends BaseService <UserEntity, UUID, UserEntity
 
     }
 
+    /**
+     * Metodo para buscar a un usuario por su id, nos servira para metodos de otros servicios
+     * @param id
+     * @return al usuario si lo encuentra, de lo contrario una exception de entidad no encontrada
+     */
     public UserEntity find(UUID id){
         Optional<UserEntity> optionalUser = repositorio.findById(id);
 
@@ -98,11 +102,21 @@ public class UserEntityService extends BaseService <UserEntity, UUID, UserEntity
         }else throw new SingleEntityNotFoundException(UserEntity.class);
     }
 
+    /**
+     * Metodo que trae todos los usuarios
+     * @param pageable
+     * @return lista a todos los usuarios de forma paginable
+     */
     public Page <UserEntity> findAllUsuarios(Pageable pageable){
             return repositorio.findAllUsuarios(pageable);
     }
 
-
+    /**
+     * Metodo para buscar a un usuario por su id
+     * @param id
+     * @param user
+     * @return El usuario encontrado o en caso de que no exista entidad no encontrada
+     */
     public Optional<UserEntity> findUserById(UUID id, UserEntity user){
         if(user.getId().equals(id)){
             Optional<UserEntity> usuario = findById(id);
@@ -112,7 +126,7 @@ public class UserEntityService extends BaseService <UserEntity, UUID, UserEntity
         }
     }
 
-
+    /*
     public Optional<?> deleteUserById(UUID id, UserEntity user) {
         Optional<UserEntity> usuario = findById(id);
         if(usuario.isPresent()){
@@ -122,6 +136,7 @@ public class UserEntityService extends BaseService <UserEntity, UUID, UserEntity
         }
 
     }
+     */
 
 
 }

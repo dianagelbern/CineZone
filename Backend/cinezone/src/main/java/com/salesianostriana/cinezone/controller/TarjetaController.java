@@ -3,6 +3,7 @@ package com.salesianostriana.cinezone.controller;
 import com.salesianostriana.cinezone.dto.tarjetadto.CreateTarjetaDto;
 import com.salesianostriana.cinezone.dto.tarjetadto.GetTarjetaDto;
 import com.salesianostriana.cinezone.dto.tarjetadto.TarjetaDtoConverter;
+import com.salesianostriana.cinezone.models.Movie;
 import com.salesianostriana.cinezone.models.Tarjeta;
 import com.salesianostriana.cinezone.services.TarjetaService;
 import com.salesianostriana.cinezone.users.model.UserEntity;
@@ -42,7 +43,7 @@ public class TarjetaController {
             @ApiResponse(responseCode = "201",
                     description = "Se creó correctamente la tarjeta",
                     content = { @Content(mediaType =  "application/json",
-                            schema = @Schema(implementation = UserEntity.class))}),
+                            schema = @Schema(implementation = Tarjeta.class))}),
             @ApiResponse(responseCode = "404",
                     description = "No se pudo crear la tarjeta",
                     content = @Content),
@@ -59,7 +60,7 @@ public class TarjetaController {
             @ApiResponse(responseCode = "200",
                     description = "Se listan correctamente todas las tarjetas",
                     content = { @Content(mediaType =  "application/json",
-                            schema = @Schema(implementation = UserEntity.class))}),
+                            schema = @Schema(implementation = Tarjeta.class))}),
             @ApiResponse(responseCode = "404",
                     description = "La lista de tarjetas está vacía",
                     content = @Content),
@@ -73,6 +74,16 @@ public class TarjetaController {
         return ResponseEntity.ok().header("link", paginationLinkUtils.createLinkHeader(res, uriComponentsBuilder)).body(res);
     }
 
+    @Operation(summary = "Elimina una tarjeta por su id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Elimina una tarjeta por medio de su id",
+                    content = { @Content(mediaType =  "application/json",
+                            schema = @Schema(implementation = Tarjeta.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "No existe la tarjeta que se desea eliminar",
+                    content = @Content),
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTarjetaById(@PathVariable Long id){
         tarjetaService.deleteTarjetaById(id);

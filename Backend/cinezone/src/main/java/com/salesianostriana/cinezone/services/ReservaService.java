@@ -38,6 +38,16 @@ public class ReservaService extends BaseService<Reserva, UUID, ReservaRepository
 
     private final AsientosShowService asientoShowService;
 
+    /**
+     * Metodo que crea una nueva reserva, primero traemos los metodos que encuentran el cine, show, usuario y asiento.
+     * Comprobamos que el cine coincida con el asociado al show, despues comprobaremos que el asiento no este ocupado,
+     * si no lo esta construimos la reserva, comprobamos que ingrese una tarjeta por su id o de lo contrario creamos una nueva
+     * en cuyo caso la tarjeta exista al crearla la traemos en vez de volverla a generar, si no existe la creamos y la guardamos en el usuario.
+     * Una vez hechas estas comprobaciones, guardamos los datos y creamos la reserva.
+     * @param reservaDto
+     * @param userId
+     * @return Retorna la nueva reserva o de lo contrario una exception de relaciones invalidas
+     */
     public Reserva createReserva(CreateReservaDto reservaDto, UUID userId) {
 
         Cine cine = cineService.find(reservaDto.getCineId());
@@ -131,6 +141,12 @@ public class ReservaService extends BaseService<Reserva, UUID, ReservaRepository
 
     }
 
+    /**
+     * Encuentra todas las reservas relacionadas con el usuario propietario de la cuenta
+     * @param pageable
+     * @param user
+     * @return Las reservas encontradas de forma paginada
+     */
     public Page<Reserva> findAllReservasByUser(Pageable pageable, UserEntity user) {
         return repositorio.findAllReservasByUser(user.getId(), pageable);
     }

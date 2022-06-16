@@ -22,7 +22,11 @@ public class CineService extends BaseService<Cine, Long, CineRepository> {
 
     private final SalaService salaService;
 
-
+    /**
+     * Creamos un nuevo cine y a su vez sus salas
+     * @param createCineDto
+     * @return Retorna el nuevo cine
+     */
     public Cine createCine(CreateCineDto createCineDto){
 
         Cine cine = Cine.builder()
@@ -43,12 +47,22 @@ public class CineService extends BaseService<Cine, Long, CineRepository> {
     }
 
 
-
+    /**
+     * Lista todos los cines
+     * @param pageable
+     * @return Retorna los cines de forma paginada
+     */
     public Page<Cine> findAllCines(Pageable pageable){
 
         return repositorio.findAll(pageable);
     }
 
+    /**
+     * Encuentra un cine por su id
+     * @param id
+     * @param cine
+     * @return Retorna el cine o una exception de entidad no encontrada
+     */
     public Optional<Cine> findById(Long id, Cine cine){
         if (cine.getId().equals(id)){
             Optional<Cine> c = findById(id);
@@ -58,7 +72,12 @@ public class CineService extends BaseService<Cine, Long, CineRepository> {
         }
     }
 
-
+    /**
+     * Edita un cine encontrado por medio de su id
+     * @param cineDto
+     * @param id
+     * @return Retorna el cine con sus nuevos valores o una exception de entidad no encontrada
+     */
     public Cine edit(CreateCineDto cineDto, Long id){
         Optional<Cine> c = repositorio.findById(id);
         if (c.isPresent()){
@@ -73,6 +92,11 @@ public class CineService extends BaseService<Cine, Long, CineRepository> {
         }
     }
 
+    /**
+     * Metodo que nos ayudara en otros servicios para encontrar un cine por su id
+     * @param id
+     * @return Retorna el cine o una exception de entidad no encontrada
+     */
     public  Cine find(Long id){
         Optional<Cine> cine = findById(id);
 

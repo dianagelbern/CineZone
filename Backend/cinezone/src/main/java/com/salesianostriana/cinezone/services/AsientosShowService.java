@@ -19,7 +19,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AsientosShowService extends BaseService<AsientosShow, AsientosShowPK, AsientosShowRepository> {
 
-
+    /**
+     * Metodo que crea los asientos para un show
+     * @param a
+     * @param s
+     * @return Retorna los nuevos asientos asociados a un show
+     */
     public AsientosShow crearAsientoParaShow(Asiento a, Show s){
 
         AsientosShow newAsientoShow = new AsientosShow();
@@ -33,7 +38,11 @@ public class AsientosShowService extends BaseService<AsientosShow, AsientosShowP
 
     }
 
-
+    /**
+     * Encuentra el asiento de un show por su id
+     * @param id
+     * @return Retorna el asiento o una exption de entidad no encotnrada
+     */
     public AsientosShow find(AsientosShowPK id){
 
         Optional<AsientosShow> optionalAsientosShow = repositorio.findById(id);
@@ -47,10 +56,12 @@ public class AsientosShowService extends BaseService<AsientosShow, AsientosShowP
 
     }
 
-/*    public Page<AsientosShow> findAllAsientosByShowId(Long id, Pageable pageable){
-        return repositorio.findAllAsientosByShowId(id, pageable);
-    }*/
 
+    /**
+     * Encuentra todos los asientos asociados a un show por medio de su id
+     * @param id
+     * @return Retorna la lista de asientos
+     */
     public List<AsientosShow> findAllAsientosByShowId(Long id){
         return repositorio.findAllAsientosByShowId(id);
     }

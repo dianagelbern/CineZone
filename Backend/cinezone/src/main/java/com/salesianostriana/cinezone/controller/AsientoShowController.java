@@ -5,6 +5,7 @@ import com.salesianostriana.cinezone.dto.asientoshowdto.GetAsientosShowDto;
 import com.salesianostriana.cinezone.dto.asientoshowdto.GetAsientosShowDtoResponse;
 import com.salesianostriana.cinezone.dto.showdto.GetShowDto;
 import com.salesianostriana.cinezone.dto.showdto.ShowDtoConverter;
+import com.salesianostriana.cinezone.models.Asiento;
 import com.salesianostriana.cinezone.models.asientosshow.AsientosShow;
 import com.salesianostriana.cinezone.services.AsientosShowService;
 import com.salesianostriana.cinezone.users.model.UserEntity;
@@ -45,14 +46,13 @@ public class AsientoShowController {
             @ApiResponse(responseCode = "200",
                     description = "Se listan correctamente todos los shows",
                     content = { @Content(mediaType =  "application/json",
-                            schema = @Schema(implementation = UserEntity.class))}),
+                            schema = @Schema(implementation = AsientosShow.class))}),
             @ApiResponse(responseCode = "404",
                     description = "La lista de shows está vacía",
                     content = @Content),
     })
     @GetMapping("/show/{id}")
     public GetAsientosShowDtoResponse findAllAsientosByShow(@PathVariable Long id){
-
 
         return GetAsientosShowDtoResponse.builder()
                 .result(asientosShowService.findAllAsientosByShowId(id).stream().map(asientosShowDtoConverter::convertToGetAsientosShowDto).collect(Collectors.toList()))

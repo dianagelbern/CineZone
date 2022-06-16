@@ -36,13 +36,13 @@ public class SalaController {
     private final SalaDtoConverter salaDtoConverter;
     private final PaginationLinkUtils paginationLinkUtils;
 
-    //TODO: Al momento de crear el número de salas, si esta es mayor al size del pageable peta
+
     @Operation(summary = "Muestra todas las salas relacionadas con un cine")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Se listan correctamente todas las salas",
                     content = { @Content(mediaType =  "application/json",
-                            schema = @Schema(implementation = UserEntity.class))}),
+                            schema = @Schema(implementation = Sala.class))}),
             @ApiResponse(responseCode = "404",
                     description = "La lista de salas está vacía",
                     content = @Content),
@@ -61,7 +61,7 @@ public class SalaController {
             @ApiResponse(responseCode = "200",
                     description = "Se listan correctamente todas las salas",
                     content = { @Content(mediaType =  "application/json",
-                            schema = @Schema(implementation = UserEntity.class))}),
+                            schema = @Schema(implementation = Sala.class))}),
             @ApiResponse(responseCode = "404",
                     description = "La lista de salas está vacía",
                     content = @Content),
@@ -79,7 +79,7 @@ public class SalaController {
             @ApiResponse(responseCode = "201",
                     description = "Se eliminó correctamente la sala",
                     content = { @Content(mediaType =  "application/json",
-                            schema = @Schema(implementation = UserEntity.class))}),
+                            schema = @Schema(implementation = Sala.class))}),
             @ApiResponse(responseCode = "404",
                     description = "No existe la sala",
                     content = @Content),

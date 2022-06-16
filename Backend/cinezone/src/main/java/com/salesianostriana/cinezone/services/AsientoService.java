@@ -16,7 +16,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AsientoService extends BaseService<Asiento, Long, AsientoRepository> {
 
-
+    /**
+     * Genera los asientos de cada fila de una sala
+     * @param filas
+     * @param numero
+     * @param sala
+     * @return Retorna la lista de asientos
+     */
     public List<Asiento> generateAsiento(int filas, int numero, Sala sala){
         List<Asiento> result = new ArrayList<>();
 
@@ -33,6 +39,11 @@ public class AsientoService extends BaseService<Asiento, Long, AsientoRepository
         return repositorio.saveAll(result);
     }
 
+    /**
+     * Encuentra un asiento por su id
+     * @param id
+     * @return Retorna el asiento o una exception de entidad no encontrada
+     */
     public Asiento find(Long id){
 
         Optional<Asiento> optionalAsiento = repositorio.findById(id);

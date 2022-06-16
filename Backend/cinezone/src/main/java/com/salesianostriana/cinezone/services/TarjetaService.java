@@ -28,6 +28,12 @@ public class TarjetaService extends BaseService<Tarjeta, Long, TarjetaRepository
     private final UserEntityService userEntityService;
     private final ReservaRepository reservaRepository;
 
+    /**
+     * Metodo que crea una nueva tarjeta asociandola a un usuario
+     * @param tarjetaDto
+     * @param currentUser
+     * @return retorna la nueva tarjeta creada
+     */
     public Tarjeta createTarjeta(CreateTarjetaDto tarjetaDto, UserEntity currentUser){
 
 
@@ -43,10 +49,21 @@ public class TarjetaService extends BaseService<Tarjeta, Long, TarjetaRepository
         return newTarjeta;
     }
 
+    /**
+     * Trae todas las tarjetas asociadas a un usuario
+     * @param pageable
+     * @param user
+     * @return Trae las tarjetas o una lista vacia
+     */
     public Page<Tarjeta> findAllTarjetasByUser(Pageable pageable, UserEntity user){
         return repositorio.findAllTarjetasByUser(user.getId(), pageable);
     }
 
+    /**
+     * Elimina una tarjeta por su id
+     * @param id
+     * @return Si la tarjeta existe la elimina, de lo contrario trae una exception de tarjeta no encontrada
+     */
     public Optional<?> deleteTarjetaById(Long id){
         Optional<Tarjeta> tarjeta = findById(id);
 
@@ -68,6 +85,11 @@ public class TarjetaService extends BaseService<Tarjeta, Long, TarjetaRepository
         }
     }
 
+    /**
+     * Trae una tarjeta por su id, este metodo nos ayudara para usarlo en otros servicios
+     * @param id
+     * @return retorna la tarjeta si existe, de lo contrario una exception de entidad no encontrada
+     */
     public Tarjeta find(Long id) {
         Optional<Tarjeta> optionalTarjeta = findById(id);
 
@@ -79,6 +101,12 @@ public class TarjetaService extends BaseService<Tarjeta, Long, TarjetaRepository
 
     }
 
+    /**
+     * Metodo que encuentra una tarjeta por medio de su numero, este nos servira para hacer
+     * una comprobacion en otro servicio a futuro
+     * @param num
+     * @return la tarjeta
+     */
     public Optional<Tarjeta> findByNum(String num){
         return repositorio.findTarjetaByNumber(num);
     }

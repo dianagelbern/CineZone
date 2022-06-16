@@ -18,7 +18,11 @@
     │   └── Portada               
     └── README.md
     
+### ****** Para realizar algunas de las acciones relacionadas con el API ingresar a la rama deloy ******
+
 Enlace al vídeo promocional [Promo Cine Zone](https://youtu.be/4ih-mwP7Pa8)
+
+Dashboard (despliegue sin completar) [enlace](https://dianagelbern.github.io/)
 
 Modelado de aplicación web y movil: [Figma](https://www.figma.com/file/PlO3C5w6rcAYZdC2907vKv/Proyecto-final?node-id=0%3A1)
 
@@ -46,6 +50,13 @@ Usuario administrador: dianaAdmin@gmail.com
 > - Nota: para crear una nueva película desde postman el profesorado dispondrá de algunos recursos para facilitarles la inserción de datos
 > dentro de la carpeta de Backend en el siguiente [enlace](https://github.com/dianagelbern/CineZone/tree/main/Backend/cinezone/src/main/resources/postman)
 
+
+## Cómo desplegar desde la consola con Heroku
+
+```
+ - mvn clean install -DskipTests
+ - heroku jar:deploy target/cinezone-0.0.1-SNAPSHOT.jar --app cinezone
+```
 
 
 

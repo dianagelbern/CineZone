@@ -4,7 +4,7 @@
         android:label="cine_zone"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyATRUdBfo1cMWNiV2iBl3X3QFxV3nTxHZY"/> 
+        
         <activity
             android:name=".MainActivity"
             android:exported="true"

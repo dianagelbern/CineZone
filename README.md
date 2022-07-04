@@ -22,8 +22,6 @@
 
 Enlace al vídeo promocional [Promo Cine Zone](https://youtu.be/4ih-mwP7Pa8)
 
-Dashboard (despliegue sin completar) [enlace](https://dianagelbern.github.io/)
-
 Modelado de aplicación web y movil: [Figma](https://www.figma.com/file/PlO3C5w6rcAYZdC2907vKv/Proyecto-final?node-id=0%3A1)
 
 Demo de las principales funcionalidades de la app móvil [Demo](https://youtu.be/zGld8sIJwBI)

@@ -18,7 +18,7 @@
     │   └── Portada               
     └── README.md
     
-### ****** Para realizar algunas de las acciones relacionadas con el API ingresar a la rama deloy ******
+### ****** Para realizar algunas de las acciones relacionadas con el API ingresar a la rama deploy ******
 
 Enlace al vídeo promocional [Promo Cine Zone](https://youtu.be/4ih-mwP7Pa8)
 
